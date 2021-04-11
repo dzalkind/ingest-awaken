@@ -27,12 +27,12 @@ Parameters:
   # The source bucket where file inputs will be placed
   SourceBucket:
     Type: String
-    Default: "tsdat-pipeline-inputs"
+    Default: "a2e-tsdat-pipeline-inputs"
 
   # The destination bucket where pipeline outputs will be placed
   DestinationBucket:
     Type: String
-    Default: "tsdat-pipeline-outputs"
+    Default: "a2e-tsdat-pipeline-outputs"
 
   # The logging level to use
   LoggingLevel:

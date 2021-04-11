@@ -1,6 +1,5 @@
 import os
 import sys
-import shutil
 import unittest
 
 # Add the project directory to the pythonpath
@@ -14,7 +13,10 @@ from pipelines.runner import run_pipeline
 
 
 class TestPipeline(unittest.TestCase):
-
+    """-------------------------------------------------------------------
+    Tests running the suite of a2e tsdat pipelines on the local
+    filesystem.
+    -------------------------------------------------------------------"""
     def setUp(self) -> None:
         # Set the environment variables for storage
         os.environ['STORAGE_CLASSNAME'] = 'tsdat.io.FilesystemStorage'

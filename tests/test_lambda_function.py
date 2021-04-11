@@ -1,72 +1,59 @@
+import os
 import json
+import sys
+import unittest
 
-import pytest
+# Add the project directory to the pythonpath
+test_dir = os.path.dirname(os.path.realpath(__file__))
+project_dir = os.path.dirname(test_dir)
+lambda_dir = os.path.join(project_dir, 'lambda_function')
+tests_dir = os.path.join(project_dir, 'tests')
+events_dir = os.path.join(tests_dir, 'events')
+sys.path.insert(0, lambda_dir)
 
-from hello_world import app
-
-
-@pytest.fixture()
-def apigw_event():
-    """ Generates API GW Event"""
-
-    return {
-        "body": '{ "test": "body"}',
-        "resource": "/{proxy+}",
-        "requestContext": {
-            "resourceId": "123456",
-            "apiId": "1234567890",
-            "resourcePath": "/{proxy+}",
-            "httpMethod": "POST",
-            "requestId": "c6af9ac6-7b61-11e6-9a41-93e8deadbeef",
-            "accountId": "123456789012",
-            "identity": {
-                "apiKey": "",
-                "userArn": "",
-                "cognitoAuthenticationType": "",
-                "caller": "",
-                "userAgent": "Custom User Agent String",
-                "user": "",
-                "cognitoIdentityPoolId": "",
-                "cognitoIdentityId": "",
-                "cognitoAuthenticationProvider": "",
-                "sourceIp": "127.0.0.1",
-                "accountId": "",
-            },
-            "stage": "prod",
-        },
-        "queryStringParameters": {"foo": "bar"},
-        "headers": {
-            "Via": "1.1 08f323deadbeefa7af34d5feb414ce27.cloudfront.net (CloudFront)",
-            "Accept-Language": "en-US,en;q=0.8",
-            "CloudFront-Is-Desktop-Viewer": "true",
-            "CloudFront-Is-SmartTV-Viewer": "false",
-            "CloudFront-Is-Mobile-Viewer": "false",
-            "X-Forwarded-For": "127.0.0.1, 127.0.0.2",
-            "CloudFront-Viewer-Country": "US",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-            "Upgrade-Insecure-Requests": "1",
-            "X-Forwarded-Port": "443",
-            "Host": "1234567890.execute-api.us-east-1.amazonaws.com",
-            "X-Forwarded-Proto": "https",
-            "X-Amz-Cf-Id": "aaaaaaaaaae3VYQb9jd-nvCd-de396Uhbp027Y2JvkCPNLmGJHqlaA==",
-            "CloudFront-Is-Tablet-Viewer": "false",
-            "Cache-Control": "max-age=0",
-            "User-Agent": "Custom User Agent String",
-            "CloudFront-Forwarded-Proto": "https",
-            "Accept-Encoding": "gzip, deflate, sdch",
-        },
-        "pathParameters": {"proxy": "/examplepath"},
-        "httpMethod": "POST",
-        "stageVariables": {"baz": "qux"},
-        "path": "/examplepath",
-    }
+from lambda_function import lambda_handler
 
 
-def test_lambda_handler(apigw_event, mocker):
+class TestPipeline(unittest.TestCase):
+    """-------------------------------------------------------------------
+    Tests running the suite of a2e tsdat pipelines against a test
+    aws bucket.
+    -------------------------------------------------------------------"""
+    def setUp(self) -> None:
+        # Set the environment variables for storage
+        os.environ['STORAGE_CLASSNAME'] = 'tsdat.io.AwsStorage'
+        os.environ['RETAIN_INPUT_FILES'] = 'True'
+        os.environ['STORAGE_BUCKET'] = 'a2e-tsdat-test-output'
 
-    ret = app.lambda_handler(apigw_event, "")
-    data = json.loads(ret["body"])
+    def tearDown(self) -> None:
+        super().tearDown()
 
-    assert ret["statusCode"] == 200
-    assert "message" in ret["body"]
-    assert data["message"] == "hello world"
+    def run_pipeline(self, pipeline, location):
+        json_file = os.path.join(events_dir, pipeline, location, 's3-event.json')
+        with open(json_file) as f:
+            event = json.load(f)
+            lambda_handler(event, '')
+
+    def test_buoy(self):
+        self.run_pipeline('a2e_buoy_ingest', 'humboldt')
+        self.run_pipeline('a2e_buoy_ingest', 'morro')
+
+    def test_imu(self):
+        self.run_pipeline('a2e_imu_ingest', 'humboldt')
+        self.run_pipeline('a2e_imu_ingest', 'morro')
+
+    def test_lidar(self):
+        self.run_pipeline('a2e_lidar_ingest', 'humboldt')
+        self.run_pipeline('a2e_lidar_ingest', 'morro')
+
+    def test_waves(self):
+        self.run_pipeline('a2e_waves_ingest', 'humboldt')
+        self.run_pipeline('a2e_waves_ingest', 'morro')
+
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+
+# a2e-tsdat-test

@@ -1,0 +1,12 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "tsdat-sam-test"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-rq99cgy93a46"
+s3_prefix = "tsdat-sam-test"
+region = "us-west-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = ["TsdatPipeline=332883119153.dkr.ecr.us-west-2.amazonaws.com/tsdat-sam-test"]
+parameter_overrides = "SourceBucket=\"tsdat-raw\" DestinationBucket=\"tsdat-processed\""

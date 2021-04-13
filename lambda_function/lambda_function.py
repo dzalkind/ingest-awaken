@@ -6,6 +6,8 @@ from urllib.parse import unquote_plus
 from tsdat.io import S3Path
 from pipelines.runner import run_pipeline
 
+logger = logging.getLogger()
+
 
 def get_s3_path(record: Dict):
     bucket_name = record['s3']['bucket']['name']
@@ -42,7 +44,7 @@ def set_env_vars():
     os.environ['RETAIN_INPUT_FILES'] = retain_input_files
 
     # Storage
-    storage_classname = os.environ.get('STORAGE_CLASSNAME', 'tsdat.io.AWSStorage')
+    storage_classname = os.environ.get('STORAGE_CLASSNAME', 'tsdat.io.AwsStorage')
     os.environ['STORAGE_CLASSNAME'] = storage_classname
 
 
@@ -65,13 +67,14 @@ def lambda_handler(event, context):
     set_env_vars()
 
     # Configure the root logger
-    logging.basicConfig(level=os.environ['LOG_LEVEL'])
+    #logger.setLevel(os.environ['LOG_LEVEL'])
+    logger.setLevel(logging.DEBUG)
 
-    logging.info('Invoking pipeline')
-    logging.info('## ENVIRONMENT VARIABLES')
-    logging.info(os.environ)
-    logging.info('## EVENT')
-    logging.info(event)
+    logger.info('Invoking pipeline')
+    logger.info('## ENVIRONMENT VARIABLES')
+    logger.info(os.environ)
+    logger.info('## EVENT')
+    logger.info(event)
 
     try:
         input_files = []
@@ -86,7 +89,7 @@ def lambda_handler(event, context):
         run_pipeline(input_files=input_files)
 
     except Exception as e:
-        logging.critical("Failed to run pipeline - Exception Details:", e)
+        logger.exception("Failed to run pipeline - Exception Details:")
 
 
 

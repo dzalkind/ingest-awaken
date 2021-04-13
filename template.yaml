@@ -52,6 +52,7 @@ Resources:
           STORAGE_BUCKET: !Ref DestinationBucket
           LOG_LEVEL: !Ref LoggingLevel
       Timeout: 900  # Longest allowable lambda timeout is 15 min or 900 s
+      MemorySize: 10240  # Largest allowable memory is 10GB (specified in MB)
       Policies:
         - S3CrudPolicy:
             BucketName: !Sub "${SourceBucket}"

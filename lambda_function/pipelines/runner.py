@@ -2,10 +2,12 @@
 import os
 import re
 import importlib
+import logging
 from typing import List, Union
 
 from tsdat.io import S3Path
 
+logger = logging.getLogger()
 
 pipeline_map = {
     'a2e_waves_ingest': re.compile('.*waves\\.csv'),
@@ -56,13 +58,18 @@ def run_pipeline(input_files: Union[List[S3Path], List[str]] = []):
     # they will all use the same pipeline.  So use the filename of
     # the first file to pick the correct pipeline and location to
     # use.
-    query_file = os.path.basename(input_files[0])
+    # We must use the python equivalent toString() method since the
+    # input file could be provided as an S3Path object or a string file path
+    file_path = input_files[0].__str__()
+    query_file = os.path.basename(file_path)
 
     # Get the storage config file
     pipelines_dir = os.path.dirname(os.path.realpath(__file__))
     storage_config = os.path.join(pipelines_dir, 'config/storage_config.yml')
 
     # Look up the correct location for the given data file
+    logger.debug('Dynamically determining pipeline configuration to use')
+    logger.debug(f'Parsing variables from file name: {query_file}')
     location = None
     for location_key, file_pattern in location_map.items():
         if file_pattern.match(query_file):
@@ -77,8 +84,18 @@ def run_pipeline(input_files: Union[List[S3Path], List[str]] = []):
             break
 
     # Look up the correct pipeline config file
+    logger.debug(f'pipelines_dir = {pipelines_dir}')
+    logger.debug(f'pipeline_dir = {pipeline_dir}')
+    logger.debug(f'location = {location}')
     pipeline_config = os.path.join(pipelines_dir, pipeline_dir, 'config', f'pipeline_config_{location}.yml')
 
     # Create and run pipeline
+    logger.info(f'Creating pipeline')
+    logger.debug(f'pipeline_config = {pipeline_config}')
+    logger.debug(f'storage_config = {storage_config}')
+    retain_input_files = os.environ['RETAIN_INPUT_FILES']
+    logger.debug(f'retain_input_files = {retain_input_files}')
     pipeline = instantiate_pipeline(pipeline_dir, pipeline_config, storage_config)
+
+    logger.info('Running pipeline...')
     pipeline.run(input_files)

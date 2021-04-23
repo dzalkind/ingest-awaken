@@ -14,7 +14,7 @@ phases:
       - if [ "$branch" ]; then name=$branch; fi
       - echo Building the Docker image $name ... 
       - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG.$name lambda_function
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG.$name  $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG.$name          
+      - echo docker tag $IMAGE_REPO_NAME:$IMAGE_TAG.$name  $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG.$name          
   post_build:
     commands:
       - echo Build completed on `date`

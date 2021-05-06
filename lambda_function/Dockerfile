@@ -1,5 +1,5 @@
 #FROM public.ecr.aws/lambda/python:3.8
-FROM tsdat/tsdat-lambda:0.2.3
+FROM 809073466396.dkr.ecr.us-west-2.amazonaws.com/dap:tsdat-0.2.3
 
 COPY lambda_function.py requirements.txt ./
 COPY pipelines ./pipelines

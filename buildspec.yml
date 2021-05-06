@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+      - name=base
+  build:
+    commands:
+      - echo Build started on `date`
+      - branch=`echo $CODEBUILD_INITIATOR | cut -c27-`  
+      - #assuming codepipeline/ingest-tsdat-
+      - if [ "$branch" ]; then name=$branch; fi
+      - echo Building the Docker image $name ... 
+      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG.$name lambda_function
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG.$name  $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG.$name          
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG.$name

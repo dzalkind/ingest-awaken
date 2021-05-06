@@ -2,6 +2,7 @@ import logging
 import os
 from typing import Dict
 from urllib.parse import unquote_plus
+import json
 
 from tsdat.io import S3Path
 from pipelines.runner import run_pipeline
@@ -79,9 +80,9 @@ def lambda_handler(event, context):
     try:
         input_files = []
 
-        for record in event['Records']:
+        for record in event['Records']['Message']['Records']:
             # Get the AWS path to the raw file from the lambda event
-            s3_path = get_s3_path(record)
+            s3_path = get_s3_path(json.loads(record))
             input_files.append(s3_path)
 
         deployment_mode = 'aws_dev'

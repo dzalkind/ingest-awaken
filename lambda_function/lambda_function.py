@@ -79,7 +79,7 @@ def lambda_handler(event, context):
 
     try:
         input_files = []
-        sns=json.loads(event['Records']['Message'])
+        sns=json.loads(event['Records'][0]['Message'])
         for record in sns['Records']:
             # Get the AWS path to the raw file from the lambda event
             s3_path = get_s3_path(json.loads(record))

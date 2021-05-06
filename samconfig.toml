@@ -9,4 +9,5 @@ region = "us-west-2"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
 image_repositories = ["A2ETsdatPipelines=332883119153.dkr.ecr.us-west-2.amazonaws.com/a2e-tsdat-test"]
-parameter_overrides = "SourceBucket=\"a2e-tsdat-pipeline-inputs\" DestinationBucket=\"a2e-tsdat-pipeline-outputs\" LoggingLevel=\"INFO\""
+parameter_overrides = "SourceBucket=\"a2e-tsdat-pipeline-inputs\" DestinationBucket=\"a2e-tsdat-pipeline-outputs\" LoggingLevel=\"DEBUG\""
+

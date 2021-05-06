@@ -67,8 +67,7 @@ def lambda_handler(event, context):
     set_env_vars()
 
     # Configure the root logger
-    #logger.setLevel(os.environ['LOG_LEVEL'])
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(os.environ['LOG_LEVEL'])
 
     logger.info('Invoking pipeline')
     logger.info('## ENVIRONMENT VARIABLES')

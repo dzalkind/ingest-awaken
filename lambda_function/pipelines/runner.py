@@ -83,19 +83,25 @@ def run_pipeline(input_files: Union[List[S3Path], List[str]] = []):
             pipeline_dir = pipeline_key
             break
 
-    # Look up the correct pipeline config file
     logger.debug(f'pipelines_dir = {pipelines_dir}')
     logger.debug(f'pipeline_dir = {pipeline_dir}')
     logger.debug(f'location = {location}')
-    pipeline_config = os.path.join(pipelines_dir, pipeline_dir, 'config', f'pipeline_config_{location}.yml')
 
-    # Create and run pipeline
-    logger.info(f'Creating pipeline')
-    logger.debug(f'pipeline_config = {pipeline_config}')
-    logger.debug(f'storage_config = {storage_config}')
-    retain_input_files = os.environ['RETAIN_INPUT_FILES']
-    logger.debug(f'retain_input_files = {retain_input_files}')
-    pipeline = instantiate_pipeline(pipeline_dir, pipeline_config, storage_config)
+    # If no pipeline is registered for this file, then skip it
+    if location is None or pipeline_dir is None:
+        logger.debug(f'Skipping file {query_file} since no pipeline is registered for this file pattern.')
 
-    logger.info('Running pipeline...')
-    pipeline.run(input_files)
+    else:
+        # Look up the correct pipeline config file
+        pipeline_config = os.path.join(pipelines_dir, pipeline_dir, 'config', f'pipeline_config_{location}.yml')
+
+        # Create and run pipeline
+        logger.info(f'Creating pipeline')
+        logger.debug(f'pipeline_config = {pipeline_config}')
+        logger.debug(f'storage_config = {storage_config}')
+        retain_input_files = os.environ['RETAIN_INPUT_FILES']
+        logger.debug(f'retain_input_files = {retain_input_files}')
+        pipeline = instantiate_pipeline(pipeline_dir, pipeline_config, storage_config)
+
+        logger.info('Running pipeline...')
+        pipeline.run(input_files)

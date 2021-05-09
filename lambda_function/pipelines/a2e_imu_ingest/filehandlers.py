@@ -85,7 +85,7 @@ class ImuFileHandler(AbstractFileHandler):
                 for category, subpacket in raw_data.items()}
         
         # Create datetime array from gps times
-        time = float([datetime.datetime(year=1980, month=1, day=6)] * len(data["gps_time"]["tow"]))
+        time = [float(datetime.datetime(year=1980, month=1, day=6))] * len(data["gps_time"]["tow"])
         for i in range(len(time)):
             days = int(7 * data["gps_time"]["week_number"][i])
             seconds = data["gps_time"]["tow"][i] - 18  # GPS time to UTC is currently 18 seconds off

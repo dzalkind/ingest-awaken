@@ -89,8 +89,6 @@ class ImuFileHandler(AbstractFileHandler):
         for i in range(len(time)):
             days = int(7 * data["gps_time"]["week_number"][i])
             seconds = data["gps_time"]["tow"][i] - 18  # GPS time to UTC is currently 18 seconds off
-            if days > 1000000:
-                raise Exception (f"days is too big: {days}")
             time[i] += datetime.timedelta(days=days, seconds=seconds)
         time = np.array(time, dtype=np.datetime64)
 

@@ -15,7 +15,7 @@ storage:
         file_pattern: '.*\.bin'
         classname: pipelines.a2e_imu_ingest.filehandlers.ImuFileHandler
       sta:
-        file_pattern: '.*\.sta'
+        file_pattern: '.*\.sta\.7z'
         classname: pipelines.a2e_lidar_ingest.filehandlers.StaFileHandler
 
     output:

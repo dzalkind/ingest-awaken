@@ -11,8 +11,8 @@ logger = logging.getLogger()
 
 pipeline_map = {
     'a2e_waves_ingest': re.compile('.*waves\\.csv'),
-    'a2e_imu_ingest':   re.compile('.*\\.bin'),
-    'a2e_lidar_ingest': re.compile('.*\\.sta'),
+    'a2e_imu_ingest':   re.compile('.*\\.imu\\.bin'),
+    'a2e_lidar_ingest': re.compile('.*\\.sta\\.7z'),
     'a2e_buoy_ingest': re.compile('buoy\\..*\\.(?:csv|zip|tar|tar\\.gz)')
 }
 

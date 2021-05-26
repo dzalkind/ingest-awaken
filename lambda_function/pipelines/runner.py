@@ -31,6 +31,27 @@ def instantiate_pipeline(pipeline_dir, pipeline_config, storage_config):
     return instance
 
 
+def pad_label(label):
+    return "{:<20}".format(label)
+
+
+def get_log_message(pipeline_state, pipeline_name, location, input_files, exception=False):
+    pipeline_label = pad_label(f"{pipeline_state} pipeline")
+    exception_label = ''
+    if exception:
+        exception_label = f"""
+----------------------------------"""
+
+
+    # Run Pipeline
+    log_message = f"""
+{pipeline_label}: {pipeline_name}      
+{pad_label("At location")}: {location}
+{pad_label("With input files")}: {input_files}
+{exception_label} """
+    return log_message
+
+
 def run_pipeline(input_files: Union[List[S3Path], List[str]] = []):
     """-------------------------------------------------------------------
     Run the appropriate pipeline on the provided files.  This method
@@ -63,13 +84,13 @@ def run_pipeline(input_files: Union[List[S3Path], List[str]] = []):
     file_path = input_files[0].__str__()
     query_file = os.path.basename(file_path)
 
+    logger.debug(f"Dynamically determining pipeline to use from input file: {query_file}")
+
     # Get the storage config file
     pipelines_dir = os.path.dirname(os.path.realpath(__file__))
     storage_config = os.path.join(pipelines_dir, 'config/storage_config.yml')
 
     # Look up the correct location for the given data file
-    logger.debug('Dynamically determining pipeline configuration to use')
-    logger.debug(f'Parsing variables from file name: {query_file}')
     location = None
     for location_key, file_pattern in location_map.items():
         if file_pattern.match(query_file):
@@ -83,25 +104,23 @@ def run_pipeline(input_files: Union[List[S3Path], List[str]] = []):
             pipeline_dir = pipeline_key
             break
 
-    logger.debug(f'pipelines_dir = {pipelines_dir}')
-    logger.debug(f'pipeline_dir = {pipeline_dir}')
-    logger.debug(f'location = {location}')
-
     # If no pipeline is registered for this file, then skip it
     if location is None or pipeline_dir is None:
-        logger.debug(f'Skipping file {query_file} since no pipeline is registered for this file pattern.')
+        logger.info(f'Skipping files: {input_files} since no pipeline is registered for file pattern: {query_file}.')
 
     else:
-        # Look up the correct pipeline config file
+        # Look up the correct pipeline config file and instantiate pipeline
         pipeline_config = os.path.join(pipelines_dir, pipeline_dir, 'config', f'pipeline_config_{location}.yml')
-
-        # Create and run pipeline
-        logger.info(f'Creating pipeline')
-        logger.debug(f'pipeline_config = {pipeline_config}')
-        logger.debug(f'storage_config = {storage_config}')
-        retain_input_files = os.environ['RETAIN_INPUT_FILES']
-        logger.debug(f'retain_input_files = {retain_input_files}')
         pipeline = instantiate_pipeline(pipeline_dir, pipeline_config, storage_config)
 
-        logger.info('Running pipeline...')
-        pipeline.run(input_files)
+        try:
+            # Run Pipeline
+            logger.info(get_log_message('Starting', pipeline_dir, location, input_files))
+            pipeline.run(input_files)
+            logger.info(get_log_message('Completed', pipeline_dir, location, input_files))
+
+        except Exception as e:
+            logger.exception(get_log_message('Error in', pipeline_dir, location, input_files, exception=True))
+
+
+

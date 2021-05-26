@@ -70,11 +70,20 @@ def lambda_handler(event, context):
     # Configure the root logger
     logger.setLevel(os.environ['LOG_LEVEL'])
 
-    logger.info('Invoking pipeline')
-    logger.info('## ENVIRONMENT VARIABLES')
-    logger.info(os.environ)
-    logger.info('## EVENT')
-    logger.info(event)
+    # We combine all the logs into a single multi-line string so it's easier to read in the CloudWatch logs!
+    lambda_debug_info = f"""
+Invoking lambda function
+    
+-----------------------------
+ENVIRONMENT VARIABLES:
+{os.environ}
+    
+-----------------------------
+EVENT:
+{event}
+"""
+
+    logger.debug(lambda_debug_info)
 
     try:
         input_files = []
@@ -91,7 +100,9 @@ def lambda_handler(event, context):
         run_pipeline(input_files=input_files)
 
     except Exception as e:
-        logger.exception("Failed to run pipeline - Exception Details:")
+        # This is only to catch for exceptions that happen outside the pipeline
+        # as the pipeline runner will catch any pipeline exceptions.
+        logger.exception("Failed to invoke lambda function. Exception details:\n\n")
 
 
 

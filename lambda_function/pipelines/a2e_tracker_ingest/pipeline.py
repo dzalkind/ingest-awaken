@@ -50,7 +50,7 @@ class Pipeline:
             # TODO: We need to decide how to name these files - I'm thinking we get the time from the
             # csv file name directly, or we can read the csv into pandas and get it from there...
             time = '20210101.000000'
-            filename = f'{self.location}.tracker.{time}.csv'
+            filename = f'{self.location}/tracker.a1/{self.location}.tracker.a1.{time}.csv'
             dest_path: S3Path = self.storage.root.join(filename)
 
             # Save the file to storage

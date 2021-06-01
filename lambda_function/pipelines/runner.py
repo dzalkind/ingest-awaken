@@ -10,7 +10,7 @@ from tsdat.io import S3Path
 logger = logging.getLogger()
 
 pipeline_map = {
-    'a2e_tracker_ingest': re.compile('tracker\\..*\\.zip'),
+    'a2e_tracker_ingest': re.compile('tracker\\..*\\.tar\\.gz'),
     'a2e_waves_ingest': re.compile('.*waves\\.csv'),
     'a2e_imu_ingest':   re.compile('.*\\.imu\\.bin'),
     'a2e_lidar_ingest': re.compile('.*\\.sta\\.7z'),

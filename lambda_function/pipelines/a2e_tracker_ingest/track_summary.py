@@ -5,6 +5,10 @@ from os import listdir
 from os.path import isfile, join
 import os
 
+"""
+This file was obtained from:
+https://stash.pnnl.gov/projects/THTRACKER/repos/thtracker/browse/resources/scripts/track_summary.py?at=refs%2Fheads%2Fdevelopment
+"""
 
 def generate_header_string():
     return (

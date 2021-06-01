@@ -1,6 +1,7 @@
 import tarfile
 
 import datetime
+import logging
 import os
 import pandas as pd
 import re
@@ -9,10 +10,13 @@ from typing import Union, List
 from tsdat.io import DatastreamStorage, S3Path
 from .track_summary import parse_json_tracks
 
+logger = logging.getLogger()
+
 
 class Pipeline:
 
     def __init__(self, pipeline_config, storage_config: Union[str, DatastreamStorage]) -> None:
+        logger.info(f'Instantiating tracker Pipeline with pipeline config: {pipeline_config} and storage config {storage_config}')
 
         # Parse the location from the pipeline config file name
         pattern = re.compile('pipeline_config_(.*)\\.yml')

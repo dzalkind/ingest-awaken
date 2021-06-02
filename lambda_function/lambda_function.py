@@ -1,13 +1,11 @@
-import logging
+import json
 import os
+from pipelines.runner import run_pipeline
 from typing import Dict
 from urllib.parse import unquote_plus
-import json
 
 from tsdat.io import S3Path
-from pipelines.runner import run_pipeline
-
-logger = logging.getLogger()
+from pipelines.log_helper import logger, format_log_message, get_stack_trace
 
 
 def get_s3_path(record: Dict):
@@ -83,7 +81,7 @@ EVENT:
 {event}
 """
 
-    logger.debug(lambda_debug_info)
+    logger.debug(format_log_message(lambda_debug_info))
 
     try:
         input_files = []
@@ -102,7 +100,7 @@ EVENT:
     except Exception as e:
         # This is only to catch for exceptions that happen outside the pipeline
         # as the pipeline runner will catch any pipeline exceptions.
-        logger.exception("Failed to invoke lambda function. Exception details:\n\n")
+        logger.error(get_stack_trace("Failed to invoke lambda function"))
 
 
 

@@ -2,12 +2,10 @@
 import os
 import re
 import importlib
-import logging
 from typing import List, Union
 
 from tsdat.io import S3Path
-
-logger = logging.getLogger()
+from .log_helper import logger, get_stack_trace, format_log_message, pad_label
 
 pipeline_map = {
     'a2e_waves_ingest': re.compile('.*waves\\.csv'),
@@ -31,24 +29,19 @@ def instantiate_pipeline(pipeline_dir, pipeline_config, storage_config):
     return instance
 
 
-def pad_label(label):
-    return "{:<20}".format(label)
-
-
 def get_log_message(pipeline_state, pipeline_name, location, input_files, exception=False):
     pipeline_label = pad_label(f"{pipeline_state} pipeline")
-    exception_label = ''
-    if exception:
-        exception_label = f"""
-----------------------------------"""
-
 
     # Run Pipeline
     log_message = f"""
 {pipeline_label}: {pipeline_name}      
 {pad_label("At location")}: {location}
-{pad_label("With input files")}: {input_files}
-{exception_label} """
+{pad_label("With input files")}: {input_files}"""
+
+    log_message = format_log_message(log_message)
+    if exception:
+        log_message += get_stack_trace()
+
     return log_message
 
 

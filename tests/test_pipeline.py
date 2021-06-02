@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 import unittest
@@ -10,6 +11,7 @@ data_dir = os.path.join(project_dir, 'data')
 sys.path.insert(0, lambda_dir)
 
 from pipelines.runner import run_pipeline
+import pipelines.log_helper as log
 
 
 class TestPipeline(unittest.TestCase):
@@ -22,6 +24,11 @@ class TestPipeline(unittest.TestCase):
         os.environ['STORAGE_CLASSNAME'] = 'tsdat.io.FilesystemStorage'
         os.environ['RETAIN_INPUT_FILES'] = 'True'
         os.environ['ROOT_DIR'] = os.path.join(data_dir, 'storage')
+
+        # Configure logging
+        log.logger.setLevel('INFO')
+        log.logger.addHandler(logging.StreamHandler(sys.stdout))
+        log.lambda_mode = False
 
     def tearDown(self) -> None:
         super().tearDown()

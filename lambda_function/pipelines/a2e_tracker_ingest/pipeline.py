@@ -19,8 +19,9 @@ class Pipeline:
         logger.info(f'Instantiating tracker Pipeline with pipeline config: {pipeline_config} and storage config {storage_config}')
 
         # Parse the location from the pipeline config file name
+        pipeline_config_filename = os.path.basename(pipeline_config)
         pattern = re.compile('pipeline_config_(.*)\\.yml')
-        match = pattern.match(pipeline_config)
+        match = pattern.match(pipeline_config_filename)
         groups = match.groups()
         self.location = groups[0]
 

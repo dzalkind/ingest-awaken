@@ -50,15 +50,15 @@ class Pipeline:
             local_dir = os.path.dirname(zip_path)
 
             # unzip the tar.gz file into the same directory
-            with tarfile.open(filepath) as tar:
+            with tarfile.open(zip_path) as tar:
                 tar.extractall(path=local_dir)
 
             # The zipped file contains a folder with the input files
             extracted_dir = None
             for filename in os.listdir(local_dir):
-                filepath = os.path.join(local_dir, filename)
-                if os.path.isdir(filepath):
-                    extracted_dir = filepath
+                unzipped_file = os.path.join(local_dir, filename)
+                if os.path.isdir(unzipped_file):
+                    extracted_dir = unzipped_file
                     break
 
             # Just use local_dir if the zip file did not contain a folder
@@ -79,7 +79,7 @@ class Pipeline:
             self.storage.tmp.upload(csv_file, dest_path)
 
             # Also save the raw data to storage
-            raw_filename = os.path.basename(filepath)
+            raw_filename = os.path.basename(zip_path)
             filename = f'{self.location}/tracker.00/{self.location}.tracker.00.{output_datetime_str}.raw.{raw_filename}'
             dest_path: S3Path = self.storage.root.join(filename)
-            self.storage.tmp.upload(filepath, dest_path)
+            self.storage.tmp.upload(zip_path, dest_path)

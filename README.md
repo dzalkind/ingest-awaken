@@ -89,7 +89,7 @@ tsdat-sam-test$ sam logs -n HelloWorldFunction --stack-name tsdat-sam-test --tai
 
 You can find more information and examples about filtering Lambda function logs in the [SAM CLI Documentation](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-logging.html).
 
-## Unit tests
+## Running Unit Tests Locally
 
 Tests are defined in the `tests` folder in this project. Use PIP to install the [pytest](https://docs.pytest.org/en/latest/) and run unit tests from your local machine.
 
@@ -97,6 +97,17 @@ Tests are defined in the `tests` folder in this project. Use PIP to install the 
 tsdat-sam-test$ pip install pytest pytest-mock --user
 tsdat-sam-test$ python -m pytest tests/ -v
 ```
+## Running Unit Tests via Lambda Container
+Use the following steps to run your lambda container locally:
+
+1. Upload the file you want to test to a test S3 bucket.
+2. Create a json event for your test file and put it under the tests/events folder for the appropriate pipeline and location.  See `tests/events/a2e_imu_ingest/morro/s3-event.json` as an example.  You will need to change the S3 bucket name and S3 key to point to the correct file.
+3. Use SAM to build and run the pipeline:
+    ```bash
+    sam build 
+    sam local invoke a2e-tsdat-pipelines --event tests/events/a2e_imu_ingest/morro/s3-event.json 
+    ```
+
 
 ## Cleanup
 

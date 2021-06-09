@@ -39,6 +39,10 @@ Parameters:
     Type: String
     Default: INFO
 
+  # Whether to retain input files
+  RetainInputFiles:
+    Type: String
+    Default: True
 
 Resources:
   A2ETsdatPipelines:
@@ -51,6 +55,7 @@ Resources:
         Variables:
           STORAGE_BUCKET: !Ref DestinationBucket
           LOG_LEVEL: !Ref LoggingLevel
+          RETAIN_INPUT_FILES: !Ref RetainInputFiles
       Timeout: 900  # Longest allowable lambda timeout is 15 min or 900 s
       MemorySize: 10240  # Largest allowable memory is 10GB (specified in MB)
       Policies:

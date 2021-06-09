@@ -27,7 +27,7 @@
           "arn": "arn:aws:s3:::a2e-tsdat-test"
         },
         "object": {
-          "key": "a2e_imu_ingest/morro/buoy.z06.00.20201201.000000.imu.bin",
+          "key": "a2e_imu_ingest/morro/buoy.z06.00.20210430.000000.imu.bin",
           "size": 3679233,
           "eTag": "84703366a2bac7da56749b6cdbe37de1",
           "sequencer": "00606E62D96731561E"

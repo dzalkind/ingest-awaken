@@ -1,11 +1,15 @@
 
+import importlib
+import traceback
+
+import json
 import os
 import re
-import importlib
+import sys
+from pipelines.utils.log_helper import logger
 from typing import List, Union
 
 from tsdat.io import S3Path
-from .log_helper import logger, get_stack_trace, format_log_message, pad_label
 
 pipeline_map = {
     'a2e_tracker_ingest': re.compile('tracker\\..*\\.tar\\.gz'),
@@ -31,19 +35,23 @@ def instantiate_pipeline(pipeline_dir, pipeline_config, storage_config):
 
 
 def get_log_message(pipeline_state, pipeline_name, location, input_files, exception=False):
-    pipeline_label = pad_label(f"{pipeline_state} pipeline")
 
-    # Run Pipeline
-    log_message = f"""
-{pipeline_label}: {pipeline_name}      
-{pad_label("At location")}: {location}
-{pad_label("With input files")}: {input_files}"""
+    log_msg = {
+        "Pipeline_Name": pipeline_name,
+        "State": pipeline_state,
+        "Location": location,
+        "Input_Files": input_files
+    }
 
-    log_message = format_log_message(log_message)
     if exception:
-        log_message += get_stack_trace()
+        exception_type, exception_value, exception_traceback = sys.exc_info()
+        traceback_string = traceback.format_exception(exception_type, exception_value, exception_traceback)
+        log_msg["Error_Type"] = exception_type.__name__
+        log_msg["Exception_Message"] = str(exception_value)
+        log_msg["Stack_Trace"] = traceback_string
 
-    return log_message
+    return json.dumps(log_msg)
+
 
 
 def run_pipeline(input_files: Union[List[S3Path], List[str]] = []):
@@ -109,12 +117,12 @@ def run_pipeline(input_files: Union[List[S3Path], List[str]] = []):
 
         try:
             # Run Pipeline
-            logger.info(get_log_message('Starting', pipeline_dir, location, input_files))
+            logger.info(get_log_message('Start', pipeline_dir, location, input_files))
             pipeline.run(input_files)
-            logger.info(get_log_message('Completed', pipeline_dir, location, input_files))
+            logger.info(get_log_message('Success', pipeline_dir, location, input_files))
 
         except Exception as e:
-            logger.exception(get_log_message('Error in', pipeline_dir, location, input_files, exception=True))
+            logger.error(get_log_message('Error', pipeline_dir, location, input_files, exception=True))
 
 
 

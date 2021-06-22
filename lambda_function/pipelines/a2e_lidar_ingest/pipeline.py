@@ -8,7 +8,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 from typing import Dict
-from tsdat.pipeline import IngestPipeline
+from ..utils.pipeline import A2ePipeline
 from tsdat.utils import DSUtil
 
 example_dir = os.path.abspath(os.path.dirname(__file__))
@@ -16,7 +16,7 @@ style_file = os.path.join(example_dir, "styling.mplstyle")
 plt.style.use(style_file)
 
 
-class Pipeline(IngestPipeline):
+class Pipeline(A2ePipeline):
 
     def hook_customize_dataset(self, dataset: xr.Dataset, raw_mapping: Dict[str, xr.Dataset]) -> xr.Dataset:
 

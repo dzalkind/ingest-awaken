@@ -10,11 +10,11 @@ lambda_dir = os.path.join(project_dir, 'lambda_function')
 data_dir = os.path.join(project_dir, 'data')
 sys.path.insert(0, lambda_dir)
 
-from pipelines.runner import run_pipeline
+from pipelines.runner import run_plots
 import pipelines.utils.log_helper as log
 
 
-class TestPipeline(unittest.TestCase):
+class TestPlots(unittest.TestCase):
     """-------------------------------------------------------------------
     Tests running the suite of a2e tsdat pipelines on the local
     filesystem.
@@ -34,20 +34,20 @@ class TestPipeline(unittest.TestCase):
         super().tearDown()
 
     def test_buoy(self):
-        run_pipeline([os.path.join(data_dir, 'a2e_buoy_ingest/humboldt/buoy.z05.00.20201201.000000.zip')])
-        run_pipeline([os.path.join(data_dir, 'a2e_buoy_ingest/morro/buoy.z06.00.20201201.000000.zip')])
+        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_buoy_ingest", location="humboldt")
+        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_buoy_ingest", location="morro")
 
     def test_imu(self):
-        run_pipeline([os.path.join(data_dir, 'a2e_imu_ingest/humboldt/buoy.z05.00.20201201.000000.imu.bin')])
-        run_pipeline([os.path.join(data_dir, 'a2e_imu_ingest/morro/buoy.z06.00.20201201.000000.imu.bin')])
+        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_imu_ingest", location="humboldt")
+        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_imu_ingest", location="morro")
 
     def test_lidar(self):
-        run_pipeline([os.path.join(data_dir, 'a2e_lidar_ingest/humboldt/lidar.z05.00.20201201.000000.sta.7z')])
-        run_pipeline([os.path.join(data_dir, 'a2e_lidar_ingest/morro/lidar.z06.00.20201201.000000.sta.7z')])
+        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_lidar_ingest", location="humboldt")
+        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_lidar_ingest", location="morro")
 
     def test_waves(self):
-        run_pipeline([os.path.join(data_dir, 'a2e_waves_ingest/humboldt/buoy.z05.00.20201201.000000.waves.csv')])
-        run_pipeline([os.path.join(data_dir, 'a2e_waves_ingest/morro/buoy.z06.00.20201201.000000.waves.csv')])
+        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_waves_ingest", location="humboldt")
+        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_waves_ingest", location="morro")
 
 
 if __name__ == '__main__':

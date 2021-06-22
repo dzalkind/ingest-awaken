@@ -9,7 +9,7 @@ import pandas as pd
 import seaborn as sns
 import xarray as xr
 
-from tsdat.pipeline import IngestPipeline
+from ..utils.pipeline import A2ePipeline
 from tsdat.utils import DSUtil
 
 example_dir = os.path.abspath(os.path.dirname(__file__))
@@ -17,7 +17,7 @@ style_file = os.path.join(example_dir, "styling.mplstyle")
 plt.style.use(style_file)
 
 
-class Pipeline(IngestPipeline):
+class Pipeline(A2ePipeline):
     """-------------------------------------------------------------------
     This is an example class that extends the default IngestPipeline in
     order to hook in custom behavior such as creating custom plots.

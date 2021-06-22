@@ -125,4 +125,79 @@ def run_pipeline(input_files: Union[List[S3Path], List[str]] = []):
             logger.error(get_log_message('Error', pipeline_dir, location, input_files, exception=True))
 
 
+def run_plots(start_time: str, end_time: str, pipeline: Union[str, List[str]] = None, location: Union[str, List[str]] = None):   
+    """-------------------------------------------------------------------
+    Use the pipeline to re-create plots across the given time period. This
+    method determines the appropriate pipeline to call based upon the file
+    name. It also determines the appropriate config files to use based 
+    upon the current deployment mode and the file name.
 
+    Args:
+        
+        start_time (str):
+
+            The start time or date to start searching for data (inclusive). 
+            Should be like "20210106" to plot data beginning on or after 
+            January 6th, 2021.
+
+        end_time (str):
+
+            The end time or date to stop searching for data (exclusive). 
+            Should be like "20210108" to plot data ending before January 
+            8th, 2021.
+
+        pipelines (Union[str, List[str]], optional):
+
+            The name of the pipeline to instantiate and use to create and 
+            store plots. If None, create plots using all pipelines. 
+            Defaults to None.
+
+        locations (Union[str, List[str]], optional):
+
+            The name(s) of the locations where the pipeline(s) should be 
+            run. If None, create plots at all available locations. 
+            Defaults to None.
+    -------------------------------------------------------------------"""
+    # Get the storage config file
+    pipelines_dir = os.path.dirname(os.path.realpath(__file__))
+    storage_config = os.path.join(pipelines_dir, 'config/storage_config.yml')
+    
+    if pipeline is None:
+        pipelines = list(pipeline_map.keys())
+    elif isinstance(pipeline, str):
+        pipelines = [pipeline]
+    
+    if location is None:
+        locations = list(location_map.keys())
+    elif isinstance(location, str):
+        locations = [location]
+
+    for pipeline_name in pipelines:
+
+        # If provided pipeline is not in our mappings, then we aren't able
+        # to continue.
+        if pipeline_name not in pipeline_map:
+            logger.info(f"Skipping at unrecognized pipeline: '{pipeline_name}'")
+            break
+        
+        for location in locations:
+
+            # If provided location is not in our mappings, then we aren't able
+            # to continue.
+            if location not in location_map:
+                logger.info(f"Skipping {pipeline} pipeline at unrecognized location: {location}")
+                break
+            
+            # Look up the correct pipeline config file and instantiate pipeline
+            pipeline_config = os.path.join(pipelines_dir, pipeline_name, 'config', f'pipeline_config_{location}.yml')
+            pipeline = instantiate_pipeline(pipeline, pipeline_config, storage_config)
+            
+            # Create plots
+            try:
+                date_range = [start_time, end_time]
+                logger.info(get_log_message('Start', pipeline_name, location, date_range))
+                pipeline.run_plots(start_time, end_time)
+                logger.info(get_log_message('Success', pipeline_name, location, date_range))
+
+            except Exception as e:
+                logger.error(get_log_message('Error', pipeline_name, location, date_range, exception=True))

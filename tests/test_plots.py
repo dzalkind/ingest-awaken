@@ -10,13 +10,13 @@ lambda_dir = os.path.join(project_dir, 'lambda_function')
 data_dir = os.path.join(project_dir, 'data')
 sys.path.insert(0, lambda_dir)
 
-from pipelines.runner import run_plots
+from pipelines.runner import run_pipeline
 import pipelines.utils.log_helper as log
 
 
 class TestPlots(unittest.TestCase):
     """-------------------------------------------------------------------
-    Tests running the suite of a2e tsdat pipelines on the local
+    Tests re-running plots from a2e tsdat pipelines on the local
     filesystem.
     -------------------------------------------------------------------"""
     def setUp(self) -> None:
@@ -34,20 +34,20 @@ class TestPlots(unittest.TestCase):
         super().tearDown()
 
     def test_buoy(self):
-        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_buoy_ingest", location="humboldt")
-        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_buoy_ingest", location="morro")
+        run_pipeline([os.path.join(data_dir, 'sample_a2e_output/buoy.z05.a0.20201201.000000.10m.a2e.nc')])
+        run_pipeline([os.path.join(data_dir, 'sample_a2e_output/buoy.z06.a0.20201201.000000.10m.a2e.nc')])
 
     def test_imu(self):
-        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_imu_ingest", location="humboldt")
-        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_imu_ingest", location="morro")
+        run_pipeline([os.path.join(data_dir, 'sample_a2e_output/buoy.z05.a0.20201201.000008.imu.a2e.nc')])
+        run_pipeline([os.path.join(data_dir, 'sample_a2e_output/buoy.z06.a0.20201201.000011.imu.a2e.nc')])
 
     def test_lidar(self):
-        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_lidar_ingest", location="humboldt")
-        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_lidar_ingest", location="morro")
+        run_pipeline([os.path.join(data_dir, 'sample_a2e_output/lidar.z05.a0.20201201.001000.sta.a2e.nc')])
+        run_pipeline([os.path.join(data_dir, 'sample_a2e_output/lidar.z06.a0.20201201.001000.sta.a2e.nc')])
 
     def test_waves(self):
-        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_waves_ingest", location="humboldt")
-        run_plots(start_time="20201201", end_time="20201202", pipeline="a2e_waves_ingest", location="morro")
+        run_pipeline([os.path.join(data_dir, 'sample_a2e_output/buoy.z05.a0.20201201.000000.waves.a2e.nc')])
+        run_pipeline([os.path.join(data_dir, 'sample_a2e_output/buoy.z06.a0.20201201.000000.waves.a2e.nc')])
 
 
 if __name__ == '__main__':

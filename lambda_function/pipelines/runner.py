@@ -16,12 +16,19 @@ pipeline_map = {
     'a2e_waves_ingest': re.compile('.*waves\\.csv'),
     'a2e_imu_ingest':   re.compile('.*\\.imu\\.bin'),
     'a2e_lidar_ingest': re.compile('.*\\.sta\\.7z'),
-    'a2e_buoy_ingest': re.compile('buoy\\..*\\.(?:csv|zip|tar|tar\\.gz)')
+    'a2e_buoy_ingest': re.compile('buoy\\..*\\.(?:csv|zip|tar|tar\\.gz)'),
+}
+
+plotting_map = {
+    'a2e_buoy_ingest':  re.compile(r'buoy\.z\d{2}\.a0\.\d{8}\.\d{6}\.10m\.a2e\.nc'),
+    'a2e_waves_ingest': re.compile(r'buoy\.z\d{2}\.a0\.\d{8}\.\d{6}\.waves\.a2e\.nc'),
+    'a2e_imu_ingest':   re.compile(r'buoy\.z\d{2}\.a0\.\d{8}\.\d{6}\.imu\.a2e\.nc'),
+    'a2e_lidar_ingest': re.compile(r'lidar\.z\d{2}\.a0\.\d{8}\.\d{6}\.sta\.a2e\.nc'),
 }
 
 location_map = {
-    'humboldt': re.compile('.*\\.z05\\..*'),
-    'morro'   : re.compile('.*\\.z06\\..*')
+    'humboldt': re.compile('.*z05.*'),
+    'morro'   : re.compile('.*z06.*'),
 }
 
 
@@ -68,7 +75,7 @@ def run_pipeline(input_files: Union[List[S3Path], List[str]] = []):
             The list of files to run the pipeline against.  List will be
             either S3 paths (if running in AWS mode) or string paths (if
             running in local mode).  If multiple files are passed together,
-            it is assumes that they must be co-processed in the same
+            it is assumed that they must be co-processed in the same
             pipeline invocation.
 
     -------------------------------------------------------------------"""
@@ -100,29 +107,36 @@ def run_pipeline(input_files: Union[List[S3Path], List[str]] = []):
             break
 
     # Look up the correct pipeline for the given file
+    method_to_call = 'run'
     pipeline_dir = None
     for pipeline_key, file_pattern in pipeline_map.items():
         if file_pattern.match(query_file):
             pipeline_dir = pipeline_key
             break
+    
+    # Look up the correct pipeline for plotting the given file (if applicable)
+    if pipeline_dir is None:
+        for pipeline_key, file_pattern in plotting_map.items():
+            if file_pattern.match(query_file):
+                pipeline_dir = pipeline_key
+                method_to_call = 'run_plots'
+                break
 
     # If no pipeline is registered for this file, then skip it
     if location is None or pipeline_dir is None:
-        logger.info(f'Skipping files: {input_files} since no pipeline is registered for file pattern: {query_file}.')
+        logger.info(f'Skipping files: {input_files} since no pipeline is registered for file named: "{query_file}".')
 
     else:
         # Look up the correct pipeline config file and instantiate pipeline
         pipeline_config = os.path.join(pipelines_dir, pipeline_dir, 'config', f'pipeline_config_{location}.yml')
         pipeline = instantiate_pipeline(pipeline_dir, pipeline_config, storage_config)
 
-        try:
-            # Run Pipeline
+        try:                        
+            # Run Pipeline or plots
             logger.info(get_log_message('Start', pipeline_dir, location, input_files))
-            pipeline.run(input_files)
+            method = getattr(pipeline, method_to_call)         
+            method(input_files)
             logger.info(get_log_message('Success', pipeline_dir, location, input_files))
 
         except Exception as e:
             logger.error(get_log_message('Error', pipeline_dir, location, input_files, exception=True))
-
-
-

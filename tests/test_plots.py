@@ -14,6 +14,11 @@ from pipelines.runner import run_pipeline
 import pipelines.utils.log_helper as log
 
 
+# Configure logging
+log.logger.setLevel('INFO')
+log.logger.addHandler(logging.StreamHandler(sys.stdout))
+
+
 class TestPlots(unittest.TestCase):
     """-------------------------------------------------------------------
     Tests re-running plots from a2e tsdat pipelines on the local
@@ -24,11 +29,6 @@ class TestPlots(unittest.TestCase):
         os.environ['STORAGE_CLASSNAME'] = 'tsdat.io.FilesystemStorage'
         os.environ['RETAIN_INPUT_FILES'] = 'True'
         os.environ['ROOT_DIR'] = os.path.join(data_dir, 'storage')
-
-        # Configure logging
-        log.logger.setLevel('INFO')
-        log.logger.addHandler(logging.StreamHandler(sys.stdout))
-        log.lambda_mode = False
 
     def tearDown(self) -> None:
         super().tearDown()

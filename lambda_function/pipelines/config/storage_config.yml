@@ -17,6 +17,9 @@ storage:
       sta:
         file_pattern: '.*\.sta\.7z'
         classname: pipelines.a2e_lidar_ingest.filehandlers.StaFileHandler
+      hpl:
+        file_pattern: '.*\.hpl'
+        classname: pipelines.awa_halo_ingest.filehandlers.HplHandler
 
     output:
       netcdf:

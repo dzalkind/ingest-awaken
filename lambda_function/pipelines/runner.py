@@ -25,6 +25,7 @@ plotting_map = {
     'a2e_waves_ingest': re.compile(r'buoy\.z\d{2}\.a0\.\d{8}\.\d{6}\.waves\.a2e\.nc'),
     'a2e_imu_ingest':   re.compile(r'buoy\.z\d{2}\.a0\.\d{8}\.\d{6}\.imu\.a2e\.nc'),
     'a2e_lidar_ingest': re.compile(r'lidar\.z\d{2}\.a0\.\d{8}\.\d{6}\.sta\.a2e\.nc'),
+    'awa_halo_ingest': re.compile(r'NWTC\.test_01-lidar-10min\.a1\.\d{8}\.\d{6}\.nc'),
 }
 
 location_map = {

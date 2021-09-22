@@ -49,6 +49,9 @@ class TestPlots(unittest.TestCase):
         run_pipeline([os.path.join(data_dir, 'sample_a2e_output/buoy.z05.a0.20201201.000000.waves.a2e.nc')])
         run_pipeline([os.path.join(data_dir, 'sample_a2e_output/buoy.z06.a0.20201201.000000.waves.a2e.nc')])
 
+    def test_halo(self):
+        run_pipeline([os.path.join(data_dir, 'sample_awa_output/NWTC.test_01-lidar-10min.a1.20210510.000125.nc')])
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -17,6 +17,7 @@ pipeline_map = {
     'a2e_imu_ingest':   re.compile('.*\\.imu\\.bin'),
     'a2e_lidar_ingest': re.compile('.*\\.sta\\.7z'),
     'a2e_buoy_ingest': re.compile('buoy\\..*\\.(?:csv|zip|tar|tar\\.gz)'),
+    'awa_halo_ingest': re.compile('.*\\.hpl'),
 }
 
 plotting_map = {
@@ -29,6 +30,7 @@ plotting_map = {
 location_map = {
     'humboldt': re.compile('.*z05.*'),
     'morro'   : re.compile('.*z06.*'),
+    'nwtc'    : re.compile('.*nwtc.*')
 }
 
 

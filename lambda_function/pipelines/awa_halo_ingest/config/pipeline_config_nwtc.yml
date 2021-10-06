@@ -3,7 +3,7 @@ pipeline:
   type: Ingest
 
   location_id: "nwtc"
-  # dataset_name: "z01"
+  dataset_name: "z01"
   qualifier: "lidar"
   # temporal: "10min"
   data_level: "a1"

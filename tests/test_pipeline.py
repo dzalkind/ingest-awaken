@@ -50,6 +50,9 @@ class TestPipeline(unittest.TestCase):
         run_pipeline([os.path.join(data_dir, 'a2e_waves_ingest/humboldt/buoy.z05.00.20201201.000000.waves.csv')])
         run_pipeline([os.path.join(data_dir, 'a2e_waves_ingest/morro/buoy.z06.00.20201201.000000.waves.csv')])
 
+    def test_halo(self):
+        run_pipeline([os.path.join(data_dir, 'awa_halo_ingest/test.nwtc.hpl')])
+
 
 if __name__ == '__main__':
     unittest.main()

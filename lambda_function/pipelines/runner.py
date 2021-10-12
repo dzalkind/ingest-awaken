@@ -17,6 +17,7 @@ pipeline_map = {
     'a2e_imu_ingest':   re.compile('.*\\.imu\\.bin'),
     'a2e_lidar_ingest': re.compile('.*\\.sta\\.7z'),
     'a2e_buoy_ingest': re.compile('buoy\\..*\\.(?:csv|zip|tar|tar\\.gz)'),
+    'awa_halo_ingest': re.compile('.*\\.hpl'),
 }
 
 plotting_map = {
@@ -24,11 +25,13 @@ plotting_map = {
     'a2e_waves_ingest': re.compile(r'buoy\.z\d{2}\.a0\.\d{8}\.\d{6}\.waves\.a2e\.nc'),
     'a2e_imu_ingest':   re.compile(r'buoy\.z\d{2}\.a0\.\d{8}\.\d{6}\.imu\.a2e\.nc'),
     'a2e_lidar_ingest': re.compile(r'lidar\.z\d{2}\.a0\.\d{8}\.\d{6}\.sta\.a2e\.nc'),
+    'awa_halo_ingest': re.compile(r'NWTC\.test_01-lidar-10min\.a1\.\d{8}\.\d{6}\.nc'),
 }
 
 location_map = {
     'humboldt': re.compile('.*z05.*'),
     'morro'   : re.compile('.*z06.*'),
+    'nwtc'    : re.compile('.*nwtc.*')
 }
 
 

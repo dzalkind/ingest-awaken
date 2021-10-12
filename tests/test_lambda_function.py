@@ -50,6 +50,9 @@ class TestPipeline(unittest.TestCase):
         self.run_pipeline('a2e_waves_ingest', 'humboldt')
         self.run_pipeline('a2e_waves_ingest', 'morro')
 
+    def test_halo(self):
+        self.run_pipeline('awa_halo_ingest', 'nwtc')
+
 
 if __name__ == '__main__':
     unittest.main()

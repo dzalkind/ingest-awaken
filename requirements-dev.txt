@@ -1,0 +1,6 @@
+-r requirements.txt
+cookiecutter
+pytest
+pytest-cov
+black
+flake8

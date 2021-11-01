@@ -1,4 +1,3 @@
-from .aws import configure_env, parse_event
 from .cache import PipelineCache
 from .pipeline import A2ePipeline
 from .dispatcher import PipelineDispatcher

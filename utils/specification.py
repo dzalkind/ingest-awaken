@@ -1,13 +1,5 @@
 import os
-
-from typing import AnyStr
 from .pipeline import A2ePipeline
-
-
-# TODO: go for this idea – users will define a Spec class for each regex they provide
-# it should verify that the paths are right and then should expand the paths to be absolute
-# if needed. Then other parts of the scripts here should expect and use Spec classes. May want
-# to rename this class
 
 
 class IngestSpec:

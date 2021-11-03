@@ -3,18 +3,27 @@
 [![tests](https://github.com/a2edap/ingest-awaken/actions/workflows/tests.yml/badge.svg)](https://github.com/a2edap/ingest-awaken/actions/workflows/tests.yml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-This repository contains data ingestion pipelines developed for the Atmosphere to Electrons (A2e) [American Wake Experiment (AWAKEN)](https://a2e.energy.gov/projects/awaken) project.
+This repository contains data ingestion pipelines developed for the Atmosphere to
+Electrons (A2e) [American Wake Experiment (AWAKEN)](https://a2e.energy.gov/projects/awaken)
+project.
 
 ## How it works
 
-- `runner.py`: main entry script
-- `ingest/<*_ingest>`: collection of python modules, each of which is a self-describing and self-contained ingest. Every ingest exports the necessary information for the `runner` to instantiate and run the ingest.
-- `utils/cache.py`: discovery and registration of ingests
+- `runner.py`: main entry script.
+- `ingest/<*_ingest>`: collection of python modules, each of which is a self-describing
+and self-contained ingest. Every ingest module exports the necessary information for
+the `runner` to instantiate and run the ingest.
+- `utils/cache.py`: discovery and registration of ingests.
 - `utils/dispatcher.py`: selects, instantiates, and runs the appropriate cached ingest
-- `utils/pipeline.py`: provides custom `A2eIngestPipeline` class used by ingests
-- `utils/logging.py`: provides structured logging mechanisms so logs can be more easily parsed in AWS.
-- `tests/test_local.py`: sanity checks on all ingests and runs all ingest module tests locally
-- `tests/test_lambda.py`: sanity checks on all ingests and runs all ingest module tests in a non-production AWS environment
+- `utils/env.py`: provides utility methods for setting environment variables used in
+development and production modes.
+- `utils/logger.py`: provides structured logging mechanisms so logs can be more easily
+ in AWS.
+- `utils/pipeline.py`: provides custom `A2ePipeline` class used by ingests.
+- `utils/specification.py`: declares the `IngestSpec` class, used to group the
+parameters needed to instantiate an `A2ePipeline` class.
+- `utils/utils.py`: other miscellaneous utility methods.
+- `tests/test_ingests.py`: sanity checks on all ingests.
 
 
 

@@ -3,10 +3,6 @@ import parse
 from utils import PipelineCache
 
 
-# Set environment variables for testing
-os.environ["A2E_MODE"] = "TESTING"  # TODO: Find the actual variables
-
-
 def test_all_ingests_are_modules():
     discovered = PipelineCache(auto_discover=True)._modules
     expected = [

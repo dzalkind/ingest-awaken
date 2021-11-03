@@ -1,5 +1,6 @@
 # A2E-AWAKEN Data Ingestion Pipelines
 
+[![tests](https://github.com/a2edap/ingest-awaken/actions/workflows/tests.yml/badge.svg)](https://github.com/a2edap/ingest-awaken/actions/workflows/tests.yml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 This repository contains data ingestion pipelines developed for the Atmosphere to Electrons (A2e) [American Wake Experiment (AWAKEN)](https://a2e.energy.gov/projects/awaken) project.

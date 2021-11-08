@@ -5,3 +5,4 @@ numpy
 matplotlib
 act-atmos
 parse
+typer

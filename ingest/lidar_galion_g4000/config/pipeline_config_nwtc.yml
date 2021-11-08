@@ -1,0 +1,238 @@
+# https://github.com/tsdat/tsdat/blob/main/examples/templates/ingest_pipeline_template.yml
+# or open an existing example in this repository to see what you can do here. Note that
+# the A2e program uses slightly different metadata conventions than tsdat and a
+# reviewer can help you determine which metadata should be included here.
+
+pipeline:
+  type: Ingest
+
+  # These parameters will be used to name files.
+  location_id: "nwtc"
+  dataset_name: "lidar_galion_g4000"
+  # qualifier: ""
+  # temporal: ""
+  data_level: "a0" # If applying QC this should be set to "b0"
+
+dataset_definition:
+  attributes:
+    title: "Galion G4000 Lidar"
+    description: "Ingest for Galion G4000 Lidar"
+    conventions: MHKiT-Cloud Data Standards v. 1.0
+    institution: Atmosphere to Electrons
+    code_url: https://github.com/a2edap/ingest-awaken
+
+  dimensions:
+    time:
+      length: unlimited
+
+    range_gate:
+      length: 100
+
+  variables:
+    time:
+      input:
+        name: Ray time
+        converter:
+          classname: tsdat.utils.converters.StringTimeConverter
+          parameters:
+            timezone: UTC
+            time_format: "%Y/%m/%d %H:%M"
+      dims: [time]
+      type: long
+      attrs:
+        long_name: Time (UTC)
+        standard_name: time
+        units: seconds since 1970-01-01T00:00:00
+
+    azimuth:
+      dims: [time]
+      type: float
+      input:
+        name: Az
+      attrs:
+        long_name: Azimuth
+        units: deg
+
+    elevation:
+      dims: [time]
+      type: float
+      input:
+        name: El
+      attrs:
+        long_name: Elevation
+        units: deg
+
+    pitch:
+      dims: [time]
+      type: float
+      input:
+        name: Pitch
+      attrs:
+        long_name: Pitch
+        units: deg
+
+    roll:
+      dims: [time]
+      type: float
+      input:
+        name: Roll
+      attrs:
+        long_name: Roll
+        units: deg
+
+    range_gate:
+      data:
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+        ]
+      dims: [range_gate]
+      type: int
+      attrs:
+        long_name: Range gate
+        units: m
+
+    doppler:
+      dims: [time, range_gate]
+      type: float
+      attrs:
+        long_name: Doppler
+        units: Hz?
+
+    intensity:
+      dims: [time, range_gate]
+      type: float
+      attrs:
+        long_name: Intensity
+        units: mag
+
+#-----------------------------------------------------------------
+quality_management:
+  #---------------------------------------------------------------
+  manage_missing_coordinates:
+    checker:
+      classname: tsdat.qc.checkers.CheckMissing
+    handlers:
+      - classname: tsdat.qc.handlers.FailPipeline
+    variables:
+      - COORDS
+
+  manage_coordinate_monotonicity:
+    checker:
+      classname: tsdat.qc.checkers.CheckMonotonic
+    handlers:
+      - classname: tsdat.qc.handlers.FailPipeline
+    variables:
+      - COORDS
+
+  #---------------------------------------------------------------
+  manage_missing_values:
+    checker:
+      classname: tsdat.qc.checkers.CheckMissing
+    handlers:
+      - classname: tsdat.qc.handlers.RemoveFailedValues
+      - classname: tsdat.qc.handlers.RecordQualityResults
+        parameters:
+          bit: 1
+          assessment: Bad
+          meaning: "Value is equal to _FillValue or NaN"
+    variables:
+      - DATA_VARS

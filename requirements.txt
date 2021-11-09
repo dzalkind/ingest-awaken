@@ -1,4 +1,4 @@
-tsdat == 0.2.7
+tsdat == 0.2.9
 xarray
 netcdf4
 numpy

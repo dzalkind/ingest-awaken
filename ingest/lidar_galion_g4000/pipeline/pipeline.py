@@ -1,8 +1,12 @@
 import os
+import cmocean
 import xarray as xr
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
+from tsdat import DSUtil
 from typing import Dict
 from utils import A2ePipeline
 
@@ -14,11 +18,6 @@ class Pipeline(A2ePipeline):
     Ingest for Galion G4000 Lidar
 
     --------------------------------------------------------------------------------"""
-
-    def hook_customize_raw_datasets(
-        self, raw_dataset_mapping: Dict[str, xr.Dataset]
-    ) -> Dict[str, xr.Dataset]:
-        return raw_dataset_mapping
 
     def hook_customize_dataset(
         self, dataset: xr.Dataset, raw_mapping: Dict[str, xr.Dataset]
@@ -38,12 +37,9 @@ class Pipeline(A2ePipeline):
 
         return dataset
 
-    def hook_finalize_dataset(self, dataset: xr.Dataset) -> xr.Dataset:
-        return dataset
-
     def hook_generate_and_persist_plots(self, dataset: xr.Dataset):
         style_file = os.path.join(os.path.dirname(__file__), "styling.mplstyle")
-        with plt.style.use(style_file):
+        with plt.style.context(style_file):
 
             def format_time_xticks(ax, start=4, stop=21, step=4, date_format="%H-%M"):
                 ax.xaxis.set_major_locator(
@@ -141,5 +137,3 @@ class Pipeline(A2ePipeline):
                 fig.savefig(tmp_path, dpi=100)
                 self.storage.save(tmp_path)
                 plt.close()
-
-        return

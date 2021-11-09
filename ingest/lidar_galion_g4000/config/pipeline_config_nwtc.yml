@@ -20,6 +20,7 @@ dataset_definition:
     conventions: MHKiT-Cloud Data Standards v. 1.0
     institution: Atmosphere to Electrons
     code_url: https://github.com/a2edap/ingest-awaken
+    location_meaning: "NWTC"
 
   dimensions:
     time:

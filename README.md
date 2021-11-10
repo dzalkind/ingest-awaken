@@ -1,124 +1,105 @@
-# tsdat-sam-test
+# A2E-AWAKEN Data Ingestion Pipelines
 
-This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.
+[![tests](https://github.com/a2edap/ingest-awaken/actions/workflows/tests.yml/badge.svg)](https://github.com/a2edap/ingest-awaken/actions/workflows/tests.yml)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-- hello_world - Code for the application's Lambda function and Project Dockerfile.
-- events - Invocation events that you can use to invoke the function.
-- tests - Unit tests for the application code. 
-- template.yaml - A template that defines the application's AWS resources.
+This repository contains data ingestion pipelines developed for the Atmosphere to
+Electrons (A2e) [American Wake Experiment (AWAKEN)](https://a2e.energy.gov/projects/awaken)
+project.
 
-The application uses several AWS resources, including Lambda functions and an API Gateway API. These resources are defined in the `template.yaml` file in this project. You can update the template to add AWS resources through the same deployment process that updates your application code.
+## How it works
 
-## Deploy the sample application
+- **`runner.py`**: main entry script.
+- **`ingest/<*_ingest>`**: collection of python modules, each of which is a
+self-describing and self-contained ingest. Every ingest module exports the necessary
+information for the `runner` to instantiate and run the ingest.
+- **`utils/cache.py`**: discovery and registration of ingests.
+- **`utils/dispatcher.py`**: selects, instantiates, and runs the appropriate cached
+ingest.
+- **`utils/env.py`**: provides utility methods for setting environment variables used
+in development and production modes.
+- **`utils/logger.py`**: provides structured logging mechanisms so logs can be more
+easily in AWS.
+- **`utils/pipeline.py`**: provides custom `A2ePipeline` class used by ingests.
+- **`utils/specification.py`**: declares the `IngestSpec` class, used to group the
+parameters needed to instantiate an `A2ePipeline` class.
+- **`utils/utils.py`**: other miscellaneous utility methods.
+- **`tests/test_ingests.py`**: sanity checks on all ingests.
 
-The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications. It uses Docker to run your functions in an Amazon Linux environment that matches Lambda. It can also emulate your application's build environment and API.
 
-To use the SAM CLI, you need the following tools.
 
-* SAM CLI - [Install the SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
-* Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community)
+## Adding a new pipeline
 
-You may need the following for local testing.
-* [Python 3 installed](https://www.python.org/downloads/)
+Developers should follow the following five-step process to create a new ingest
+pipeline.
 
-To build and deploy your application for the first time, run the following in your shell:
-
-```bash
-sam build
-sam deploy --guided
-```
-
-The first command will build a docker image from a Dockerfile and then copy the source of your application inside the Docker image. The second command will package and deploy your application to AWS, with a series of prompts:
-
-* **Stack Name**: The name of the stack to deploy to CloudFormation. This should be unique to your account and region, and a good starting point would be something matching your project name.
-* **AWS Region**: The AWS region you want to deploy your app to.
-* **Confirm changes before deploy**: If set to yes, any change sets will be shown to you before execution for manual review. If set to no, the AWS SAM CLI will automatically deploy application changes.
-* **Allow SAM CLI IAM role creation**: Many AWS SAM templates, including this example, create AWS IAM roles required for the AWS Lambda function(s) included to access AWS services. By default, these are scoped down to minimum required permissions. To deploy an AWS CloudFormation stack which creates or modified IAM roles, the `CAPABILITY_IAM` value for `capabilities` must be provided. If permission isn't provided through this prompt, to deploy this example you must explicitly pass `--capabilities CAPABILITY_IAM` to the `sam deploy` command.
-* **Save arguments to samconfig.toml**: If set to yes, your choices will be saved to a configuration file inside the project, so that in the future you can just re-run `sam deploy` without parameters to deploy changes to your application.
-
-You can find your API Gateway Endpoint URL in the output values displayed after deployment.
-
-## Use the SAM CLI to build and test locally
-
-Build your application with the `sam build` command.
-
-```bash
-tsdat-sam-test$ sam build
-```
-
-The SAM CLI builds a docker image from a Dockerfile and then installs dependencies defined in `hello_world/requirements.txt` inside the docker image. The processed template file is saved in the `.aws-sam/build` folder.
-
-Test a single function by invoking it directly with a test event. An event is a JSON document that represents the input that the function receives from the event source. Test events are included in the `events` folder in this project.
-
-Run functions locally and invoke them with the `sam local invoke` command.
-
-```bash
-tsdat-sam-test$ sam local invoke HelloWorldFunction --event events/event.json
-```
-
-The SAM CLI can also emulate your application's API. Use the `sam local start-api` to run the API locally on port 3000.
-
-```bash
-tsdat-sam-test$ sam local start-api
-tsdat-sam-test$ curl http://localhost:3000/
-```
-
-The SAM CLI reads the application template to determine the API's routes and the functions that they invoke. The `Events` property on each function's definition includes the route and method for each path.
-
-```yaml
-      Events:
-        HelloWorld:
-          Type: Api
-          Properties:
-            Path: /hello
-            Method: get
-```
-
-## Add a resource to your application
-The application template uses AWS Serverless Application Model (AWS SAM) to define application resources. AWS SAM is an extension of AWS CloudFormation with a simpler syntax for configuring common serverless application resources such as functions, triggers, and APIs. For resources not included in [the SAM specification](https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md), you can use standard [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) resource types.
-
-## Fetch, tail, and filter Lambda function logs
-
-To simplify troubleshooting, SAM CLI has a command called `sam logs`. `sam logs` lets you fetch logs generated by your deployed Lambda function from the command line. In addition to printing the logs on the terminal, this command has several nifty features to help you quickly find the bug.
-
-`NOTE`: This command works for all AWS Lambda functions; not just the ones you deploy using SAM.
-
-```bash
-tsdat-sam-test$ sam logs -n HelloWorldFunction --stack-name tsdat-sam-test --tail
-```
-
-You can find more information and examples about filtering Lambda function logs in the [SAM CLI Documentation](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-logging.html).
-
-## Running Unit Tests Locally
-
-Tests are defined in the `tests` folder in this project. Use PIP to install the [pytest](https://docs.pytest.org/en/latest/) and run unit tests from your local machine.
-
-```bash
-tsdat-sam-test$ pip install pytest pytest-mock --user
-tsdat-sam-test$ python -m pytest tests/ -v
-```
-## Running Unit Tests via Lambda Container
-Use the following steps to run your lambda container locally:
-
-1. Upload the file you want to test to a test S3 bucket.
-2. Create a json event for your test file and put it under the tests/events folder for the appropriate pipeline and location.  See `tests/events/a2e_imu_ingest/morro/s3-event.json` as an example.  You will need to change the S3 bucket name and S3 key to point to the correct file.
-3. Use SAM to build and run the pipeline:
+1. Fork this repository to your own github account.
+2. Set up your development environment (shown below)
+3. Use [awaken-cookiecutter](https://github.com/a2edap/awaken-cookiecutter) to generate
+a template ingest:
     ```bash
-    sam build 
-    sam local invoke a2e-tsdat-pipelines --event tests/events/a2e_imu_ingest/morro/s3-event.json 
+    cookiecutter https://github.com/a2edap/awaken-cookiecutter -o ingest/
+    ```
+4. Modify the template as directed using best practices (code style, testing, docs).
+5. Submit a pull request describing what you did.
+
+Repository maintainers will then review the ingest submitted and work with developers
+to make any changes, if needed, before accepting the pull request and deploying the
+ingest to our production environment.
+
+
+## Development Environment Setup
+
+This section outlines how to set up the recommended development environment for this
+project. Of course, developers are free to use their own development environment, but
+they risk of experiencing delays in their pull request being accepted due to code that
+does not pass tests, meet code style, or has other errors. Unifying the development
+environments used by developers on this project also allows us to provide better
+support to developers if they run into other problems.
+
+The steps to set up the recommended development environment are listed below:
+
+1. Download and install [VS Code](https://code.visualstudio.com). Make sure to add 
+`code` to your path if prompted.
+
+    We chose VS Code because of its clean user interface, quick startup time, extremely
+    powerful capabilities out-of-box, and its rich library of open source extensions.
+
+2. Clone your fork of this repository to your laptop and open it up in VS Code:
+    ```bash
+    git clone https://github.com/<your-username>/ingest-awaken.git
+    code ingest-awaken
+    ```
+    *Note that the "`code ingest-awaken`" step will only work if `code` has been added
+    to your path. Open the folder in VS Code manually if this is the case.*
+
+3. The first time you open the `ingest-awaken` project in VS Code you will be prompted
+to install the recommended extensions. Please do so now.
+
+4. **Windows users: Install Docker and connect VS Code to the
+[tsdat docker container](https://hub.docker.com/repository/docker/tsdat/tsdat-lambda/general).**
+We have found that some `tsdat` dependencies may not work properly on some Windows
+computers under specific conditions, causing errors that are sometimes hard to detect.
+Using the official docker container will prevent these issues. This step is optional
+for Mac and Linux users, though still encouraged.
+
+5. We highly recommend using [conda](https://docs.anaconda.com/anaconda/install/) to
+manage dependencies in your development environment. Please install this using the link
+above if you haven't already done so. Then run the following commands to create your
+environment:
+    
+    ```bash
+    $ conda create --name ingest-awaken python=3.8
+    $ conda activate ingest-awaken
+    (ingest-awaken) $ pip install -r requirements-dev.txt
     ```
 
-
-## Cleanup
-
-To delete the sample application that you created, use the AWS CLI. Assuming you used your project name for the stack name, you can run the following:
-
-```bash
-aws cloudformation delete-stack --stack-name tsdat-sam-test
-```
-
-## Resources
-
-See the [AWS SAM developer guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) for an introduction to SAM specification, the SAM CLI, and serverless application concepts.
-
-Next, you can use AWS Serverless Application Repository to deploy ready to use Apps that go beyond hello world samples and learn how authors developed their applications: [AWS Serverless Application Repository main page](https://aws.amazon.com/serverless/serverlessrepo/)
+6. Tell VS Code to use your new `conda` environment:
+    - Press `F1` (or `ctrl-shift-p`) to bring up the command pane in VS Code
+    - In the command pane, type: `Python: Select Interpreter` and hit `return`
+    - Select the newly-created `ingest-awaken` conda environment from the list. Note
+    that you may need to refresh the list (cycle icon in the top right) for it to show
+    up.
+    - Reload the VS Code window to ensure that this setting propagates correctly.
+    This is probably not needed, but doesn't hurt. To do this, press `F1` to open
+    the control pane again and type `Developer: Reload Window`.

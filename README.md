@@ -9,31 +9,37 @@ project.
 
 ## How it works
 
-- `runner.py`: main entry script.
-- `ingest/<*_ingest>`: collection of python modules, each of which is a self-describing
-and self-contained ingest. Every ingest module exports the necessary information for
-the `runner` to instantiate and run the ingest.
-- `utils/cache.py`: discovery and registration of ingests.
-- `utils/dispatcher.py`: selects, instantiates, and runs the appropriate cached ingest
-- `utils/env.py`: provides utility methods for setting environment variables used in
-development and production modes.
-- `utils/logger.py`: provides structured logging mechanisms so logs can be more easily
- in AWS.
-- `utils/pipeline.py`: provides custom `A2ePipeline` class used by ingests.
-- `utils/specification.py`: declares the `IngestSpec` class, used to group the
+- **`runner.py`**: main entry script.
+- **`ingest/<*_ingest>`**: collection of python modules, each of which is a
+self-describing and self-contained ingest. Every ingest module exports the necessary
+information for the `runner` to instantiate and run the ingest.
+- **`utils/cache.py`**: discovery and registration of ingests.
+- **`utils/dispatcher.py`**: selects, instantiates, and runs the appropriate cached
+ingest.
+- **`utils/env.py`**: provides utility methods for setting environment variables used
+in development and production modes.
+- **`utils/logger.py`**: provides structured logging mechanisms so logs can be more
+easily in AWS.
+- **`utils/pipeline.py`**: provides custom `A2ePipeline` class used by ingests.
+- **`utils/specification.py`**: declares the `IngestSpec` class, used to group the
 parameters needed to instantiate an `A2ePipeline` class.
-- `utils/utils.py`: other miscellaneous utility methods.
-- `tests/test_ingests.py`: sanity checks on all ingests.
+- **`utils/utils.py`**: other miscellaneous utility methods.
+- **`tests/test_ingests.py`**: sanity checks on all ingests.
 
 
 
 ## Adding a new pipeline
 
-Developers should follow the following five-step process to create a new ingest pipeline.
+Developers should follow the following five-step process to create a new ingest
+pipeline.
 
 1. Fork this repository to your own github account.
 2. Set up your development environment (shown below)
-3. Use [awaken-cookiecutter](https://github.com/a2edap/awaken-cookiecutter) to generate a template ingest.
+3. Use [awaken-cookiecutter](https://github.com/a2edap/awaken-cookiecutter) to generate
+a template ingest:
+    ```bash
+    cookiecutter https://github.com/a2edap/awaken-cookiecutter -o ingest/
+    ```
 4. Modify the template as directed using best practices (code style, testing, docs).
 5. Submit a pull request describing what you did.
 
@@ -60,7 +66,7 @@ The steps to set up the recommended development environment are listed below:
     powerful capabilities out-of-box, and its rich library of open source extensions.
 
 2. Clone your fork of this repository to your laptop and open it up in VS Code:
-    ```
+    ```bash
     git clone https://github.com/<your-username>/ingest-awaken.git
     code ingest-awaken
     ```
@@ -97,4 +103,3 @@ environment:
     - Reload the VS Code window to ensure that this setting propagates correctly.
     This is probably not needed, but doesn't hurt. To do this, press `F1` to open
     the control pane again and type `Developer: Reload Window`.
-

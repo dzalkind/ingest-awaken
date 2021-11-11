@@ -1,6 +1,6 @@
 tsdat == 0.2.9
-xarray
 netcdf4
+xarray
 numpy
 matplotlib
 act-atmos

@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  awaken:
+    image: tsdat/tsdat-lambda:0.2.9
+    volumes: # mounted at runtime
+      - .:/home/root/awaken
+    environment:
+      - PYTHONPATH=/home/root/awaken
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    entrypoint: bash
+    working_dir: /home/root/awaken

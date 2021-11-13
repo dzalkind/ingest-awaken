@@ -7,25 +7,22 @@ This repository contains data ingestion pipelines developed for the Atmosphere t
 Electrons (A2e) [American Wake Experiment (AWAKEN)](https://a2e.energy.gov/projects/awaken)
 project.
 
+
 ## How it works
 
-- **`runner.py`**: main entry script.
-- **`ingest/<*_ingest>`**: collection of python modules, each of which is a
-self-describing and self-contained ingest. Every ingest module exports the necessary
-information for the `runner` to instantiate and run the ingest.
-- **`utils/cache.py`**: discovery and registration of ingests.
-- **`utils/dispatcher.py`**: selects, instantiates, and runs the appropriate cached
-ingest.
-- **`utils/env.py`**: provides utility methods for setting environment variables used
-in development and production modes.
-- **`utils/logger.py`**: provides structured logging mechanisms so logs can be more
-easily in AWS.
-- **`utils/pipeline.py`**: provides custom `A2ePipeline` class used by ingests.
-- **`utils/specification.py`**: declares the `IngestSpec` class, used to group the
-parameters needed to instantiate an `A2ePipeline` class.
-- **`utils/utils.py`**: other miscellaneous utility methods.
-- **`tests/test_ingests.py`**: sanity checks on all ingests.
-
+- **`runner.py`**: Provides a CLI which to dispatch the appropriate ingest for one or
+more provided input files.
+- **`ingest/*`**: collection of python modules, each of which is a self-describing and
+self-contained ingest. Every ingest module exports the necessary information for the
+`runner` or higher-level processes to instantiate and run the ingest.
+- **`tests/*`**: tests performed on all ingests. Note that individual ingests also define
+their own tests, so this folder is primarily used for high-level sanity checks.
+- **`utils/*`**: utility methods and classes used throughout the project. This folder
+will be updated as needed to allow ingests to leverage common project-specific tools.
+- **`.devcontainer/*`, `.vscode/*`, `*docker*`**: Configurations to simplify and
+standardize development environment setup.
+- **`.github/*`**: Workflows and templates to ensure code is well-tested and issues are
+tracked appropriately.
 
 
 ## Adding a new pipeline
@@ -34,7 +31,7 @@ Developers should follow the following five-step process to create a new ingest
 pipeline.
 
 1. Fork this repository to your own github account.
-2. Set up your development environment (shown below)
+2. Set up your development environment ([shown below](#development-environment-setup))
 3. Use [awaken-cookiecutter](https://github.com/a2edap/awaken-cookiecutter) to generate
 a template ingest:
     ```bash
@@ -52,7 +49,7 @@ ingest to our production environment.
 
 This section outlines how to set up the recommended development environment for this
 project. Of course, developers are free to use their own development environment, but
-they risk of experiencing delays in their pull request being accepted due to code that
+they risk experiencing delays in their pull request being accepted due to code that
 does not pass tests, meet code style, or has other errors. Unifying the development
 environments used by developers on this project also allows us to provide better
 support to developers if they run into other problems.
@@ -78,8 +75,7 @@ to install the recommended extensions. Please do so now.
 
 4. **Windows users**: We strongly recommend using 
 [Docker](https://www.docker.com/products/docker-desktop) to manage dependencies for
-this project. If you chose to use Docker, skip steps 5 & 6 and follow the steps below
-instead:
+this project. If you choose to use Docker follow the steps below:
     - Press `F1` (or `ctrl-shift-p`) to bring up the command pane in VS Code
     - In the command pane, type: `Remote-Containers: Open Folder in Container...` and
     hit `return`
@@ -94,12 +90,6 @@ instead:
 
     You can find more information about VS Code and docker containers
     [here](https://code.visualstudio.com/docs/remote/containers).
-
-    on your machine. and connect VS Code to the [tsdat docker container](https://hub.docker.com/repository/docker/tsdat/tsdat/general).**
-    We have found that some `tsdat` dependencies may not work properly on some Windows
-    computers under specific conditions, causing errors that are sometimes hard to detect.
-    Using the official docker container will prevent these issues. This step is optional
-    for Mac and Linux users, though still encouraged.
 
 5. We highly recommend using [conda](https://docs.anaconda.com/anaconda/install/) to
 manage dependencies in your development environment. Please install this using the link

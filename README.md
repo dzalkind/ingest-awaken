@@ -76,12 +76,30 @@ The steps to set up the recommended development environment are listed below:
 3. The first time you open the `ingest-awaken` project in VS Code you will be prompted
 to install the recommended extensions. Please do so now.
 
-4. **Windows users: Install Docker and connect VS Code to the
-[tsdat docker container](https://hub.docker.com/repository/docker/tsdat/tsdat-lambda/general).**
-We have found that some `tsdat` dependencies may not work properly on some Windows
-computers under specific conditions, causing errors that are sometimes hard to detect.
-Using the official docker container will prevent these issues. This step is optional
-for Mac and Linux users, though still encouraged.
+4. **Windows users**: We strongly recommend using 
+[Docker](https://www.docker.com/products/docker-desktop) to manage dependencies for
+this project. If you chose to use Docker, skip steps 5 & 6 and follow the steps below
+instead:
+    - Press `F1` (or `ctrl-shift-p`) to bring up the command pane in VS Code
+    - In the command pane, type: `Remote-Containers: Open Folder in Container...` and
+    hit `return`
+    - You will be prompted to specify which folder should be opened. Select the folder
+    containing this file (`ingest-awaken`).
+    - Several dialog boxes may appear while the VS Code window is refreshing. Please
+    install the recommended extensions via the dialog box. An additional dialog box
+    should appear asking you to reload the window so Pylance can take effect. Please do
+    this as well.
+    - After the window refreshes your development environment will be set up correctly.
+    You may skip steps 5. and 6.
+
+    You can find more information about VS Code and docker containers
+    [here](https://code.visualstudio.com/docs/remote/containers).
+
+    on your machine. and connect VS Code to the [tsdat docker container](https://hub.docker.com/repository/docker/tsdat/tsdat/general).**
+    We have found that some `tsdat` dependencies may not work properly on some Windows
+    computers under specific conditions, causing errors that are sometimes hard to detect.
+    Using the official docker container will prevent these issues. This step is optional
+    for Mac and Linux users, though still encouraged.
 
 5. We highly recommend using [conda](https://docs.anaconda.com/anaconda/install/) to
 manage dependencies in your development environment. Please install this using the link

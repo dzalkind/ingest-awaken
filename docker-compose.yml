@@ -1,12 +1,9 @@
 version: "3.7"
 services:
   awaken:
-    image: tsdat/tsdat-lambda:0.2.9
+    build: .
     volumes: # mounted at runtime
-      - .:/home/root/awaken
+      - .:/home/root/ingest-awaken:cached
     environment:
-      - PYTHONPATH=/home/root/awaken
-    stdin_open: true # docker run -i
-    tty: true        # docker run -t
-    entrypoint: bash
-    working_dir: /home/root/awaken
+      - PYTHONPATH=/home/root/ingest-awaken
+    working_dir: /home/root/ingest-awaken

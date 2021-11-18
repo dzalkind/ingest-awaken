@@ -18,5 +18,14 @@ def test_pipeline_at_nwtc():
             parent,
         )
     )
-    expected = xr.open_dataset(expand("tests/data/expected/nwtc/data.txt", parent))
+    expected = xr.open_dataset(
+        expand(
+            "tests/data/expected/nwtc/nwtc.flux_sonics_nwtc.a0.20210824.160002.nc",
+            parent,
+        )
+    )
     xr.testing.assert_allclose(output, expected)
+
+
+if __name__ == "__main__":
+    test_pipeline_at_nwtc()

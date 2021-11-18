@@ -87,52 +87,46 @@ dataset_definition:
     eastward_wind:
       dims: [time, height]
       type: float
-      # input:
-      #   name: U_ax
       attrs:
         long_name: Wind speed, eastward
         description: Eastward indicates a vector component which is positive when directed eastward (negative westward). Wind is defined as a two-dimensional (horizontal) air velocity vector, with no vertical component. (Vertical motion in the atmosphere has the standard name upward_air_velocity.)
         standard_name: eastward_wind
         units: m/s
 
-    # northward_wind:
-    #   dims: [time, height]
-    #   type: float
-    #   input:
-    #     name: V_ax
-    #   attrs:
-    #     long_name: Wind speed, northward
-    #     description: Northward indicates a vector component which is positive when directed northward (negative westward). Wind is defined as a two-dimensional (horizontal) air velocity vector, with no vertical component. (Vertical motion in the atmosphere has the standard name upward_air_velocity.)
-    #     standard_name: northward_wind
-    #     units: m/s
+    northward_wind:
+      dims: [time, height]
+      type: float
+      attrs:
+        long_name: Wind speed, northward
+        description: Northward indicates a vector component which is positive when directed northward (negative westward). Wind is defined as a two-dimensional (horizontal) air velocity vector, with no vertical component. (Vertical motion in the atmosphere has the standard name upward_air_velocity.)
+        standard_name: northward_wind
+        units: m/s
 
-    # upward_air_velocity:
-    #   dims: [time, height]
-    #   type: float
-    #   input:
-    #     name: W_ax
-    #   attrs:
-    #     long_name: Wind speed, vertical
-    #     description: A velocity is a vector quantity. "Upward" indicates a vector component which is positive when directed upward (negative downward). Upward air velocity is the vertical component of the 3D air velocity vector. The standard name downward_air_velocity may be used for a vector component with the opposite sign convention.
-    #     standard_name: upward_air_velocity
-    #     units: m/s
+    upward_air_velocity:
+      dims: [time, height]
+      type: float
+      attrs:
+        long_name: Wind speed, vertical
+        description: A velocity is a vector quantity. "Upward" indicates a vector component which is positive when directed upward (negative downward). Upward air velocity is the vertical component of the 3D air velocity vector. The standard name downward_air_velocity may be used for a vector component with the opposite sign convention.
+        standard_name: upward_air_velocity
+        units: m/s
 
-    # wind_speed:
-    #   dims: [time, height]
-    #   type: float
-    #   attrs:
-    #     long_name: Wind speed
-    #     description: Speed is the magnitude of velocity. Wind is defined as a two-dimensional (horizontal) air velocity vector, with no vertical component. (Vertical motion in the atmosphere has the standard name upward_air_velocity.) The wind speed is the magnitude of the wind velocity.
-    #     standard_name: wind_speed
-    #     units: m/s
+    wind_speed:
+      dims: [time, height]
+      type: float
+      attrs:
+        long_name: Wind speed
+        description: Speed is the magnitude of velocity. Wind is defined as a two-dimensional (horizontal) air velocity vector, with no vertical component. (Vertical motion in the atmosphere has the standard name upward_air_velocity.) The wind speed is the magnitude of the wind velocity.
+        standard_name: wind_speed
+        units: m/s
 
-    # wind_direction:
-    #   dims: [time, height]
-    #   type: float
-    #   attrs:
-    #     long_name: Wind direction
-    #     standard_name: wind_direction
-    #     units: m/s
+    wind_direction:
+      dims: [time, height]
+      type: float
+      attrs:
+        long_name: Wind direction
+        standard_name: wind_direction
+        units: m/s
 
     Ts:
       dims: [time, height]
@@ -145,16 +139,14 @@ dataset_definition:
         standard_name: air_temperature
         units: degC
 
-    # air_temperature:
-    #   dims: [time, height]
-    #   type: float
-    #   input:
-    #     name: Ts
-    #   attrs:
-    #     long_name: Temperature, sonic
-    #     description: The air temperature as calculated with sonic (acoustic) thermometry.
-    #     standard_name: air_temperature
-    #     units: degC
+    air_temperature:
+      dims: [time, height]
+      type: float
+      attrs:
+        long_name: Temperature, sonic
+        description: The air temperature as calculated with sonic (acoustic) thermometry.
+        standard_name: air_temperature
+        units: degC
 
     latitude:
       data: 71.323
@@ -231,8 +223,8 @@ quality_management:
       - DATA_VARS
     exclude: [latitude, longitude, altitude]
 
-  manage_custom_qc: # Rename this
-    checker:
-      classname: ingest.flux_sonics_nwtc.pipeline.qc.CustomQualityChecker
-    handlers:
-      - classname: ingest.flux_sonics_nwtc.pipeline.qc.CustomQualityHandler
+  # manage_custom_qc: # Rename this
+  #   checker:
+  #     classname: ingest.flux_sonics_nwtc.pipeline.qc.CustomQualityChecker
+  #   handlers:
+  #     - classname: ingest.flux_sonics_nwtc.pipeline.qc.CustomQualityHandler

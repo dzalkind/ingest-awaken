@@ -6,7 +6,7 @@ import pandas as pd
 
 class FluxHandler(tsdat.AbstractFileHandler):
     """-------------------------------------------------------------------
-    Custom file handler for reading *.hpl files from a Halo photonics lidar
+    Custom file handler for reading surface flux csv files
 
     See https://tsdat.readthedocs.io/ for more file handler examples.
     -------------------------------------------------------------------"""

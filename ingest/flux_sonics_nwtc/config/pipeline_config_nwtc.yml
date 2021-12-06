@@ -143,8 +143,8 @@ dataset_definition:
       dims: [time, height]
       type: float
       attrs:
-        long_name: Temperature, sonic
-        description: The air temperature as calculated with sonic (acoustic) thermometry.
+        long_name: Temperature, air
+        description: Air temperature is the bulk temperature of the air, not the surface (skin) temperature.
         standard_name: air_temperature
         units: degC
 

@@ -2,7 +2,6 @@
 
 Surface flux station with sonic anemometers
 
-<!-- # TODO – Developer: Add more to the ingest description here -->
 
 Writen by [Zalkind Daniel](mailto:dzalkind@nrel.gov)
 

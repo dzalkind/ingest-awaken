@@ -1,0 +1,9 @@
+version: "3.7"
+services:
+  awaken:
+    build: .
+    volumes: # mounted at runtime
+      - .:/home/root/ingest-awaken:cached
+    environment:
+      - PYTHONPATH=/home/root/ingest-awaken
+    working_dir: /home/root/ingest-awaken

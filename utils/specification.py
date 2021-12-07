@@ -46,4 +46,4 @@ class IngestSpec:
             A2ePipeline: An instance of the provided pipeline class.
 
         ----------------------------------------------------------------------------"""
-        return self.pipeline.__init__(self.pipeline_config, self.storage_config)
+        return self.pipeline(self.pipeline_config, self.storage_config)

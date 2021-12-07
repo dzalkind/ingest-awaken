@@ -6,7 +6,7 @@ import json
 import logging
 import sys
 
-logger = logging.getLogger()
+logger = logging.getLogger("awaken")
 
 
 def log_exception(error_message=""):

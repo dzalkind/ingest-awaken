@@ -27,6 +27,30 @@ class Pipeline(A2ePipeline):
         """
         Do mapping here
         """
+        for ds_name in raw_dataset_mapping:
+            # combine into inputs defined by config file
+            heights = [3, 7]
+            inputs = ["U_ax", "V_ax", "W_ax", "Ts"]
+
+            input_data = {}
+            for inp in inputs:
+                input_data[inp] = np.r_[
+                    [
+                        np.array(raw_dataset_mapping[ds_name][f"{inp}_{h}m"])
+                        for h in heights
+                    ]
+                ].T
+
+            raw_dataset_mapping[ds_name] = raw_dataset_mapping[ds_name].assign(
+                {
+                    "U_ax": (("time", "height"), input_data["U_ax"]),
+                    "V_ax": (("time", "height"), input_data["V_ax"]),
+                    "W_ax": (("time", "height"), input_data["W_ax"]),
+                    "Ts": (("time", "height"), input_data["Ts"]),
+                    "height": (("height"), np.array(heights)),
+                }
+            )
+
         return raw_dataset_mapping
 
     def hook_customize_dataset(

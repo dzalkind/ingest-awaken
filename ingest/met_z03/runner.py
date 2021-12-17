@@ -8,4 +8,4 @@ if __name__ == "__main__":
         expand("config/pipeline_config_rufus.yml", __file__),
         expand("config/storage_config.yml", __file__),
     )
-    pipeline.run(expand("tests/data/input/met.z03.00.20160518.180000.txt", __file__))
+    pipeline.run(expand("data/met07.dat", __file__))

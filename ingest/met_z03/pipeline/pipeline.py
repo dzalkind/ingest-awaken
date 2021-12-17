@@ -56,7 +56,7 @@ class Pipeline(A2ePipeline):
                 ax[0].set_xlabel("Time (UTC)")
                 # format_time_xticks(ax)
 
-                ax[1].plot(date, ds["wind_dir"])
+                ax[1].scatter(date, ds["wind_dir"])
                 ax[1].set_ylabel("Wind Dir [deg]")
                 ax[1].set_xlabel("Time (UTC)")
                 # format_time_xticks(ax)
@@ -87,7 +87,7 @@ class Pipeline(A2ePipeline):
                 # format_time_xticks(ax)
 
                 ax[3].plot(date, ds["E_downwelling_shortwave"])
-                ax[3].set_ylabel("Downwelling Shortwave Radation [W/m^2]")
+                ax[3].set_ylabel("E [W/m^2]")
                 ax[3].set_xlabel("Time (UTC)")
                 # format_time_xticks(ax)
 

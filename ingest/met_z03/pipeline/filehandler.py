@@ -45,12 +45,17 @@ class MetFileHandler(AbstractFileHandler):
             filename, delimiter=",", header=None, index_col=False, names=columns
         )
 
-        df["datetime"] = ""
+        dt = [0] * len(df)
         for year, jd, t, i in zip(df["year"], df["day"], df["time"], df.index):
-            df.loc[i, "datetime"] = datetime.strptime(
-                str(year - 2000) + str(jd) + str(t), "%y%j%H%M"
-            )
+            if t < 100:
+                time_str = str(year - 2000) + str(jd) + "00" + str(t)
+            elif t < 1000:
+                time_str = str(year - 2000) + str(jd) + "0" + str(t)
+            else:
+                time_str = str(year - 2000) + str(jd) + str(t)
+            dt[i] = datetime.strptime(time_str, "%y%j%H%M")
 
+        df["datetime"] = dt
         df.drop(columns=["year", "day", "time"], inplace=True)
         df.set_index("datetime", drop=True, inplace=True)
 

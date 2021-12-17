@@ -2,3 +2,4 @@ __pycache__
 .pytest_cache
 .pyc
 **storage/
+ingest/met_z03/data/*

@@ -27,7 +27,7 @@ class Pipeline(A2ePipeline):
         for raw_filename, raw_dataset in raw_mapping.items():
 
             raw_categories = ["Doppler", "Intensity"]
-            output_var_names = ["doppler", "intensity"]
+            output_var_names = ["wind_speed", "intensity"]
             range_gates = dataset.range_gate.data
             for category, output_name in zip(raw_categories, output_var_names):
                 var_names = [f"{category}_{range_gate}" for range_gate in range_gates]
@@ -113,8 +113,8 @@ class Pipeline(A2ePipeline):
 
                 # Plot the data
                 for i, range_gate in enumerate(range_gates):
-                    doppler = ds.doppler.sel(range_gate=range_gate)
-                    doppler.plot(
+                    wind_speed = ds.wind_speed.sel(range_gate=range_gate)
+                    wind_speed.plot(
                         ax=ax[0],
                         linewidth=2,
                         c=wind_cmap(i / len(range_gates)),

@@ -10,10 +10,6 @@ from tsdat import DSUtil
 from utils import A2ePipeline, format_time_xticks
 
 
-# TODO – Developer: Use hooks to add custom functionality to the pipeline including
-# plots, as applicable. Remove any unused code.
-
-
 class Pipeline(A2ePipeline):
     """--------------------------------------------------------------------------------
     FLUX_LOWSPEED_NWTC INGESTION PIPELINE
@@ -21,19 +17,6 @@ class Pipeline(A2ePipeline):
     Low speed data from surface flux station from NWTC
 
     --------------------------------------------------------------------------------"""
-
-    def hook_customize_raw_datasets(
-        self, raw_dataset_mapping: Dict[str, xr.Dataset]
-    ) -> Dict[str, xr.Dataset]:
-        return raw_dataset_mapping
-
-    def hook_customize_dataset(
-        self, dataset: xr.Dataset, raw_mapping: Dict[str, xr.Dataset]
-    ) -> xr.Dataset:
-        return dataset
-
-    def hook_finalize_dataset(self, dataset: xr.Dataset) -> xr.Dataset:
-        return dataset
 
     def hook_generate_and_persist_plots(self, dataset: xr.Dataset):
         style_file = os.path.join(os.path.dirname(__file__), "styling.mplstyle")

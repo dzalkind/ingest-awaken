@@ -4,7 +4,6 @@ from datetime import datetime
 from tsdat import AbstractFileHandler
 
 
-# TODO – Developer: Write your FileHandler and add documentation
 class MetFileHandler(AbstractFileHandler):
     """--------------------------------------------------------------------------------
     Custom file handler for reading meteorological files from Campbell dataloggers

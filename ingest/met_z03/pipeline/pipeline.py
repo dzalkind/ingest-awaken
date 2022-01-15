@@ -10,10 +10,6 @@ from tsdat import DSUtil
 from utils import A2ePipeline, format_time_xticks
 
 
-# TODO – Developer: Use hooks to add custom functionality to the pipeline including
-# plots, as applicable. Remove any unused code.
-
-
 class Pipeline(A2ePipeline):
     """--------------------------------------------------------------------------------
     MET_Z03 INGESTION PIPELINE

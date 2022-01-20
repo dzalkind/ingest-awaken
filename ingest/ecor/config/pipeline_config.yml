@@ -7,8 +7,8 @@ pipeline:
   type: Ingest
 
   # These parameters will be used to name files.
-  location_id: "richland"
-  dataset_name: "ecor_richland"
+  location_id: "awaken"
+  dataset_name: "ecor"
   # qualifier: ""
   temporal: "30min"
   data_level: "b0" # If not applying QC this should be set to "a0"
@@ -24,7 +24,7 @@ dataset_definition:
 
   dimensions:
     time:
-      length: 0
+      length: unlimited
     var:
       length: 7
     var*:
@@ -34,11 +34,12 @@ dataset_definition:
     time:
       input:
         name: time
-      dims: [time]
+      dims: []
       type: long
       attrs:
         long_name: Time (UTC)
         standard_name: time
+        units: seconds since 1970-01-01T00:00:00
     var:
       input:
         name: var
@@ -639,18 +640,18 @@ quality_management:
   #     - time
 
   #---------------------------------------------------------------
-  manage_missing_values:
-    checker:
-      classname: tsdat.qc.checkers.CheckMissing
-    handlers:
-      - classname: tsdat.qc.handlers.RemoveFailedValues
-      - classname: tsdat.qc.handlers.RecordQualityResults
-        parameters:
-          bit: 1
-          assessment: Bad
-          meaning: "Value is equal to _FillValue or NaN"
-    variables:
-      - DATA_VARS
+  # manage_missing_values:
+  #   checker:
+  #     classname: tsdat.qc.checkers.CheckMissing
+  #   handlers:
+  #     - classname: tsdat.qc.handlers.RemoveFailedValues
+  #     - classname: tsdat.qc.handlers.RecordQualityResults
+  #       parameters:
+  #         bit: 1
+  #         assessment: Bad
+  #         meaning: "Value is equal to _FillValue or NaN"
+  #   variables:
+  #     - DATA_VARS
 
   manage_min_values:
     checker:
@@ -662,8 +663,7 @@ quality_management:
           bit: 2
           assessment: Bad
           meaning: "Value is equal to _FillValue or NaN"
-    variables:
-      - DATA_VARS
+    variables: [T_mean, q_mean, c_mean]
 
   manage_max_values:
     checker:
@@ -675,8 +675,7 @@ quality_management:
           bit: 4
           assessment: Bad
           meaning: "Value is equal to _FillValue or NaN"
-    variables:
-      - DATA_VARS
+    variables: [T_mean, q_mean, c_mean]
 
   # TODO – Developer: Update this as needed.
   # manage_custom_qc: # Rename this

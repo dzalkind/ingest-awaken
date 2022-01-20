@@ -12,16 +12,16 @@ mapping: Dict["AnyStr@compile", IngestSpec] = {
     # Mapping for Raw Data -> Ingest
     re.compile(r".*.flx"): IngestSpec(
         pipeline=Pipeline,
-        pipeline_config=expand("config/pipeline_config_richland.yml", __file__),
+        pipeline_config=expand("config/pipeline_config.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),
-        name="ecor_richland",
+        name="ecor",
     ),
     # Mapping for Processed Data -> Ingest (so we can reprocess plots)
     re.compile(r".*.flx"): IngestSpec(
         pipeline=Pipeline,
-        pipeline_config=expand("config/pipeline_config_richland.yml", __file__),
+        pipeline_config=expand("config/pipeline_config.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),
-        name="plot_ecor_richland",
+        name="plot_ecor",
     ),
     # You can add as many {regex: IngestSpec} entries as you would like. This is useful
     # if you would like to reuse this ingest at other locations or possibly for other

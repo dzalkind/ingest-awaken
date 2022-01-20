@@ -9,7 +9,7 @@ storage:
     input:
       ecor:
         file_pattern: ".*.flx"
-        classname: ingest.ecor_richland.pipeline.filehandler.EcorFileHandler
+        classname: ingest.ecor.pipeline.filehandler.EcorFileHandler
 
     output:
       netcdf:

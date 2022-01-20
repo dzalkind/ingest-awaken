@@ -33,8 +33,8 @@ class EcorFileHandler(tsdat.AbstractFileHandler):
         time = datetime(idt[0], idt[1], idt[2], idt[3], idt[4])
         props = {
             "siteID": dump1[7],
-            "sonic_S/N": dump1[8],
-            "IRGA_S/N": dump1[9],
+            "sonic_SN": dump1[8],
+            "IRGA_SN": dump1[9],
             "analog_min": float(dump1[10]),
             "analog_max": float(dump1[11]),
             "H2O_min": float(dump1[12]),

@@ -617,6 +617,35 @@ dataset_definition:
       attrs:
         comment: "irga status code"
 
+    latitude:
+      data: 71.323 # TODO
+      type: float
+      attrs:
+        long_name: "North latitude"
+        standard_name: "latitude"
+        comment: "Recorded lattitude at the instrument location"
+        units: "degree_N"
+        valid_range: [-90.f, 90.f]
+
+    longitude:
+      data: -156.609 # TODO
+      type: float
+      attrs:
+        long_name: "East longitude"
+        standard_name: "longitude"
+        comment: "Recorded longitude at the instrument location"
+        units: "degree_E"
+        valid_range: [-180.f, 180.f]
+
+    altitude:
+      data: 4000.0 # TODO
+      type: float
+      attrs:
+        long_name: "Altitude"
+        standard_name: "altitude"
+        comment: "Recorded altitude at the instrument location"
+        units: m
+
 #-----------------------------------------------------------------
 quality_management:
   #---------------------------------------------------------------

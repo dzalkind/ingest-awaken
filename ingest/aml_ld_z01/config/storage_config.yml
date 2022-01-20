@@ -1,0 +1,24 @@
+storage:
+  classname: ${STORAGE_CLASSNAME}
+  parameters:
+    retain_input_files: ${RETAIN_INPUT_FILES}
+    root_dir: ${ROOT_DIR}
+    bucket_name: ${STORAGE_BUCKET}
+
+  file_handlers:
+    input:
+      csv:
+        file_pattern: '.*\.dat'
+        classname: ingest.aml_ld_z01.pipeline.filehandler.AmlFileHandler
+        parameters:
+          read:
+            read_csv:
+              delimiter: ","
+              index_col: False
+              header: 0
+              encoding: "ISO-8859-1"
+
+    output:
+      netcdf:
+        file_extension: ".nc"
+        classname: tsdat.io.filehandlers.NetCdfHandler

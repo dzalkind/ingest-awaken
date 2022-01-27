@@ -6,13 +6,16 @@ from ingest.aml_ld_z01 import Pipeline
 parent = os.path.dirname(__file__)
 
 
-# TODO – Developer: Update paths to your input files here.
 def test_pipeline_at_awaken():
     set_dev_env()
     pipeline = Pipeline(
-        expand("config/pipeline_config_awaken.yml", parent),
+        expand("config/pipeline_config.yml", parent),
         expand("config/storage_config.yml", parent),
     )
-    output = pipeline.run(expand("tests/data/input/data.csv", parent))
-    expected = xr.open_dataset(expand("tests/data/expected/data.csv", parent))
+    output = pipeline.run(
+        expand("tests/data/input/aml.ld.z01.00.20211222.204000.dat", parent)
+    )
+    expected = xr.open_dataset(
+        expand("tests/data/expected/awaken.aml_ld_z01.a0.20211222.203010.nc", parent)
+    )
     xr.testing.assert_allclose(output, expected)

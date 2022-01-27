@@ -12,14 +12,14 @@ mapping: Dict["AnyStr@compile", IngestSpec] = {
     # Mapping for Raw Data -> Ingest
     re.compile(r"met\d{2}.dat"): IngestSpec(
         pipeline=Pipeline,
-        pipeline_config=expand("config/pipeline_config_rufus.yml", __file__),
+        pipeline_config=expand("config/pipeline_config.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),
         name="met_z03",
     ),
     # Mapping for Processed Data -> Ingest (so we can reprocess plots)
     re.compile(r"met\d{2}.dat"): IngestSpec(
         pipeline=Pipeline,
-        pipeline_config=expand("config/pipeline_config_rufus.yml", __file__),
+        pipeline_config=expand("config/pipeline_config.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),
         name="plot_met_z03",
     ),

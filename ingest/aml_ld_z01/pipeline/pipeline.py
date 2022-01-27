@@ -29,6 +29,15 @@ class Pipeline(A2ePipeline):
         return dataset
 
     def hook_finalize_dataset(self, dataset: xr.Dataset) -> xr.Dataset:
+        # Remove _FillValue attribute from string arrays so netcdf can save
+        keys = [
+            "weather_code_synop",
+            "weather_code_metar",
+            "weather_code_nws",
+            "optics_status",
+        ]
+        for code in keys:
+            dataset[code].attrs.pop("_FillValue")
         return dataset
 
     def hook_generate_and_persist_plots(self, dataset: xr.Dataset):

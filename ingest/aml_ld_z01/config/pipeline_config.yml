@@ -6,7 +6,7 @@ pipeline:
   dataset_name: "aml_ld_z01"
   # qualifier: ""
   # temporal: ""
-  data_level: "b0" # If not applying QC this should be set to "a0"
+  data_level: "a0" # If not applying QC this should be set to "a0"
 
 dataset_definition:
   attributes:

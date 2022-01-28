@@ -1,10 +1,10 @@
 # aml_ld_z01
 
-awaken lidar disdrometer ingest
+Laser disdrometer ingest for the A2e AWAKEN project.
 
-<!-- # TODO – Developer: Add more to the ingest description here -->
+Atmosphere to Electrons (A2e). 2022. awaken/aml.ld.z01.00. Maintained by A2e Data Archive and Portal for U.S. Department of Energy, Office of Energy Efficiency and Renewable Energy.  Accessed: <13 01 2022>.
 
-Writen by [James McVey](mailto:james.mcvey@pnnl.gov)
+Written by [James McVey](mailto:james.mcvey@pnnl.gov)
 
 ## Ingest Organization
 

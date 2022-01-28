@@ -1,8 +1,6 @@
 # met_z03
 
-Example data ingest for the A2e AWAKEN project. Data doi: 10.21947/1328928
-
-<!-- # TODO – Developer: Add more to the ingest description here -->
+MET data ingest for the A2e AWAKEN project. Data doi: 10.21947/1328928
 
 Written by [James McVey](mailto:james.mcvey@pnnl.gov)
 

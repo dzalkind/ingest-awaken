@@ -11,7 +11,7 @@ pipeline:
 dataset_definition:
   attributes:
     title: "aml_ld_z01"
-    description: "awaken lidar disdrometer ingest"
+    description: "awaken laser disdrometer ingest"
     conventions: MHKiT-Cloud Data Standards v. 1.0
     institution: Atmosphere to Electrons
     code_url: https://github.com/a2edap/ingest-awaken

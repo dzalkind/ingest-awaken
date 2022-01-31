@@ -6,7 +6,7 @@ from ingest.aml_ld_z01 import Pipeline
 parent = os.path.dirname(__file__)
 
 
-def test_pipeline_at_awaken():
+def test_pipeline():
     set_dev_env()
     pipeline = Pipeline(
         expand("config/pipeline_config.yml", parent),

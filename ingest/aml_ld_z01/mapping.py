@@ -10,14 +10,14 @@ from . import Pipeline
 # match the directory structure in addition to (or instead of) the file basename.
 mapping: Dict["AnyStr@compile", IngestSpec] = {
     # Mapping for Raw Data -> Ingest
-    re.compile(r".*.dat"): IngestSpec(
+    re.compile(r"aml\.ld\.z01.*\.dat"): IngestSpec(
         pipeline=Pipeline,
         pipeline_config=expand("config/pipeline_config.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),
         name="aml_ld_z01",
     ),
     # Mapping for Processed Data -> Ingest (so we can reprocess plots)
-    re.compile(r".*.dat"): IngestSpec(
+    re.compile(r"aml\.ld\.z01.*\.dat"): IngestSpec(
         pipeline=Pipeline,
         pipeline_config=expand("config/pipeline_config.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),

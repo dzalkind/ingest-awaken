@@ -196,4 +196,4 @@ quality_management:
           assessment: "Indeterminate"
           meaning: "Difference between current and previous values exceeds valid_delta."
     variables:
-      - doppler
+      - wind_speed

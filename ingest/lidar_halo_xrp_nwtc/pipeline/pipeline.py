@@ -57,7 +57,7 @@ class LidarHaloXrpPipeline(A2ePipeline):
                 #     # vmax=5,
                 # )
 
-                ds.doppler.plot(ax=ax, x="time", cmap=cmocean.cm.deep_r)
+                ds.wind_speed.plot(ax=ax, x="time", cmap=cmocean.cm.deep_r)
 
                 fig.suptitle(f"Wind Speed at {location} on {date}")
                 # add_colorbar(axs, csf, r"Wind Speed (ms$^{-1}$)")

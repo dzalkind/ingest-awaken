@@ -13,7 +13,7 @@ from . import Pipeline
 # match the directory structure in addition to (or instead of) the file basename.
 mapping: Dict["AnyStr@compile", IngestSpec] = {
     # Mapping for Raw Data -> Ingest
-    re.compile(".*Galion - NREL - \d{7}_\d{8}_\d{2}"): IngestSpec(
+    re.compile(r".*Galion - NREL - \d{7}_\d{8}_\d{2}"): IngestSpec(
         pipeline=Pipeline,
         pipeline_config=expand("config/pipeline_config_nwtc.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),

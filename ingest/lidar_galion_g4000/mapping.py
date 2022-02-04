@@ -5,7 +5,6 @@ from utils import IngestSpec, expand
 from . import Pipeline
 
 
-# TODO – Developer: Update the regex patterns to match files that should trigger your
 # ingest pipeline.
 
 # See http://www.pyregex.com for information on setting up a regex pattern. Note that

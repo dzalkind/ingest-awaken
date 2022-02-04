@@ -2,8 +2,6 @@
 
 Low speed data from surface flux station from NWTC
 
-<!-- # TODO – Developer: Add more to the ingest description here -->
-
 Writen by [Daniel Zalkind](mailto:dzalkind@nrel.gov)
 
 ## Ingest Organization

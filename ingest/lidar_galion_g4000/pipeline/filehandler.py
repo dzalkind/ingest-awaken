@@ -42,27 +42,37 @@ class ScnHandler(tsdat.AbstractFileHandler):
 
         df = pd.read_csv(filename, sep="\t", header=5, index_col=False)
 
-        df_new = pd.DataFrame()
+        time = df["Ray time"].unique()
+        azimuth = df[df["Range gate"] == 0]["Az"].to_numpy()
+        elevation = df[df["Range gate"] == 0]["El"].to_numpy()
+        pitch = df[df["Range gate"] == 0]["Pitch"].to_numpy()
+        roll = df[df["Range gate"] == 0]["Roll"].to_numpy()
+        range_gate = np.unique(df["Range gate"].to_numpy())
 
-        df_new["Ray time"] = df["Ray time"].unique()
-        df_new["Az"] = df[df["Range gate"] == 0]["Az"].reset_index(drop=True)
-        df_new["El"] = df[df["Range gate"] == 0]["El"].reset_index(drop=True)
-        df_new["Pitch"] = df[df["Range gate"] == 0]["Pitch"].reset_index(drop=True)
-        df_new["Roll"] = df[df["Range gate"] == 0]["Roll"].reset_index(drop=True)
-
-        unique_range_gates = df["Range gate"].unique()
-
-        # Init columns
-        for range_gate in unique_range_gates:
-            df_new["Doppler_" + str(range_gate)] = np.nan
-            df_new["Intensity_" + str(range_gate)] = np.nan
+        wind_speed = np.full(
+            (len(time), len(range_gate)), fill_value=-9999, dtype=np.float64
+        )
+        intensity = np.full(
+            (len(time), len(range_gate)), fill_value=-9999, dtype=np.float64
+        )
 
         for index, row in df.iterrows():
-            new_index = df_new["Ray time"] == row["Ray time"]
-            #     df_new.loc[new_index]['Doppler_'+str(row['Range gate'])] = row['Doppler']
-            df_new["Doppler_" + str(row["Range gate"])].iloc[new_index] = row["Doppler"]
-            df_new["Intensity_" + str(row["Range gate"])].iloc[new_index] = row[
-                "Intensity"
-            ]
+            i_range = row["Range gate"]
+            i_time = np.where(row["Ray time"] == time)
 
-        return df_new.to_xarray()
+            wind_speed[i_time, i_range] = row["Doppler"]
+            intensity[i_time, i_range] = row["Intensity"]
+
+        dataset = xr.Dataset(
+            {
+                "azimuth": (("time"), azimuth),
+                "elevation": (("time"), elevation),
+                "pitch": (("time"), pitch),
+                "roll": (("time"), roll),
+                "wind_speed": (("time", "range_gate"), wind_speed),
+                "intensity": (("time", "range_gate"), intensity),
+            },
+            coords={"time": time, "range_gate": range_gate},
+        )
+
+        return dataset

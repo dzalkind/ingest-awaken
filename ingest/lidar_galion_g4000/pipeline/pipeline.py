@@ -19,24 +19,6 @@ class Pipeline(A2ePipeline):
 
     --------------------------------------------------------------------------------"""
 
-    def hook_customize_dataset(
-        self, dataset: xr.Dataset, raw_mapping: Dict[str, xr.Dataset]
-    ) -> xr.Dataset:
-
-        # Compress row of variables in input into variables dimensioned by time and height
-        for raw_filename, raw_dataset in raw_mapping.items():
-
-            raw_categories = ["Doppler", "Intensity"]
-            output_var_names = ["wind_speed", "intensity"]
-            range_gates = dataset.range_gate.data
-            for category, output_name in zip(raw_categories, output_var_names):
-                var_names = [f"{category}_{range_gate}" for range_gate in range_gates]
-                var_data = [raw_dataset[name].data for name in var_names]
-                var_data = np.array(var_data).transpose()
-                dataset[output_name].data = var_data
-
-        return dataset
-
     def hook_generate_and_persist_plots(self, dataset: xr.Dataset):
         style_file = os.path.join(os.path.dirname(__file__), "styling.mplstyle")
         with plt.style.context(style_file):
@@ -97,7 +79,7 @@ class Pipeline(A2ePipeline):
                 plt.close()
 
             # Create the second plot - Doppler, Intensity at several range gates
-            filename = DSUtil.get_plot_filename(dataset, "doppler_intensity", "png")
+            filename = DSUtil.get_plot_filename(dataset, "wind_speed_intensity", "png")
             with self.storage._tmp.get_temp_filepath(filename) as tmp_path:
 
                 # Create the figure and axes objects

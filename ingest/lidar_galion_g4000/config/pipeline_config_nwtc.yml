@@ -110,6 +110,35 @@ dataset_definition:
         long_name: intensity
         units: mag
 
+    latitude:
+      data: 39.909692
+      type: float
+      attrs:
+        long_name: "North latitude"
+        standard_name: "latitude"
+        comment: "Recorded lattitude at the instrument location"
+        units: "degree_N"
+        valid_range: [-90.f, 90.f]
+
+    longitude:
+      data: -105.228052
+      type: float
+      attrs:
+        long_name: "East longitude"
+        standard_name: "longitude"
+        comment: "Recorded longitude at the instrument location"
+        units: "degree_E"
+        valid_range: [-180.f, 180.f]
+
+    altitude:
+      data: 1828
+      type: float
+      attrs:
+        long_name: "Altitude"
+        standard_name: "altitude"
+        comment: "Recorded altitude at the instrument location"
+        units: m
+
 #-----------------------------------------------------------------
 quality_management:
   #---------------------------------------------------------------

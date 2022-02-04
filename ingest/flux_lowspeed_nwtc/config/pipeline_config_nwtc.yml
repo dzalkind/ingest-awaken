@@ -6,7 +6,7 @@ pipeline:
   dataset_name: "flux_lowspeed_nwtc"
   # qualifier: ""
   # temporal: ""
-  data_level: "a0" # If not applying QC this should be set to "a0"
+  data_level: "b0" # If not applying QC this should be set to "a0"
 
 dataset_definition:
   attributes:
@@ -82,7 +82,7 @@ dataset_definition:
         units: "%"
 
     latitude:
-      data: 71.323
+      data: 39.909692
       type: float
       attrs:
         long_name: "North latitude"
@@ -92,7 +92,7 @@ dataset_definition:
         valid_range: [-90.f, 90.f]
 
     longitude:
-      data: -156.609
+      data: -105.228052
       type: float
       attrs:
         long_name: "East longitude"
@@ -102,7 +102,7 @@ dataset_definition:
         valid_range: [-180.f, 180.f]
 
     altitude:
-      data: 4000.0
+      data: 1828
       type: float
       attrs:
         long_name: "Altitude"

@@ -20,7 +20,7 @@ def test_pipeline_at_nwtc():
     )
     expected = xr.open_dataset(
         expand(
-            "tests/data/expected/nwtc.flux_lowspeed_nwtc.a0.20210824.160003.nc", parent
+            "tests/data/expected/nwtc.flux_lowspeed_nwtc.b0.20210824.160003.nc", parent
         )
     )
     xr.testing.assert_allclose(output, expected)

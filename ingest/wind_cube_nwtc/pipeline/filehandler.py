@@ -35,10 +35,23 @@ class RTD_FileHandler(tsdat.AbstractFileHandler):
                 if "=" in header_line:
                     temp = header_line.split("=")
 
-                att_dict[temp[0]] = temp[1].replace("\n", "")
+                att_string = temp[1].replace("\n", "")
+                att_string = att_string.replace("°", "deg")
+
+                att_key = temp[0].replace("°", "deg")
+                att_key = att_key.replace("/", ",")
+                att_dict[att_key] = att_string
 
             # start at 1 because we've already read the header
             df = pd.read_csv(f, sep="\t", header=1, index_col=False)
+
+        # Get rid of '°'s
+        rename_map = {}
+        for col in df.columns:
+            if "°" in col:
+                rename_map[col] = col.replace("°", "deg")
+
+        df.rename(columns=rename_map, inplace=True)
 
         ds = df.to_xarray()
         ds.attrs = att_dict

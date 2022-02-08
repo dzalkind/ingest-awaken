@@ -34,7 +34,7 @@ class Pipeline(A2ePipeline):
             if ".rtd" in filename:
                 raw_output_map = {
                     "Wind Speed (m/s)": "wind_speed",
-                    "Wind Direction (°)": "wind_direction",
+                    "Wind Direction (deg)": "wind_direction",
                     "CNR (dB)": "cnr",
                     "Radial Wind Speed (m/s)": "wind_speed_rad",
                     "Radial Wind Speed Dispersion (m/s)": "wind_speed_disp",
@@ -45,7 +45,7 @@ class Pipeline(A2ePipeline):
             else:  # .sta file
                 raw_output_map = {
                     "Wind Speed (m/s)": "wind_speed",
-                    "Wind Direction (°)": "wind_direction",
+                    "Wind Direction (deg)": "wind_direction",
                     "CNR (dB)": "cnr",
                     "CNR min (dB)": "cnr",
                     "Wind Speed min (m/s)": "wind_speed_min",

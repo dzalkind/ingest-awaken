@@ -9,7 +9,7 @@ pipeline:
 
   # These parameters will be used to name files.
   location_id: "nwtc"
-  dataset_name: "wind_cube_nwtc"
+  dataset_name: "wind_cube_nwtc_sta"
   # qualifier: ""
   # temporal: ""
   data_level: "b0" # If not applying QC this should be set to "a0"

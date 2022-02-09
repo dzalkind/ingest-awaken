@@ -82,34 +82,45 @@ class Pipeline(A2ePipeline):
 
         with plt.style.context(style_file):
 
-            # Create an example plot with some noise added for fun
-            filename = DSUtil.get_plot_filename(dataset, "example_noise", "png")
-            with self.storage._tmp.get_temp_filepath(filename) as tmp_path:
-                fig, ax = plt.subplots()
+            if "rtd" in dataset.attrs["datastream_name"]:
+                print("add here to make rtd plots")
 
-                noise = np.random.random(dataset["example_var"].data.shape) - 0.5
-                noisy_example = dataset["example_var"] + noise
+            elif "sta" in dataset.attrs["datastream_name"]:
+                print("add code here to make sta plots")
+                # Create an example plot with some noise added for fun
+                filename = DSUtil.get_plot_filename(dataset, "example_noise", "png")
+                with self.storage._tmp.get_temp_filepath(filename) as tmp_path:
+                    fig, ax = plt.subplots(2, 1)
 
-                dataset["example_var"].plot(
-                    ax=ax,
-                    x="time",
-                    c=cmocean.cm.deep_r(0.75),
-                    label="example_var",
-                )
-                noisy_example.plot(
-                    ax=ax,
-                    x="time",
-                    c=cmocean.cm.deep_r(0.25),
-                    label="noisy_example_var",
-                )
+                    height_ind = [0, 4]
 
-                fig.suptitle(f"Example variable at {loc} on {date}")
-                ax.set_title("")  # Remove bogus title created by xarray
-                ax.legend(ncol=2, bbox_to_anchor=(1, -0.05))
-                ax.set_ylabel("Example (m)")
-                ax.set_xlabel("Time (UTC)")
-                format_time_xticks(ax)
+                    for ind in height_ind:
+                        ws_height = dataset.wind_speed.sel(height=dataset.height[ind])
+                        wd_height = dataset.wind_direction.sel(
+                            height=dataset.height[ind]
+                        )
 
-                fig.savefig(tmp_path)
-                self.storage.save(tmp_path)
-                plt.close(fig)
+                        ws_height.plot(
+                            ax=ax[0],
+                            x="time",
+                            label=f"height = {float(dataset.height[ind])}m",
+                        )
+                        wd_height.plot(
+                            ax=ax[1],
+                            x="time",
+                            label=f"height = {float(dataset.height[ind])}m",
+                        )
+
+                    [a.grid() for a in ax]
+                    fig.suptitle(f"Wind speed and direction at {loc} on {date}")
+                    [
+                        a.set_title("") for a in ax
+                    ]  # Remove bogus title created by xarray
+                    [a.legend(ncol=2) for a in ax]
+                    # ax.set_ylabel("Example (m)")
+                    ax[-1].set_xlabel("Time (UTC)")
+                    [format_time_xticks(a) for a in ax]
+
+                    fig.savefig(tmp_path)
+                    self.storage.save(tmp_path)
+                    plt.close(fig)

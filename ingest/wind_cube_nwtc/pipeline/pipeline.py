@@ -87,8 +87,8 @@ class Pipeline(A2ePipeline):
 
             elif "sta" in dataset.attrs["datastream_name"]:
                 print("add code here to make sta plots")
-                # Create an example plot with some noise added for fun
-                filename = DSUtil.get_plot_filename(dataset, "example_noise", "png")
+                # Create an example plot
+                filename = DSUtil.get_plot_filename(dataset, "example_plot", "png")
                 with self.storage._tmp.get_temp_filepath(filename) as tmp_path:
                     fig, ax = plt.subplots(2, 1)
 

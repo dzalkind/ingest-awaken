@@ -53,6 +53,11 @@ class RTD_FileHandler(tsdat.AbstractFileHandler):
 
         df.rename(columns=rename_map, inplace=True)
 
+        # Change V to -1
+        if "Position" in df:
+            df["Position"][df["Position"] == "V"] = -1
+            df["Position"] = df["Position"].astype(float)
+
         ds = df.to_xarray()
         ds.attrs = att_dict
 

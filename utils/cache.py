@@ -1,9 +1,12 @@
 import pkgutil
 import importlib
+import logging
 
 from tsdat.io import S3Path
 from typing import AnyStr, Dict, List, Union
 from .specification import IngestSpec
+
+logger = logging.getLogger(__name__)
 
 
 class PipelineCache:
@@ -36,6 +39,7 @@ class PipelineCache:
             mappings: Dict["AnyStr@compile", IngestSpec] = ingest_module.mapping
             for regex, specification in mappings.items():
                 self._register(regex, specification)
+        logger.debug("Discovered ingest modules: %s", self._modules)
 
     def match_filepath(self, input_files: Union[List[S3Path], List[str]]) -> IngestSpec:
         """----------------------------------------------------------------------------
@@ -104,6 +108,9 @@ class PipelineCache:
         matches: List[str] = [
             regex for regex in self._cache.keys() if regex.match(filepath)
         ]
-        # TODO: Probably helpful to distinguish 0 matches from >1 matches
-        assert len(matches) == 1
+        if len(matches) != 1:
+            raise ValueError(
+                f"Unexpected number of matches for file '{filepath}':\n"
+                f"matches={matches}"
+            )
         return matches[0]

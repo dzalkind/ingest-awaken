@@ -38,7 +38,8 @@ class A2ePipeline(IngestPipeline):
             dataset = self.hook_customize_dataset(dataset, raw_dataset_mapping)
 
             # Apply quality control / quality assurance to the dataset.
-            previous_dataset = self.get_previous_dataset(dataset)
+            # previous_dataset = self.get_previous_dataset(dataset)
+            previous_dataset = None
             dataset = QualityManagement.run(dataset, self.config, previous_dataset)
 
             # Apply any final touches to the dataset and persist the dataset

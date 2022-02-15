@@ -4,7 +4,8 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 import matplotlib.pyplot as plt
-
+from matplotlib import cm
+import numpy as np
 from typing import Dict
 from tsdat import DSUtil
 from utils import A2ePipeline, format_time_xticks
@@ -82,45 +83,46 @@ class Pipeline(A2ePipeline):
 
         with plt.style.context(style_file):
 
-            if "rtd" in dataset.attrs["datastream_name"]:
-                print("add here to make rtd plots")
+            # if "rtd" in dataset.attrs["datastream_name"]:
+            #     print("add here to make rtd plots")
 
-            elif "sta" in dataset.attrs["datastream_name"]:
-                print("add code here to make sta plots")
-                # Create an example plot
-                filename = DSUtil.get_plot_filename(dataset, "example_plot", "png")
-                with self.storage._tmp.get_temp_filepath(filename) as tmp_path:
-                    fig, ax = plt.subplots(2, 1)
+            # elif "sta" in dataset.attrs["datastream_name"]:
 
-                    height_ind = [0, 4]
+            # plot all wind speed and directions
+            filename = DSUtil.get_plot_filename(dataset, "example_plot", "png")
+            with self.storage._tmp.get_temp_filepath(filename) as tmp_path:
+                fig, ax = plt.subplots(2, 1)
 
-                    for ind in height_ind:
-                        ws_height = dataset.wind_speed.sel(height=dataset.height[ind])
-                        wd_height = dataset.wind_direction.sel(
-                            height=dataset.height[ind]
-                        )
+                cols = cm.coolwarm(np.linspace(0, 1, len(dataset.height)))
+                for h, c in zip(dataset.height, cols):
+                    ws_height = dataset.wind_speed.sel(height=h)
+                    wd_height = dataset.wind_direction.sel(height=h)
 
-                        ws_height.plot(
-                            ax=ax[0],
-                            x="time",
-                            label=f"height = {float(dataset.height[ind])}m",
-                        )
-                        wd_height.plot(
-                            ax=ax[1],
-                            x="time",
-                            label=f"height = {float(dataset.height[ind])}m",
-                        )
+                    ws_height.plot.line(
+                        ax=ax[0],
+                        x="time",
+                        label=f"z = {float(h)}m",
+                        color=c,
+                        ylim=[0, 25],
+                        linewidth=0.5,
+                    )
+                    wd_height.plot.line(
+                        ax=ax[1],
+                        x="time",
+                        color=c,
+                        add_legend=False,
+                        ylim=[0, 360],
+                        linewidth=0.5,
+                    )
 
-                    [a.grid() for a in ax]
-                    fig.suptitle(f"Wind speed and direction at {loc} on {date}")
-                    [
-                        a.set_title("") for a in ax
-                    ]  # Remove bogus title created by xarray
-                    [a.legend(ncol=2) for a in ax]
-                    # ax.set_ylabel("Example (m)")
-                    ax[-1].set_xlabel("Time (UTC)")
-                    [format_time_xticks(a) for a in ax]
+                [a.grid() for a in ax]
+                fig.suptitle(f"Wind speed and direction at {loc} on {date}")
+                [a.set_title("") for a in ax]  # Remove bogus title created by xarray
+                ax[0].legend(ncol=2)
+                # ax.set_ylabel("Example (m)")
+                ax[-1].set_xlabel("Time (UTC)")
+                [format_time_xticks(a) for a in ax]
 
-                    fig.savefig(tmp_path)
-                    self.storage.save(tmp_path)
-                    plt.close(fig)
+                fig.savefig(tmp_path)
+                self.storage.save(tmp_path)
+                plt.close(fig)

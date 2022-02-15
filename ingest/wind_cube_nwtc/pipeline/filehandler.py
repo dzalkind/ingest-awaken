@@ -25,7 +25,6 @@ class RTD_FileHandler(tsdat.AbstractFileHandler):
             xr.Dataset: An xr.Dataset object
         ----------------------------------------------------------------------------"""
         att_dict = {}
-
         with lzma.open(filename, "rt", encoding="cp1252") as f:
             header_len = int(f.readline().split("=")[1])
 

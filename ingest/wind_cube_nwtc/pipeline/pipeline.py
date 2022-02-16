@@ -83,13 +83,8 @@ class Pipeline(A2ePipeline):
 
         with plt.style.context(style_file):
 
-            # if "rtd" in dataset.attrs["datastream_name"]:
-            #     print("add here to make rtd plots")
-
-            # elif "sta" in dataset.attrs["datastream_name"]:
-
             # plot all wind speed and directions
-            filename = DSUtil.get_plot_filename(dataset, "example_plot", "png")
+            filename = DSUtil.get_plot_filename(dataset, "wind_speed_and_dir", "png")
             with self.storage._tmp.get_temp_filepath(filename) as tmp_path:
                 fig, ax = plt.subplots(2, 1)
 

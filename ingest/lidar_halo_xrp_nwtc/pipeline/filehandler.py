@@ -116,7 +116,7 @@ class HplHandler(tsdat.AbstractFileHandler):
             metadata["Range gate length (m)"]
         )
         dataset.attrs["Number of gates"] = float(metadata["Number of gates"])
-        dataset.attrs["Scan type"] = str(metadata["Scan type"])
+        dataset.attrs["Scan type"] = str(metadata["Scan type"]).strip()
         dataset.attrs["Pulses or ray"] = float(metadata["Pulses/ray"])
 
         return dataset

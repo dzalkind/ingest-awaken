@@ -34,6 +34,22 @@ class LidarHaloXrpPipeline(A2ePipeline):
         )
         dataset["SNR"].data = 10 * np.log10(dataset.intensity.data - 1)
 
+        # Add type of scan to filename in dataset.datastream_name
+        for raw_input_filename, _ in raw_mapping.items():
+            if "User1" in raw_input_filename:
+                output_string = "user1"
+            elif "Stare" in raw_input_filename:
+                output_string = "stare"
+
+            # Old and new qualifier, used in file naming
+            qualifier = self.config.pipeline_definition.qualifier
+            new_qualifier = qualifier + "_" + output_string
+
+            # replace datastream_name
+            dataset.attrs["datastream_name"] = dataset.attrs["datastream_name"].replace(
+                qualifier, new_qualifier
+            )
+
         return dataset
 
     def hook_generate_and_persist_plots(self, dataset: xr.Dataset):

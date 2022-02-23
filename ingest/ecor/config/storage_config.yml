@@ -1,0 +1,17 @@
+storage:
+  classname: ${STORAGE_CLASSNAME}
+  parameters:
+    retain_input_files: ${RETAIN_INPUT_FILES}
+    root_dir: ${ROOT_DIR}
+    bucket_name: ${STORAGE_BUCKET}
+
+  file_handlers:
+    input:
+      ecor:
+        file_pattern: '.*\.flx'
+        classname: ingest.ecor.pipeline.filehandler.EcorFileHandler
+
+    output:
+      netcdf:
+        file_extension: '.nc'
+        classname: tsdat.io.filehandlers.NetCdfHandler

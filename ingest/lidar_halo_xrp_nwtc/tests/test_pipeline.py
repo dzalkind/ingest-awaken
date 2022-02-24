@@ -6,7 +6,7 @@ from ingest.lidar_halo_xrp_nwtc import LidarHaloXrpPipeline
 parent = os.path.dirname(__file__)
 
 
-def test_pipeline_at_nwtc():
+def test_lidar_halo_xrp_nwtc_pipeline():
     set_dev_env()
     pipeline = LidarHaloXrpPipeline(
         expand("config/pipeline_config_nwtc.yml", parent),

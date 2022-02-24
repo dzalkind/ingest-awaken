@@ -6,7 +6,7 @@ from ingest.flux_lowspeed_nwtc import Pipeline
 parent = os.path.dirname(__file__)
 
 
-def test_pipeline_at_nwtc():
+def test_flux_lowspeed_nwtc_pipeline():
     set_dev_env()
     pipeline = Pipeline(
         expand("config/pipeline_config_nwtc.yml", parent),

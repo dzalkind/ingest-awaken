@@ -7,7 +7,7 @@ from . import LidarHaloXrpPipeline
 
 mapping: Dict["AnyStr@compile", IngestSpec] = {
     # Mapping for Raw Data -> Ingest
-    re.compile(r".*Stare_199_\d{8}_\d{2}\.hpl"): IngestSpec(
+    re.compile(r".*Stare_\d{3}_\d{8}_\d{2}\.hpl"): IngestSpec(
         pipeline=LidarHaloXrpPipeline,
         pipeline_config=expand("config/pipeline_config_nwtc.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),

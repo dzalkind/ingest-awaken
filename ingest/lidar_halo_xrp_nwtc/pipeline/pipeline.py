@@ -21,13 +21,34 @@ class LidarHaloXrpPipeline(A2ePipeline):
     def hook_customize_dataset(
         self, dataset: xr.Dataset, raw_mapping: Dict[str, xr.Dataset]
     ) -> xr.Dataset:
+
         dataset["distance"] = (
             "range_gate",
-            dataset.coords["range_gate"].data * dataset.attrs["Range gate length (m)"],
+            dataset.coords["range_gate"].data * dataset.attrs["Range gate length (m)"]
+            + dataset.attrs["Range gate length (m)"] / 2,
         )
-        dataset = dataset.swap_dims({"range_gate": "distance"})
-
+        dataset["distance_overlapped"] = (
+            "range_gate",
+            dataset.coords["range_gate"].data * 1.5
+            + dataset.attrs["Range gate length (m)"] / 2,
+        )
         dataset["SNR"].data = 10 * np.log10(dataset.intensity.data - 1)
+
+        # Add type of scan to filename in dataset.datastream_name
+        for raw_input_filename, _ in raw_mapping.items():
+            if "User1" in raw_input_filename:
+                output_string = "user1"
+            elif "Stare" in raw_input_filename:
+                output_string = "stare"
+
+            # Old and new qualifier, used in file naming
+            qualifier = self.config.pipeline_definition.qualifier
+            new_qualifier = qualifier + "_" + output_string
+
+            # replace datastream_name
+            dataset.attrs["datastream_name"] = dataset.attrs["datastream_name"].replace(
+                qualifier, new_qualifier
+            )
 
         return dataset
 
@@ -47,23 +68,13 @@ class LidarHaloXrpPipeline(A2ePipeline):
 
                 fig, ax = plt.subplots()
 
-                # csf = ds.doppler.plot.contourf(
-                #     ax=axs,
-                #     x="time",
-                #     levels=30,
-                #     cmap=cmocean.cm.deep_r,
-                #     add_colorbar=False,
-                #     # vmin=-5,
-                #     # vmax=5,
-                # )
-
                 ds.wind_speed.plot(ax=ax, x="time", cmap=cmocean.cm.deep_r)
 
                 fig.suptitle(f"Wind Speed at {location} on {date}")
                 # add_colorbar(axs, csf, r"Wind Speed (ms$^{-1}$)")
                 format_time_xticks(ax)
                 ax.set_xlabel("Time (UTC)")
-                ax.set_ylabel("Height (m)")
+                ax.set_ylabel("Range Gate")
 
                 fig.savefig(tmp_path)
                 self.storage.save(tmp_path)
@@ -86,7 +97,7 @@ class LidarHaloXrpPipeline(A2ePipeline):
                 add_colorbar(ax, csf, "SNR (dB)")
                 format_time_xticks(ax)
                 ax.set_xlabel("Time (UTC)")
-                ax.set_ylabel("Height (m)")
+                ax.set_ylabel("Range Gate")
 
                 fig.savefig(tmp_path)
                 self.storage.save(tmp_path)

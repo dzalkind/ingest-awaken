@@ -43,33 +43,69 @@ class Pipeline(A2ePipeline):
 
         with plt.style.context(style_file):
 
-            # Create an example plot with some noise added for fun
-            filename = DSUtil.get_plot_filename(dataset, "example_noise", "png")
+            # Scan pattern plot
+            filename = DSUtil.get_plot_filename(dataset, "scan_pattern", "png")
             with self.storage._tmp.get_temp_filepath(filename) as tmp_path:
-                fig, ax = plt.subplots()
+                fig, ax = plt.subplots(3, 1)
 
-                noise = np.random.random(dataset["example_var"].data.shape) - 0.5
-                noisy_example = dataset["example_var"] + noise
-
-                dataset["example_var"].plot(
-                    ax=ax,
+                dataset["Distance"].plot(
+                    ax=ax[0],
                     x="time",
-                    c=cmocean.cm.deep_r(0.75),
-                    label="example_var",
                 )
-                noisy_example.plot(
-                    ax=ax,
-                    x="time",
-                    c=cmocean.cm.deep_r(0.25),
-                    label="noisy_example_var",
-                )
+                ax[0].set_ylabel("Distance (m)")
+                ax[0].set_xlabel("Time (UTC)")
 
-                fig.suptitle(f"Example variable at {loc} on {date}")
-                ax.set_title("")  # Remove bogus title created by xarray
-                ax.legend(ncol=2, bbox_to_anchor=(1, -0.05))
-                ax.set_ylabel("Example (m)")
-                ax.set_xlabel("Time (UTC)")
-                format_time_xticks(ax)
+                dataset["Tilt"].plot(
+                    ax=ax[1],
+                    x="time",
+                )
+                ax[1].set_ylabel("Tilt (deg)")
+                ax[1].set_xlabel("Time (UTC)")
+
+                dataset["Roll"].plot(
+                    ax=ax[2],
+                    x="time",
+                )
+                ax[2].set_ylabel("Roll (deg)")
+                ax[2].set_xlabel("Time (UTC)")
+
+                fig.suptitle(f"Scan pattern at {loc} on {date}")
+                [a.set_title("") for a in ax]  # Remove bogus title created by xarray
+                [format_time_xticks(a) for a in ax]
+
+                fig.savefig(tmp_path)
+                self.storage.save(tmp_path)
+                plt.close(fig)
+
+            # Wind speed and cnr plot
+            filename = DSUtil.get_plot_filename(dataset, "wind_cnr", "png")
+            with self.storage._tmp.get_temp_filepath(filename) as tmp_path:
+                fig, ax = plt.subplots(3, 1)
+
+                dataset["RWS"].plot(
+                    ax=ax[0],
+                    x="time",
+                )
+                ax[0].set_ylabel("RWS (m/)")
+                ax[0].set_xlabel("Time (UTC)")
+
+                dataset["DRWS"].plot(
+                    ax=ax[1],
+                    x="time",
+                )
+                ax[1].set_ylabel("DRWS (m/s)")
+                ax[1].set_xlabel("Time (UTC)")
+
+                dataset["CNR"].plot(
+                    ax=ax[2],
+                    x="time",
+                )
+                ax[2].set_ylabel("CNR (dB)")
+                ax[2].set_xlabel("Time (UTC)")
+
+                fig.suptitle(f"Scan pattern at {loc} on {date}")
+                [a.set_title("") for a in ax]  # Remove bogus title created by xarray
+                [format_time_xticks(a) for a in ax]
 
                 fig.savefig(tmp_path)
                 self.storage.save(tmp_path)

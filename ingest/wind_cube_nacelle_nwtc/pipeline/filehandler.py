@@ -1,5 +1,6 @@
 import tsdat
 import xarray as xr
+import pandas as pd
 
 
 # TODO – Developer: Write your FileHandler and add documentation
@@ -23,4 +24,18 @@ class CustomFileHandler(tsdat.AbstractFileHandler):
         Returns:
             xr.Dataset: An xr.Dataset object
         ----------------------------------------------------------------------------"""
-        return xr.Dataset()
+        print("here")
+
+        df = pd.read_csv(filename, sep=";")
+
+        # replace column names ' ' with '_'
+        rename_map = {}
+        for col in df.columns:
+            rename_map[col] = col.replace(" ", "_")
+        df.rename(columns=rename_map, inplace=True)
+
+        # Drop UTC info from Timestamp
+        tt = pd.DatetimeIndex(df.Timestamp)
+        df.Timestamp = tt.tz_convert(None)
+
+        return df.to_xarray()

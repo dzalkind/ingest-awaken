@@ -24,8 +24,6 @@ class CustomFileHandler(tsdat.AbstractFileHandler):
         Returns:
             xr.Dataset: An xr.Dataset object
         ----------------------------------------------------------------------------"""
-        print("here")
-
         df = pd.read_csv(filename, sep=";")
 
         # replace column names ' ' with '_'
@@ -35,7 +33,11 @@ class CustomFileHandler(tsdat.AbstractFileHandler):
         df.rename(columns=rename_map, inplace=True)
 
         # Drop UTC info from Timestamp
-        tt = pd.DatetimeIndex(df.Timestamp)
-        df.Timestamp = tt.tz_convert(None)
+        if "Date_and_Time" in df:  # 10-min avg file
+            time_chan = "Date_and_Time"
+        else:
+            time_chan = "Timestamp"
+        tt = pd.DatetimeIndex(df[time_chan])
+        df[time_chan] = tt.tz_convert(None)
 
         return df.to_xarray()

@@ -3,10 +3,9 @@ import xarray as xr
 import pandas as pd
 
 
-# TODO – Developer: Write your FileHandler and add documentation
 class CustomFileHandler(tsdat.AbstractFileHandler):
     """--------------------------------------------------------------------------------
-    Custom file handler for reading <some data type> files from a <instrument name>
+    Custom file handler for reading csv files from a nacelle wind cube lidar
     for the A2E AWAKEN effort.
 
     See https://tsdat.readthedocs.io/en/latest/autoapi/tsdat/io/index.html for more

@@ -1,8 +1,7 @@
 # wind_cube_nacelle
 
-Ingest for nacelle-based wind cube
-
-<!-- # TODO – Developer: Add more to the ingest description here -->
+Ingest for nacelle-based wind cube, handles both real-time data (_rtd) and 10-minute statistics (_sta). 
+They share a filehandlier and have different config files.
 
 Writen by [Daniel Zalkind](mailto:dzalkind@nrel.gov)
 

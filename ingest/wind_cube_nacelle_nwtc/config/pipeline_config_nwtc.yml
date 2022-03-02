@@ -1,0 +1,137 @@
+# TODO – Developer: Fill out this file. You can find the official documentation at
+# https://github.com/tsdat/tsdat/blob/main/examples/templates/ingest_pipeline_template.yml
+# or open an existing example in this repository to see what you can do here. Note that
+# the A2e program uses slightly different metadata conventions than tsdat and a
+# reviewer can help you determine which metadata should be included here.
+
+pipeline:
+  type: Ingest
+
+  # These parameters will be used to name files.
+  location_id: "nwtc"
+  dataset_name: "wind_cube_nacelle_nwtc"
+  # qualifier: ""
+  # temporal: ""
+  data_level: "b0"  # If not applying QC this should be set to "a0"
+
+dataset_definition:
+  attributes:
+    title: "wind_cube_nacelle"
+    description: "Ingest for nacelle-based wind cube"
+    conventions: MHKiT-Cloud Data Standards v. 1.0
+    institution: Atmosphere to Electrons
+    code_url: https://github.com/a2edap/ingest-awaken
+    location_meaning: "nwtc"
+
+  dimensions:
+    time:
+        length: unlimited
+
+  variables:
+
+    time:
+      input:
+        name: Timestamp (end of interval)
+        converter:
+          classname: tsdat.utils.converters.StringTimeConverter
+          parameters:
+            timezone: UTC
+            time_format: "%Y/%m/%d %H:%M:%S"
+      dims: [time]
+      type: long
+      attrs:
+        long_name: Time (UTC)
+        standard_name: time
+        units: seconds since 1970-01-01T00:00:00
+    
+    example_var:          # Name of variable in the output file
+      input:
+        name: "Example"   # Name of variable in the input file
+        # units: m        # Units the input variable was measured in. Provide this if 
+                          # the output units are different and you want tsdat to do the
+                          # conversion.
+      dims: [time]        # List of coordinates that dimension this variable. `time` is
+                          # a very common dimension, sometimes `height`, too.
+      type: float         # The data type, typically one of: `float`, `long`, `int`
+      attrs:
+        long_name: Example Var  # Label used by Xarray and other libraries for plotting
+        # standard_name: ""     # Standard name from the CF Standard names table. 
+                                # Provide this if possible, otherwise remove it.
+        comment: ""             # User-friendly description of the property.
+        units: m                # Units attribute from the CF Standard list of units. 
+                                # Always provide this, even for 'unitless' quantities –
+                                # set `units: "1"` for such quantities.
+    
+    latitude:
+      data: 71.323
+      type: float
+      attrs:
+        long_name: "North latitude"
+        standard_name: "latitude"
+        comment: "Recorded lattitude at the instrument location"
+        units: "degree_N"
+        valid_range: [-90.f, 90.f]
+
+    longitude:
+      data: -156.609
+      type: float
+      attrs:
+        long_name: "East longitude"
+        standard_name: "longitude"
+        comment: "Recorded longitude at the instrument location"
+        units: "degree_E"
+        valid_range: [-180.f, 180.f]
+    
+    altitude:
+      data: 4000.0
+      type: float
+      attrs:
+        long_name: "Altitude"
+        standard_name: "altitude"
+        comment: "Recorded altitude at the instrument location"
+        units: m
+    
+#-----------------------------------------------------------------
+quality_management:
+
+  #---------------------------------------------------------------
+  manage_missing_coordinates:
+    checker:
+      classname: tsdat.qc.checkers.CheckMissing
+    handlers:
+      - classname: tsdat.qc.handlers.FailPipeline
+    variables:
+      - COORDS
+
+  manage_coordinate_monotonicity:
+    checker:
+      classname: tsdat.qc.checkers.CheckMonotonic
+    handlers:
+      - classname: tsdat.qc.handlers.SortDatasetByCoordinate
+        parameters:
+          ascending: True
+          correction: "Coordinate data was sorted in order to ensure monotonicity."
+    variables:
+      - COORDS
+
+  #---------------------------------------------------------------
+  manage_missing_values:
+    checker:
+      classname: tsdat.qc.checkers.CheckMissing
+    handlers:
+      - classname: tsdat.qc.handlers.RemoveFailedValues
+      - classname: tsdat.qc.handlers.RecordQualityResults
+        parameters:
+          bit: 1
+          assessment: Bad
+          meaning: "Value is equal to _FillValue or NaN"
+    variables:
+      - DATA_VARS
+    exclude: [latitude, longitude, altitude]
+
+  # TODO – Developer: Update this as needed.
+  manage_custom_qc:  # Rename this
+    checker:
+      classname: ingest.wind_cube_nacelle_nwtc.pipeline.qc.CustomQualityChecker
+    handlers:
+      - classname: ingest.wind_cube_nacelle_nwtc.pipeline.qc.CustomQualityHandler

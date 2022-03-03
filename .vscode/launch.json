@@ -5,18 +5,23 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Example: A2E Buoy Ingest",
-            "type": "python",
-            "request": "launch",
-            "module": "examples.a2e_buoy_ingest"
-        },
-        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "justMyCode": false,
             "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: Debug Tests",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "purpose": [
+                "debug-test"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
         }
     ]
 }

@@ -8,7 +8,7 @@ storage:
   file_handlers:
     input:
       aml:
-        file_pattern: '.*\.dat'
+        file_pattern: '.*aml\.ld\.z01\.\d{2}\.\d{8}\.\d{6}\.dat'
         classname: ingest.aml_ld_z01.pipeline.filehandler.AmlFileHandler
         parameters:
           read:
@@ -20,5 +20,5 @@ storage:
 
     output:
       netcdf:
-        file_extension: '.nc'
+        file_extension: ".nc"
         classname: tsdat.io.filehandlers.NetCdfHandler

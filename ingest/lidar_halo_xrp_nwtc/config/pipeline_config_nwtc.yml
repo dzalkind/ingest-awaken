@@ -5,7 +5,7 @@ pipeline:
   location_id: "nwtc"
   dataset_name: "lidar"
   qualifier: "halo_xrp"
-  data_level: "b0"  # If not applying QC this should be set to "a0"
+  data_level: "b0" # If not applying QC this should be set to "a0"
 
 dataset_definition:
   attributes:
@@ -18,12 +18,11 @@ dataset_definition:
 
   dimensions:
     time:
-        length: unlimited
+      length: unlimited
     range_gate:
-        length: unlimited
+      length: unlimited
 
   variables:
-
     time:
       input:
         name: Timestamp
@@ -38,7 +37,7 @@ dataset_definition:
         long_name: Time (UTC)
         standard_name: time
         units: seconds since 1970-01-01T00:00:00
-    
+
     range_gate:
       input:
         name: range_gate
@@ -61,14 +60,14 @@ dataset_definition:
         long_name: Signal to Noise Ratio
         units: dB
         _FillValue: -9999
-    
+
     azimuth:
       input:
         name: Azimuth (degrees)
       dims: [time]
       type: float
       attrs:
-        long_name: Azimuth
+        long_name: Line of sight azimuth angle
         units: deg
 
     elevation:
@@ -78,6 +77,7 @@ dataset_definition:
       type: float
       attrs:
         long_name: Elevation
+        description: Line of sight elevation angle
         units: deg
 
     pitch:
@@ -87,6 +87,7 @@ dataset_definition:
       type: float
       attrs:
         long_name: Pitch
+        description: Line of sight pitch angle
         units: deg
 
     roll:
@@ -96,15 +97,16 @@ dataset_definition:
       type: float
       attrs:
         long_name: Roll
+        description: Line of sight roll angle
         units: deg
-    
-    doppler:
+
+    wind_speed:
       input:
         name: Doppler
       dims: [time, range_gate]
       type: float
       attrs:
-        long_name: Doppler
+        long_name: Line of sight wind speed
         units: m/s
         valid_delta: 1
 
@@ -115,10 +117,9 @@ dataset_definition:
       type: float
       attrs:
         long_name: Intensity
-        units: "1"
-    
+
     latitude:
-      data: 71.323  # TODO – Dan
+      data: 39.909692
       type: float
       attrs:
         long_name: "North latitude"
@@ -128,7 +129,7 @@ dataset_definition:
         valid_range: [-90.f, 90.f]
 
     longitude:
-      data: -156.609  # TODO – Dan
+      data: -105.228052
       type: float
       attrs:
         long_name: "East longitude"
@@ -136,19 +137,18 @@ dataset_definition:
         comment: "Recorded longitude at the instrument location"
         units: "degree_E"
         valid_range: [-180.f, 180.f]
-    
+
     altitude:
-      data: 4000.0  # TODO – Dan
+      data: 1828
       type: float
       attrs:
         long_name: "Altitude"
         standard_name: "altitude"
         comment: "Recorded altitude at the instrument location"
         units: m
-    
+
 #-----------------------------------------------------------------
 quality_management:
-
   #---------------------------------------------------------------
   manage_missing_coordinates:
     checker:
@@ -188,7 +188,7 @@ quality_management:
     checker:
       classname: tsdat.qc.checkers.CheckValidDelta
       parameters:
-        dim: time  # specifies the dimension over which to compute the delta
+        dim: time # specifies the dimension over which to compute the delta
     handlers:
       - classname: tsdat.qc.handlers.RecordQualityResults
         parameters:
@@ -196,4 +196,4 @@ quality_management:
           assessment: "Indeterminate"
           meaning: "Difference between current and previous values exceeds valid_delta."
     variables:
-      - doppler
+      - wind_speed

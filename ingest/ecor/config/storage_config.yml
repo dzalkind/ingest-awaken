@@ -8,10 +8,10 @@ storage:
   file_handlers:
     input:
       ecor:
-        file_pattern: '.*\.flx'
+        file_pattern: '.*sgpecorE14\.\d{2}\.\d{8}\.\d{6}\.raw\..*\.flx'
         classname: ingest.ecor.pipeline.filehandler.EcorFileHandler
 
     output:
       netcdf:
-        file_extension: '.nc'
+        file_extension: ".nc"
         classname: tsdat.io.filehandlers.NetCdfHandler

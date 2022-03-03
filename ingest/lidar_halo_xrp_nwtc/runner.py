@@ -2,7 +2,6 @@ from ingest.lidar_halo_xrp_nwtc import LidarHaloXrpPipeline
 from utils import expand, set_dev_env
 
 
-# TODO – Developer: Update path to data and/or configuration files as needed.
 if __name__ == "__main__":
     set_dev_env()
     pipeline = LidarHaloXrpPipeline(

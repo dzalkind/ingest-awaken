@@ -32,18 +32,26 @@ class LidarHaloXrpPipeline(A2ePipeline):
             dataset.coords["range_gate"].data * 1.5
             + dataset.attrs["Range gate length (m)"] / 2,
         )
-        dataset["SNR"].data = 10 * np.log10(dataset.intensity.data - 1)
+        intensity = dataset.intensity.data.copy()
+        intensity[intensity <= 1] = np.nan
+        dataset["SNR"].data = 10 * np.log10(intensity - 1)
 
         # Add type of scan to filename in dataset.datastream_name
         for raw_input_filename, _ in raw_mapping.items():
-            if "User1" in raw_input_filename:
-                output_string = "user1"
+            if "User" in raw_input_filename:
+                scan_type = "user"
             elif "Stare" in raw_input_filename:
-                output_string = "stare"
+                scan_type = "stare"
+            elif "VAD" in raw_input_filename:
+                scan_type = "vad"
+            elif "Wind_Profile" in raw_input_filename:
+                scan_type = "wind_profile"
 
             # Old and new qualifier, used in file naming
             qualifier = self.config.pipeline_definition.qualifier
-            new_qualifier = qualifier + "_" + output_string
+            new_qualifier = (
+                qualifier + "_" + str(int(dataset.attrs["System ID"])) + "_" + scan_type
+            )
 
             # replace datastream_name
             dataset.attrs["datastream_name"] = dataset.attrs["datastream_name"].replace(
@@ -68,9 +76,18 @@ class LidarHaloXrpPipeline(A2ePipeline):
 
                 fig, ax = plt.subplots()
 
-                ds.wind_speed.plot(ax=ax, x="time", cmap=cmocean.cm.deep_r)
+                ds.wind_speed.plot(
+                    ax=ax,
+                    x="time",
+                    cmap=cmocean.cm.deep_r,
+                    vmin=-15,
+                    vmax=15,
+                )
 
-                fig.suptitle(f"Wind Speed at {location} on {date}")
+                fig.suptitle(
+                    f"Wind Speed at {location} on {date} \n File: "
+                    + dataset.attrs["Filename"]
+                )
                 # add_colorbar(axs, csf, r"Wind Speed (ms$^{-1}$)")
                 format_time_xticks(ax)
                 ax.set_xlabel("Time (UTC)")
@@ -85,16 +102,19 @@ class LidarHaloXrpPipeline(A2ePipeline):
 
                 fig, ax = plt.subplots()
 
-                csf = ds.SNR.plot.contourf(
+                csf = ds.SNR.plot(
                     ax=ax,
                     x="time",
-                    levels=30,
                     cmap=cmocean.cm.deep_r,
-                    add_colorbar=False,
+                    vmin=-30,
+                    vmax=0,
                 )
 
-                fig.suptitle(f"Signal to Noise Ratio at {location} on {date}")
-                add_colorbar(ax, csf, "SNR (dB)")
+                fig.suptitle(
+                    f"Signal to Noise Ratio at {location} on {date} \n File: "
+                    + dataset.attrs["Filename"]
+                )
+
                 format_time_xticks(ax)
                 ax.set_xlabel("Time (UTC)")
                 ax.set_ylabel("Range Gate")

@@ -6,7 +6,7 @@ from ingest.lidar_galion_g4000 import Pipeline
 parent = os.path.dirname(__file__)
 
 
-def test_pipeline_at_nwtc():
+def test_lidar_galion_g4000_pipeline():
     set_dev_env()
     pipeline = Pipeline(
         expand("config/pipeline_config_nwtc.yml", parent),

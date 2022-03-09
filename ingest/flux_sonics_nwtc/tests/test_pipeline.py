@@ -6,7 +6,7 @@ from ingest.flux_sonics_nwtc import Pipeline
 parent = os.path.dirname(__file__)
 
 
-def test_pipeline_at_nwtc():
+def test_flux_sonics_nwtc_pipeline():
     set_dev_env()
     pipeline = Pipeline(
         expand("config/pipeline_config_nwtc.yml", parent),
@@ -25,7 +25,3 @@ def test_pipeline_at_nwtc():
         )
     )
     xr.testing.assert_allclose(output, expected)
-
-
-if __name__ == "__main__":
-    test_pipeline_at_nwtc()

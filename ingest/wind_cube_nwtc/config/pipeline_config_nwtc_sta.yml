@@ -310,7 +310,6 @@ quality_management:
       - DATA_VARS
     exclude: [latitude, longitude, altitude]
 
-  # # TODO – Developer: Update this as needed.
   # manage_custom_qc: # Rename this
   #   checker:
   #     classname: ingest.wind_cube_nwtc.pipeline.qc.CustomQualityChecker

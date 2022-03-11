@@ -17,7 +17,7 @@ storage:
         # matched by a mapping in mapping.py, so .* is fine
         # unless you need to use multiple handlers within
         # those matched files.
-        classname: ingest.wind_cube_nacelle_nwtc.pipeline.filehandler.CustomFileHandler
+        classname: ingest.wind_cube_nacelle.pipeline.filehandler.CustomFileHandler
 
     # The output section should not be modified unless there is a strong need. Please
     # contact the repository maintainers if you feel you need to write to a different

@@ -40,5 +40,5 @@ mapping: Dict["AnyStr@compile", IngestSpec] = {
         pipeline_config=expand("config/pipeline_config_rtd.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),
         name="plot_wind_cube_nacelle",
-    ),wind_cube_nacelle
+    ),
 }

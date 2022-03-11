@@ -1,7 +1,7 @@
 import os
 import xarray as xr
 from utils import expand, set_dev_env
-from ingest.wind_cube_nacelle_nwtc import Pipeline
+from ingest.wind_cube_nacelle import Pipeline
 
 parent = os.path.dirname(__file__)
 

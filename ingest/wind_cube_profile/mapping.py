@@ -23,14 +23,14 @@ mapping: Dict["AnyStr@compile", IngestSpec] = {
         name="wind_cube_sta",
     ),
     # Mapping for Processed Data -> Ingest (so we can reprocess plots)
-    re.compile(r"nwtc.wind_cube_nwtc_rtd.b0.\d{8}.\d{6}.nc"): IngestSpec(
+    re.compile(r"nwtc.wind_cube_profile_rtd.b0.\d{8}.\d{6}.nc"): IngestSpec(
         pipeline=Pipeline,
         pipeline_config=expand("config/pipeline_config_nwtc_rtd.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),
         name="plot_wind_cube_rtd",
     ),
-        # Mapping for Processed Data -> Ingest (so we can reprocess plots)
-    re.compile(r"nwtc.wind_cube_nwtc_sta.b0.\d{8}.\d{6}.nc"): IngestSpec(
+    # Mapping for Processed Data -> Ingest (so we can reprocess plots)
+    re.compile(r"nwtc.wind_cube_profile_sta.b0.\d{8}.\d{6}.nc"): IngestSpec(
         pipeline=Pipeline,
         pipeline_config=expand("config/pipeline_config_nwtc_sta.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),

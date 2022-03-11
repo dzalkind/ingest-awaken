@@ -3,7 +3,7 @@ pipeline:
 
   # These parameters will be used to name files.
   location_id: "nwtc"
-  dataset_name: "wind_cube_nwtc_rtd"
+  dataset_name: "wind_cube_profile_sta"
   # qualifier: ""
   # temporal: ""
   data_level: "b0" # If not applying QC this should be set to "a0"
@@ -26,7 +26,7 @@ dataset_definition:
   variables:
     time:
       input:
-        name: Timestamp
+        name: Timestamp (end of interval)
         converter:
           classname: tsdat.utils.converters.StringTimeConverter
           parameters:
@@ -84,14 +84,14 @@ dataset_definition:
         long_name: Wiper Count
         units: count
 
-    Vbatt:
-      dims: [time]
-      type: float
-      input:
-        name: Vbatt (V)
-      attrs:
-        long_name: Vbatt
-        units: V
+    # Vbatt:
+    #   dims: [time]
+    #   type: float
+    #   input:
+    #     name: Vbatt (V)
+    #   attrs:
+    #     long_name: Vbatt
+    #     units: V
 
     height:
       # data: [41, 55, 61, 74, 80, 87, 92, 100, 105, 119, 122, 130]
@@ -112,14 +112,14 @@ dataset_definition:
         long_name: Wind Speed
         units: m/s
 
-    wind_speed_rad:
-      dims: [time, height]
-      type: float
-      input:
-        name: wind_speed_rad
-      attrs:
-        long_name: Radial Wind Speed
-        units: m/s
+    # wind_speed_rad:
+    #   dims: [time, height]
+    #   type: float
+    #   input:
+    #     name: wind_speed_rad
+    #   attrs:
+    #     long_name: Radial Wind Speed
+    #     units: m/s
 
     wind_speed_disp:
       dims: [time, height]
@@ -130,19 +130,23 @@ dataset_definition:
         long_name: Radial Wind Speed Dispersion
         units: m/s
 
-    # wind_speed_min:
-    #   dims: [time, height]
-    #   type: float
-    #   attrs:
-    #     long_name: Wind Speed Min
-    #     units: m/s
+    wind_speed_min:
+      dims: [time, height]
+      type: float
+      input:
+        name: wind_speed_min
+      attrs:
+        long_name: Wind Speed Min
+        units: m/s
 
-    # wind_speed_max:
-    #   dims: [time, height]
-    #   type: float
-    #   attrs:
-    #     long_name: Wind Speed Max
-    #     units: m/s
+    wind_speed_max:
+      dims: [time, height]
+      type: float
+      input:
+        name: wind_speed_max
+      attrs:
+        long_name: Wind Speed Max
+        units: m/s
 
     wind_speed_z:
       dims: [time, height]
@@ -153,23 +157,32 @@ dataset_definition:
         long_name: z-wind
         units: m/s
 
-    wind_speed_x:
+    wind_speed_z_disp:
       dims: [time, height]
       type: float
       input:
-        name: wind_speed_x
+        name: wind_speed_z_disp
       attrs:
-        long_name: x-wind
+        long_name: Z-wind Dispersion
         units: m/s
 
-    wind_speed_y:
-      dims: [time, height]
-      type: float
-      input:
-        name: wind_speed_y
-      attrs:
-        long_name: y-wind
-        units: m/s
+    # wind_speed_x:
+    #   dims: [time, height]
+    #   type: float
+    #   input:
+    #     name: wind_speed_x
+    #   attrs:
+    #     long_name: x-wind
+    #     units: m/s
+
+    # wind_speed_y:
+    #   dims: [time, height]
+    #   type: float
+    #   input:
+    #     name: wind_speed_y
+    #   attrs:
+    #     long_name: y-wind
+    #     units: m/s
 
     # z_wind_dispersion:
     #   dims: [time, height]
@@ -196,34 +209,40 @@ dataset_definition:
         long_name: Carrier-to-noise ratio
         units: dB
 
-    # crn_min:
-    #   dims: [time, height]
-    #   type: float
-    #   attrs:
-    #     long_name: CRN_Min
-    #     units: dB
-
-    # dopp_spect_broad:
-    #   dims: [time, height]
-    #   type: float
-    #   attrs:
-    #     long_name: Dopp Spect Broad
-    #     units: m/s
-
-    # data_availability:
-    #   dims: [time, height]
-    #   type: float
-    #   attrs:
-    #     long_name: Availability
-    #     units: "%"
-
-    position:
-      dims: [time]
-      type: int
+    cnr_min:
+      dims: [time, height]
+      type: float
       input:
-        name: Position
+        name: cnr_min
       attrs:
-        description: Azimuthal position of scan. V is replaced with -1 for a vertical scan.
+        long_name: CRN_Min
+        units: dB
+
+    dopp_spect_broad:
+      dims: [time, height]
+      type: float
+      input:
+        name: dopp_spect_broad
+      attrs:
+        long_name: Dopp Spect Broad
+        units: m/s
+
+    data_availability:
+      dims: [time, height]
+      type: float
+      input:
+        name: data_availability
+      attrs:
+        long_name: Availability
+        units: "%"
+
+    # position:
+    #   dims: [time]
+    #   type: int
+    #   input:
+    #     name: Position
+    #   attrs:
+    #     description: Azimuthal position of scan. V is replaced with -1 for a vertical scan.
 
     latitude:
       data: 71.323
@@ -293,6 +312,6 @@ quality_management:
 
   # manage_custom_qc: # Rename this
   #   checker:
-  #     classname: ingest.wind_cube_nwtc.pipeline.qc.CustomQualityChecker
+  #     classname: ingest.wind_cube_profile.pipeline.qc.CustomQualityChecker
   #   handlers:
-  #     - classname: ingest.wind_cube_nwtc.pipeline.qc.CustomQualityHandler
+  #     - classname: ingest.wind_cube_profile.pipeline.qc.CustomQualityHandler

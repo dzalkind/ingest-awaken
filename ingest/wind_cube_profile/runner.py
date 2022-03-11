@@ -1,4 +1,4 @@
-from ingest.wind_cube_nwtc import Pipeline
+from ingest.wind_cube_profile import Pipeline
 from utils import expand, set_dev_env
 
 

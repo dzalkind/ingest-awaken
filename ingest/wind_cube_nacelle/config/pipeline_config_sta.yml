@@ -427,6 +427,6 @@ quality_management:
   # # TODO – Developer: Update this as needed.
   # manage_custom_qc: # Rename this
   #   checker:
-  #     classname: ingest.wind_cube_nwtc.pipeline.qc.CustomQualityChecker
+  #     classname: ingest.wind_cube_profile.pipeline.qc.CustomQualityChecker
   #   handlers:
-  #     - classname: ingest.wind_cube_nwtc.pipeline.qc.CustomQualityHandler
+  #     - classname: ingest.wind_cube_profile.pipeline.qc.CustomQualityHandler

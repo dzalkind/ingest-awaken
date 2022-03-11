@@ -1,7 +1,7 @@
 import os
 import xarray as xr
 from utils import expand, set_dev_env
-from ingest.wind_cube_nwtc import Pipeline
+from ingest.wind_cube_profile import Pipeline
 
 parent = os.path.dirname(__file__)
 
@@ -19,7 +19,8 @@ def test_pipeline_at_nwtc():
     )
     expected = xr.open_dataset(
         expand(
-            "tests/data/expected/nwtc.wind_cube_nwtc_rtd.b0.20220201.000000.nc", parent
+            "tests/data/expected/nwtc.wind_cube_profile_rtd.b0.20220201.000000.nc",
+            parent,
         )
     )
     xr.testing.assert_allclose(output, expected)
@@ -34,7 +35,8 @@ def test_pipeline_at_nwtc():
     )
     expected = xr.open_dataset(
         expand(
-            "tests/data/expected/nwtc.wind_cube_nwtc_sta.b0.20220202.000100.nc", parent
+            "tests/data/expected/nwtc.wind_cube_profile_sta.b0.20220202.000100.nc",
+            parent,
         )
     )
     xr.testing.assert_allclose(output, expected)

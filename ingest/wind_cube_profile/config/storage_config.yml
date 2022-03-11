@@ -17,7 +17,7 @@ storage:
         # matched by a mapping in mapping.py, so .* is fine
         # unless you need to use multiple handlers within
         # those matched files.
-        classname: ingest.wind_cube_nwtc.pipeline.filehandler.RTD_FileHandler
+        classname: ingest.wind_cube_profile.pipeline.filehandler.RTD_FileHandler
 
     # The output section should not be modified unless there is a strong need. Please
     # contact the repository maintainers if you feel you need to write to a different

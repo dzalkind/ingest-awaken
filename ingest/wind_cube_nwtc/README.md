@@ -1,8 +1,6 @@
 # wind_cube
 
-Wind cube v2 ingest
-
-<!-- # TODO – Developer: Add more to the ingest description here -->
+Wind cube v2 profiling lidar ingest 
 
 Writen by [Daniel Zalkind](mailto:dzalkind@nrel.gov)
 

@@ -6,7 +6,6 @@ from ingest.wind_cube_nwtc import Pipeline
 parent = os.path.dirname(__file__)
 
 
-# TODO – Developer: Update paths to your input files here.
 def test_pipeline_at_nwtc():
     set_dev_env()
 

@@ -1,9 +1,3 @@
-# TODO – Developer: Fill out this file. You can find the official documentation at
-# https://github.com/tsdat/tsdat/blob/main/examples/templates/ingest_pipeline_template.yml
-# or open an existing example in this repository to see what you can do here. Note that
-# the A2e program uses slightly different metadata conventions than tsdat and a
-# reviewer can help you determine which metadata should be included here.
-
 pipeline:
   type: Ingest
 
@@ -297,7 +291,6 @@ quality_management:
       - DATA_VARS
     exclude: [latitude, longitude, altitude]
 
-  # # TODO – Developer: Update this as needed.
   # manage_custom_qc: # Rename this
   #   checker:
   #     classname: ingest.wind_cube_nwtc.pipeline.qc.CustomQualityChecker

@@ -10,8 +10,7 @@ storage:
 
   file_handlers:
     input:
-      # TODO – Developer: Update the FileHandler here as needed
-      rtd_handler: # Solely used as a label. See the 'csv' input
+      rtd_handler: # Solely used as a label. Works for both rtd and sta in this wind cube ingest!
         # filehandler below
         file_pattern: ".*" # The regex pattern used to match to an input file.
         # Note this will only be applied to files already
@@ -19,25 +18,6 @@ storage:
         # unless you need to use multiple handlers within
         # those matched files.
         classname: ingest.wind_cube_nwtc.pipeline.filehandler.RTD_FileHandler
-      # sta_handler: # Solely used as a label. See the 'csv' input
-      #   # filehandler below
-      #   file_pattern: ".sta.7z" # The regex pattern used to match to an input file.
-      #   # Note this will only be applied to files already
-      #   # matched by a mapping in mapping.py, so .* is fine
-      #   # unless you need to use multiple handlers within
-      #   # those matched files.
-      #   classname: ingest.wind_cube_nwtc.pipeline.filehandler.RTD_FileHandler
-
-      # TODO – Developer: Delete this if you don't want to use the CsvHandler
-      # You can also use built-in tsdat FileHandlers, which support a number of custom
-      # parameters: https://tsdat.rtfd.io/en/latest/autoapi/tsdat/io/filehandlers/
-      # csv:
-      #   file_pattern: '.*\.csv'                       # Matches files ending in '.csv'
-      #   classname: tsdat.io.filehandlers.CsvHandler   # FileHandler module to use
-      #   parameters:
-      #     read:
-      #       read_csv:
-      #         # Parameters here will be passed to pd.read_csv() as kwargs
 
     # The output section should not be modified unless there is a strong need. Please
     # contact the repository maintainers if you feel you need to write to a different

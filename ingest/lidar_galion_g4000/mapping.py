@@ -16,14 +16,14 @@ mapping: Dict["AnyStr@compile", IngestSpec] = {
         pipeline=Pipeline,
         pipeline_config=expand("config/pipeline_config_nwtc.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),
-        name="awaken_buoy_ingest",
+        name="galion_ingest",
     ),
     # Mapping for Processed Data -> Ingest (so we can reprocess plots)
-    re.compile("YOUR-REGEX-HERE"): IngestSpec(
+    re.compile(r".*nwtc\.lidar_galion_g4000\.a0.\d{8}.\d{6}.nc"): IngestSpec(
         pipeline=Pipeline,
         pipeline_config=expand("config/pipeline_config_nwtc.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),
-        name="plot_awaken_buoy_ingest",
+        name="plot_galion_ingest",
     ),
     # You can add as many {regex: IngestSpec} entries as you would like. This is useful
     # if you would like to reuse this ingest at other locations or possibly for other

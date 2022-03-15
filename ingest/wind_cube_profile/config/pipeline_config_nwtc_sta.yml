@@ -43,7 +43,7 @@ dataset_definition:
       dims: [time]
       type: float
       input:
-        name: Int Temp (�C)
+        name: Int Temp (degC)
       attrs:
         long_name: Int Temp
         units: degC
@@ -52,7 +52,7 @@ dataset_definition:
       dims: [time]
       type: float
       input:
-        name: Ext Temp (�C)
+        name: Ext Temp (degC)
       attrs:
         long_name: Ext Temp
         units: C

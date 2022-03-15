@@ -39,11 +39,21 @@ dataset_definition:
         standard_name: time
         units: seconds since 1970-01-01T00:00:00
 
+    height:
+      # data: [41, 55, 61, 74, 80, 87, 92, 100, 105, 119, 122, 130]
+      dims: [height]
+      type: float
+      input:
+        name: height
+      attrs:
+        long_name: height ASL
+        units: m
+
     int_temp:
       dims: [time]
       type: float
       input:
-        name: Int Temp (�C)
+        name: Int Temp (degC)
       attrs:
         long_name: Int Temp
         units: degC
@@ -52,7 +62,7 @@ dataset_definition:
       dims: [time]
       type: float
       input:
-        name: Ext Temp (�C)
+        name: Ext Temp (degC)
       attrs:
         long_name: Ext Temp
         units: C
@@ -92,16 +102,6 @@ dataset_definition:
       attrs:
         long_name: Vbatt
         units: V
-
-    height:
-      # data: [41, 55, 61, 74, 80, 87, 92, 100, 105, 119, 122, 130]
-      dims: [height]
-      type: float
-      input:
-        name: height
-      attrs:
-        long_name: height ASL
-        units: m
 
     wind_speed:
       dims: [time, height]

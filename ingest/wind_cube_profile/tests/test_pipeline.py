@@ -6,7 +6,7 @@ from ingest.wind_cube_profile import Pipeline
 parent = os.path.dirname(__file__)
 
 
-def test_pipeline_at_nwtc():
+def test_pipeline_rtd():
     set_dev_env()
 
     # Real-time data
@@ -24,6 +24,9 @@ def test_pipeline_at_nwtc():
         )
     )
     xr.testing.assert_allclose(output, expected)
+
+
+def test_pipeline_sta():
 
     # 10-minute statistics
     pipeline = Pipeline(

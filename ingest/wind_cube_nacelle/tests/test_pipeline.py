@@ -6,7 +6,7 @@ from ingest.wind_cube_nacelle import Pipeline
 parent = os.path.dirname(__file__)
 
 
-def test_pipeline_at_nwtc():
+def test_pipeline_rtd():
     set_dev_env()
     pipeline = Pipeline(
         expand("config/pipeline_config_rtd.yml", parent),
@@ -25,6 +25,8 @@ def test_pipeline_at_nwtc():
         )
     )
     xr.testing.assert_allclose(output, expected)
+
+def test_pipeline_sta():
 
     pipeline = Pipeline(
         expand("config/pipeline_config_sta.yml", parent),

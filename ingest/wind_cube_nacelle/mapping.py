@@ -24,21 +24,21 @@ mapping: Dict["AnyStr@compile", IngestSpec] = {
         pipeline=Pipeline,
         pipeline_config=expand("config/pipeline_config_rtd.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),
-        name="plot_wind_cube_nacelle",
+        name="plot_wind_cube_nacelle_rtd",
     ),
     ## 10-min avg data
     # Mapping for Raw Data -> Ingest
     re.compile(r".*_average_data_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.csv"): IngestSpec(
         pipeline=Pipeline,
-        pipeline_config=expand("config/pipeline_config_rtd.yml", __file__),
+        pipeline_config=expand("config/pipeline_config_sta.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),
-        name="wind_cube_nacelle_rtd",
+        name="wind_cube_nacelle_sta",
     ),
     # Mapping for Processed Data -> Ingest (so we can reprocess plots)
     re.compile(r".*nwtc\.wind_cube_nacelle_sta\.b0.\d{8}.\d{6}.nc"): IngestSpec(
         pipeline=Pipeline,
-        pipeline_config=expand("config/pipeline_config_rtd.yml", __file__),
+        pipeline_config=expand("config/pipeline_config_sta.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),
-        name="plot_wind_cube_nacelle",
+        name="plot_wind_cube_nacelle_sta",
     ),
 }

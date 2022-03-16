@@ -1,6 +1,7 @@
 # A2E-AWAKEN Data Ingestion Pipelines
 
 [![tests](https://github.com/a2edap/ingest-awaken/actions/workflows/tests.yml/badge.svg)](https://github.com/a2edap/ingest-awaken/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/a2edap/ingest-awaken/branch/main/graph/badge.svg?token=783DBYZES5)](https://codecov.io/gh/a2edap/ingest-awaken)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 This repository contains data ingestion pipelines developed for the Atmosphere to

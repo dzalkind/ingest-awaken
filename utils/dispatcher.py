@@ -2,13 +2,10 @@
 # method (Pipeline.run(...) vs Pipeline.run_plots(...)) based on mapping – if "plots"
 # is part of the IngestSpec.name string then dispatch to _run_plots()
 
-import logging
 from tsdat.io import S3Path
 from typing import List, Union
 from .cache import PipelineCache
-
-
-logger = logging.getLogger(__name__)
+from .logger import logger
 
 
 class PipelineDispatcher:

@@ -11,7 +11,7 @@ from . import Pipeline
 mapping: Dict["AnyStr@compile", IngestSpec] = {
     # Mapping for Raw Data -> Ingest
     re.compile(
-        r".*CR1000X_\d{5}_Cellular_LowSpeedData_\d{4}_\d{2}_\d{2}_\d{4}\.dat"
+        r".*CR1000X_\d{5}_Cellular_LowSpeedData_\d{4}_\d{2}_\d{2}_\d{4}.dat"
     ): IngestSpec(
         pipeline=Pipeline,
         pipeline_config=expand("config/pipeline_config_nwtc.yml", __file__),
@@ -19,12 +19,12 @@ mapping: Dict["AnyStr@compile", IngestSpec] = {
         name="awaken_flux_lowspeed_ingest",
     ),
     # Mapping for Processed Data -> Ingest (so we can reprocess plots)
-    # re.compile(r".*nwtc\.flux_lowspeed_nwtc\.a0.\d{8}.\d{6}.nc"): IngestSpec(
-    #     pipeline=Pipeline,
-    #     pipeline_config=expand("config/pipeline_config_nwtc.yml", __file__),
-    #     storage_config=expand("config/storage_config.yml", __file__),
-    #     name="plot_awaken_flux_lowspeed_ingest",
-    # ),
+    re.compile(r".*nwtc\.flux_lowspeed_nwtc\.a0.\d{8}.\d{6}.nc"): IngestSpec(
+        pipeline=Pipeline,
+        pipeline_config=expand("config/pipeline_config_nwtc.yml", __file__),
+        storage_config=expand("config/storage_config.yml", __file__),
+        name="plot_awaken_flux_lowspeed_ingest",
+    ),
     # You can add as many {regex: IngestSpec} entries as you would like. This is useful
     # if you would like to reuse this ingest at other locations or possibly for other
     # similar instruments

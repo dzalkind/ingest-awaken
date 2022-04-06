@@ -6,7 +6,7 @@ from ingest.lidar_halo_xrp_nwtc import LidarHaloXrpPipeline
 parent = os.path.dirname(__file__)
 
 
-def test_pipeline_at_nwtc():
+def test_lidar_halo_xrp_nwtc_pipeline():
     set_dev_env()
     pipeline = LidarHaloXrpPipeline(
         expand("config/pipeline_config_nwtc.yml", parent),
@@ -17,7 +17,7 @@ def test_pipeline_at_nwtc():
     )
     expected = xr.open_dataset(
         expand(
-            "tests/data/expected/nwtc/nwtc.lidar-halo_xrp.b0.20210510.000125.nc", parent
+            "tests/data/expected/nwtc/nwtc.lidar-halo_xrp_stare.b0.20210510.000125.nc", parent
         )
     )
     xr.testing.assert_allclose(output, expected)

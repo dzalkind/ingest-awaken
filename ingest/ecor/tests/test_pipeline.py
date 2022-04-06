@@ -6,7 +6,7 @@ from ingest.ecor import Pipeline
 parent = os.path.dirname(__file__)
 
 
-def test_pipeline():
+def test_ecor_pipeline():
     set_dev_env()
     pipeline = Pipeline(
         expand("config/pipeline_config.yml", parent),

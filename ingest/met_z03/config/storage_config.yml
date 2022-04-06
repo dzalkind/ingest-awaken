@@ -11,11 +11,11 @@ storage:
   file_handlers:
     input:
       met_txt: # Solely used as a label. See the 'csv' input
-        file_pattern: '.*\.txt'
+        file_pattern: '.*met\d{2}\.txt'
         classname: ingest.met_z03.pipeline.filehandler.MetFileHandler
 
       met_dat:
-        file_pattern: '.*\.dat'
+        file_pattern: '.*met\d{2}\.dat'
         classname: ingest.met_z03.pipeline.filehandler.MetFileHandler
 
       # You can also use built-in tsdat FileHandlers, which support a number of custom
@@ -33,5 +33,5 @@ storage:
     # format.
     output:
       netcdf:
-        file_extension: '.nc'
+        file_extension: ".nc"
         classname: tsdat.io.filehandlers.NetCdfHandler

@@ -12,3 +12,4 @@ jobs:
       - run: pip install -r requirements-dev.txt
       - run: coverage run -m pytest
       - run: coverage xml
+      - uses: codecov/codecov-action@v2

@@ -17,7 +17,7 @@ def test_lidar_halo_xrp_nwtc_pipeline():
     )
     expected = xr.open_dataset(
         expand(
-            "tests/data/expected/nwtc/nwtc.lidar-halo_xrp_stare.b0.20210510.000125.nc", parent
+            "tests/data/expected/nwtc/nwtc.lidar-halo_xrp_stare.b0.20211026.040012.nc", parent
         )
     )
     xr.testing.assert_allclose(output, expected)

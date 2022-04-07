@@ -8,4 +8,4 @@ if __name__ == "__main__":
         expand("config/pipeline_config.yml", __file__),
         expand("config/storage_config.yml", __file__),
     )
-    pipeline.run(expand("tests/data/input/met07.dat", __file__))
+    pipeline.run(expand("tests/data/input/sa4.met.z01.00.20211207.130000.txt", __file__))

@@ -11,11 +11,11 @@ storage:
   file_handlers:
     input:
       met_txt: # Solely used as a label. See the 'csv' input
-        file_pattern: '.*met\d{2}\.txt'
+        file_pattern: ".*met.z01.*.txt"
         classname: ingest.met_z01.pipeline.filehandler.MetFileHandler
 
       met_dat:
-        file_pattern: '.*met\d{2}\.dat'
+        file_pattern: ".*met.z01.*.dat"
         classname: ingest.met_z01.pipeline.filehandler.MetFileHandler
 
       # You can also use built-in tsdat FileHandlers, which support a number of custom

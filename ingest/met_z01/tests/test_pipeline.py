@@ -13,7 +13,9 @@ def test_met_z01_pipeline():
         expand("config/storage_config.yml", parent),
     )
     print(expand("config/storage_config.yml", parent))
-    output = pipeline.run(expand("tests/data/input/met07.dat", parent))
+    output = pipeline.run(
+        expand("tests/data/input/sa4.met.z01.00.20211207.130000.txt", parent)
+    )
     expected = xr.open_dataset(
         expand("tests/data/expected/awaken.met_z01.a0.20211030.060300.nc", parent)
     )

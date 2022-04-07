@@ -38,20 +38,20 @@ class LidarHaloXrpPipeline(A2ePipeline):
 
         # Add type of scan to filename in dataset.datastream_name
         for raw_input_filename, _ in raw_mapping.items():
-            if "User" in raw_input_filename:
+            if "user" in raw_input_filename.lower():
                 scan_type = "user"
-            elif "Stare" in raw_input_filename:
+            elif "stare" in raw_input_filename.lower():
                 scan_type = "stare"
-            elif "VAD" in raw_input_filename:
+            elif "vad" in raw_input_filename.lower():
                 scan_type = "vad"
-            elif "Wind_Profile" in raw_input_filename:
+            elif "wind_profile" in raw_input_filename.lower():
                 scan_type = "wind_profile"
+            else:
+                raise Exception("Scan type not supported!")
 
             # Old and new qualifier, used in file naming
             qualifier = self.config.pipeline_definition.qualifier
-            new_qualifier = (
-                qualifier + "_" + str(int(dataset.attrs["System ID"])) + "_" + scan_type
-            )
+            new_qualifier = qualifier + "_" + scan_type
 
             # replace datastream_name
             dataset.attrs["datastream_name"] = dataset.attrs["datastream_name"].replace(

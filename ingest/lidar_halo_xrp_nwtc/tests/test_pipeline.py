@@ -13,11 +13,11 @@ def test_lidar_halo_xrp_nwtc_pipeline():
         expand("config/storage_config.yml", parent),
     )
     output = pipeline.run(
-        expand("tests/data/input/nwtc/Stare_199_20210510_00.hpl", parent)
+        expand("tests/data/input/nwtc/nwtc.lidar.z02.00.20211026.040000.stare.hpl", parent)
     )
     expected = xr.open_dataset(
         expand(
-            "tests/data/expected/nwtc/nwtc.lidar-halo_xrp_stare.b0.20210510.000125.nc", parent
+            "tests/data/expected/nwtc/nwtc.lidar-halo_xrp_stare.b0.20211026.040012.nc", parent
         )
     )
     xr.testing.assert_allclose(output, expected)

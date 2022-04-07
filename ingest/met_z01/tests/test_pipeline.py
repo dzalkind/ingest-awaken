@@ -17,6 +17,6 @@ def test_met_z01_pipeline():
         expand("tests/data/input/sa4.met.z01.00.20211207.130000.txt", parent)
     )
     expected = xr.open_dataset(
-        expand("tests/data/expected/awaken.met_z01.a0.20211030.060300.nc", parent)
+        expand("tests/data/expected/awaken.met_z01.b0.20211207.130000.nc", parent)
     )
     xr.testing.assert_allclose(output, expected)

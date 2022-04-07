@@ -26,4 +26,17 @@ mapping: Dict["AnyStr@compile", IngestSpec] = {
         storage_config=expand("config/storage_config.yml", __file__),
         name="plot_awaken_halo_ingest",
     ),
+    re.compile(r".*nwtc\.lidar\.z02\.00.*\.hpl"): IngestSpec(
+        pipeline=LidarHaloXrpPipeline,
+        pipeline_config=expand("config/pipeline_config_nwtc.yml", __file__),
+        storage_config=expand("config/storage_config.yml", __file__),
+        name="awaken_halo_ingest",
+    ),
+    # Mapping for Processed Data -> Ingest (so we can reprocess plots)
+    re.compile(r".*nwtc\.lidar\.z02\.b0.*\.nc"): IngestSpec(
+        pipeline=LidarHaloXrpPipeline,
+        pipeline_config=expand("config/pipeline_config_nwtc.yml", __file__),
+        storage_config=expand("config/storage_config.yml", __file__),
+        name="plot_awaken_halo_ingest",
+    ),
 }

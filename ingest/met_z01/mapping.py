@@ -14,14 +14,20 @@ mapping: Dict["AnyStr@compile", IngestSpec] = {
         pipeline=Pipeline,
         pipeline_config=expand("config/pipeline_config.yml", __file__),
         storage_config=expand("config/storage_config.yml", __file__),
-        name="met_z03",
+        name="met_z01_local",
+    ),
+    re.compile(r".*\.met\.z01\.00.*\.txt"): IngestSpec(
+        pipeline=Pipeline,
+        pipeline_config=expand("config/pipeline_config.yml", __file__),
+        storage_config=expand("config/storage_config.yml", __file__),
+        name="met_z01",
     ),
     # Mapping for Processed Data -> Ingest (so we can reprocess plots)
     # re.compile(r"met\d{2}.dat"): IngestSpec(
     #     pipeline=Pipeline,
     #     pipeline_config=expand("config/pipeline_config.yml", __file__),
     #     storage_config=expand("config/storage_config.yml", __file__),
-    #     name="plot_met_z03",
+    #     name="plot_met_z01",
     # ),
     # You can add as many {regex: IngestSpec} entries as you would like. This is useful
     # if you would like to reuse this ingest at other locations or possibly for other

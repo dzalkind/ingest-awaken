@@ -12,7 +12,7 @@ from utils import A2ePipeline, format_time_xticks
 
 class Pipeline(A2ePipeline):
     """--------------------------------------------------------------------------------
-    MET_Z03 INGESTION PIPELINE
+    met_z01 INGESTION PIPELINE
 
     Example data ingest for the A2e AWAKEN project. Data doi: 10.21947/1328928
 

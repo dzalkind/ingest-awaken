@@ -8,14 +8,14 @@ pipeline:
 
   # These parameters will be used to name files.
   location_id: "awaken"
-  dataset_name: "met_z03"
+  dataset_name: "met_z01"
   # qualifier: ""
   # temporal: ""
-  data_level: "a0" # If not applying QC this should be set to "a0"
+  data_level: "b0" # If not applying QC this should be set to "a0"
 
 dataset_definition:
   attributes:
-    title: "met_z03"
+    title: "met_z01"
     description: "Example data ingest for the A2e AWAKEN project. Data doi: 10.21947/1328928"
     conventions: MHKiT-Cloud Data Standards v. 1.0
     institution: Atmosphere to Electrons
@@ -45,16 +45,14 @@ dataset_definition:
     wind_speed_mean:
       input:
         name: "S"
-      dims:
-        [time]
+      dims: [time]
       type: float
       attrs:
-        long_name: Wind Speed 
+        long_name: Wind Speed
         standard_name: "wind_speed"
-        comment: "Mean horizontal wind speed" 
+        comment: "Mean horizontal wind speed"
         height_AGL_m: 3
-        units:
-          m/s
+        units: m/s
 
     wind_speed:
       input:
@@ -227,6 +225,6 @@ quality_management:
   # TODO – Developer: Update this as needed.
   # manage_custom_qc: # Rename this
   #   checker:
-  #     classname: ingest.met_z03.pipeline.qc.CustomQualityChecker
+  #     classname: ingest.met_z01.pipeline.qc.CustomQualityChecker
   #   handlers:
-  #     - classname: ingest.met_z03.pipeline.qc.CustomQualityHandler
+  #     - classname: ingest.met_z01.pipeline.qc.CustomQualityHandler

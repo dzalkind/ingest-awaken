@@ -1,4 +1,4 @@
-# met_z03
+# met_z01
 
 MET data ingest for the A2e AWAKEN project. Data doi: 10.21947/1328928
 

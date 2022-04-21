@@ -44,7 +44,7 @@ class HplHandler(tsdat.AbstractFileHandler):
                 f.readline()
 
             # initialize arrays
-            max_len = 10000
+            max_len = 20000
             time = np.full(max_len, fill_value=np.nan)
             azimuth = np.full(max_len, fill_value=np.nan)
             elevation = np.full(max_len, fill_value=np.nan)

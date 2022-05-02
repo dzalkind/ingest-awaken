@@ -44,7 +44,7 @@ class HplHandler(tsdat.AbstractFileHandler):
                 f.readline()
 
             # initialize arrays
-            max_len = 10000
+            max_len = 20000
             time = np.full(max_len, fill_value=np.nan)
             azimuth = np.full(max_len, fill_value=np.nan)
             elevation = np.full(max_len, fill_value=np.nan)
@@ -89,6 +89,12 @@ class HplHandler(tsdat.AbstractFileHandler):
             "00",  # minute
             "00.00",  # second
         )
+
+        # find times where it wraps from 24 -> 0, add 24 to all indices after
+        new_day_indices = np.where(np.diff(time) < 0)
+        for new_day_index in new_day_indices[0]:
+            time[new_day_index + 1 :] += 24.0
+
         start_time = np.datetime64(start_time_string)
         datetimes = [
             start_time + np.timedelta64(int(3600 * 1e6 * dtime), "us")

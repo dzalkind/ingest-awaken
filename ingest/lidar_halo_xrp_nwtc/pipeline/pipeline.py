@@ -51,7 +51,9 @@ class LidarHaloXrpPipeline(A2ePipeline):
 
             # Old and new qualifier, used in file naming
             qualifier = self.config.pipeline_definition.qualifier
-            new_qualifier = qualifier + "_" + scan_type
+            new_qualifier = (
+                qualifier + "_" + str(int(dataset.attrs["System ID"])) + "_" + scan_type
+            )
 
             # replace datastream_name
             dataset.attrs["datastream_name"] = dataset.attrs["datastream_name"].replace(

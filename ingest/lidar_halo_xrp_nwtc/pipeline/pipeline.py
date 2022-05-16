@@ -62,7 +62,7 @@ class LidarHaloXrpPipeline(A2ePipeline):
 
     def hook_generate_and_persist_plots(self, dataset: xr.Dataset):
 
-        ds = dataset.where(dataset.distance < 5000, drop=True)
+        ds = dataset
         date = pd.to_datetime(ds.time.data[0]).strftime("%d-%b-%Y")
         location = ds.attrs["location_meaning"]
 

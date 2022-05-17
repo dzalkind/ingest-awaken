@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 from typing import Dict
 from tsdat import DSUtil
@@ -36,27 +37,37 @@ class LidarHaloXrpPipeline(A2ePipeline):
         intensity[intensity <= 1] = np.nan
         dataset["SNR"].data = 10 * np.log10(intensity - 1)
 
-        # Add type of scan to filename in dataset.datastream_name
-        for raw_input_filename, _ in raw_mapping.items():
-            if "user" in raw_input_filename.lower():
-                scan_type = "user"
-            elif "stare" in raw_input_filename.lower():
-                scan_type = "stare"
-            elif "vad" in raw_input_filename.lower():
-                scan_type = "vad"
-            elif "wind_profile" in raw_input_filename.lower():
-                scan_type = "wind_profile"
-            else:
-                raise Exception("Scan type not supported!")
+        # Dynamically add scan type and z-id (z02, z03, etc) to dataset metadata
+        raw_filepath = list(raw_mapping.keys())[0]
+        raw_basename = Path(raw_filepath).name
+        if ".raw." in raw_basename:  # tsdat-renamed raw file
+            to_trim = raw_basename.index(".raw.") + len(".raw.")
+            raw_basename = raw_basename[to_trim:]
+            # loc_id, instrument, z02/z03, data level, date, time, scan type, extension
+            if ".z" in raw_basename:
+                _, _, z_id, _, _, _, scan_type, _ = raw_basename.lower().split(".")
+            else:  # local NREL tsdat-ing
+                z_id = str(dataset.attrs["System ID"])
+                scan_type = ""
+                if "user" in raw_basename.lower():
+                    scan_type = "user"
+                elif "stare" in raw_basename.lower():
+                    scan_type = "stare"
+                elif "vad" in raw_basename.lower():
+                    scan_type = "vad"
+                elif "wind_profile" in raw_basename.lower():
+                    scan_type = "wind_profile"
 
-            # Old and new qualifier, used in file naming
-            qualifier = self.config.pipeline_definition.qualifier
-            new_qualifier = qualifier + "_" + scan_type
+        qualifier = self.config.pipeline_definition.qualifier
 
-            # replace datastream_name
-            dataset.attrs["datastream_name"] = dataset.attrs["datastream_name"].replace(
-                qualifier, new_qualifier
-            )
+        if scan_type not in ["user", "stare", "vad", "wind_profile"]:
+            raise NameError(f"Scan type '{scan_type}' not supported.")
+
+        new_qualifier = "_".join([qualifier, scan_type, z_id])
+
+        dataset.attrs["datastream_name"] = dataset.attrs["datastream_name"].replace(
+            qualifier, new_qualifier
+        )
 
         return dataset
 

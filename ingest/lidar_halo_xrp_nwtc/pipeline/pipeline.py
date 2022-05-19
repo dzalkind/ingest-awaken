@@ -50,7 +50,7 @@ class LidarHaloXrpPipeline(A2ePipeline):
                 z_id = str(dataset.attrs["System ID"])
                 scan_type = ""
                 if "user" in raw_basename.lower():
-                    scan_type = "user"
+                    scan_type = raw_basename.split('_')[0].lower()
                 elif "stare" in raw_basename.lower():
                     scan_type = "stare"
                 elif "vad" in raw_basename.lower():

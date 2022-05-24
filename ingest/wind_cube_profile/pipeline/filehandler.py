@@ -57,6 +57,9 @@ class RTD_FileHandler(tsdat.AbstractFileHandler):
             df["Position"][df["Position"] == "V"] = -1
             df["Position"] = df["Position"].astype(float)
 
+        # Drop rows with nan in Timestamp
+        df = df[~df["Timestamp"].isna()]
+
         ds = df.to_xarray()
         ds.attrs = att_dict
 

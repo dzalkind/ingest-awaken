@@ -1,11 +1,11 @@
 import tsdat
 import xarray as xr
+import numpy as np
 
 
-# TODO – Developer: Write your FileHandler and add documentation
 class CustomFileHandler(tsdat.AbstractFileHandler):
     """--------------------------------------------------------------------------------
-    Custom file handler for reading <some data type> files from a <instrument name>
+    Custom file handler for reading netCDF files from an ASSIST
     for the A2E AWAKEN effort.
 
     See https://tsdat.readthedocs.io/en/latest/autoapi/tsdat/io/index.html for more
@@ -23,4 +23,9 @@ class CustomFileHandler(tsdat.AbstractFileHandler):
         Returns:
             xr.Dataset: An xr.Dataset object
         ----------------------------------------------------------------------------"""
-        return xr.Dataset()
+        ds = xr.load_dataset(filename)
+
+        # Offset time based on base-time
+        ds["time"] = np.datetime64(0, "ns") + ds["time"] + ds["base_time"]
+
+        return ds

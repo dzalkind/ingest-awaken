@@ -12,7 +12,7 @@ pipeline:
   dataset_name: "assist_nwtc"
   # qualifier: ""
   # temporal: ""
-  data_level: "b0"  # If not applying QC this should be set to "a0"
+  data_level: "b0" # If not applying QC this should be set to "a0"
 
 dataset_definition:
   attributes:
@@ -25,43 +25,197 @@ dataset_definition:
 
   dimensions:
     time:
-        length: unlimited
+      length: unlimited
+    wnum:
+      length: unlimited
 
   variables:
-
     time:
       input:
-        name: Timestamp (end of interval)
-        converter:
-          classname: tsdat.utils.converters.StringTimeConverter
-          parameters:
-            timezone: UTC
-            time_format: "%Y/%m/%d %H:%M:%S"
+        name: time
       dims: [time]
       type: long
       attrs:
         long_name: Time (UTC)
         standard_name: time
         units: seconds since 1970-01-01T00:00:00
-    
-    example_var:          # Name of variable in the output file
-      input:
-        name: "Example"   # Name of variable in the input file
-        # units: m        # Units the input variable was measured in. Provide this if 
-                          # the output units are different and you want tsdat to do the
-                          # conversion.
-      dims: [time]        # List of coordinates that dimension this variable. `time` is
-                          # a very common dimension, sometimes `height`, too.
-      type: float         # The data type, typically one of: `float`, `long`, `int`
+
+    ABBapexTemp:
       attrs:
-        long_name: Example Var  # Label used by Xarray and other libraries for plotting
-        # standard_name: ""     # Standard name from the CF Standard names table. 
-                                # Provide this if possible, otherwise remove it.
-        comment: ""             # User-friendly description of the property.
-        units: m                # Units attribute from the CF Standard list of units. 
-                                # Always provide this, even for 'unitless' quantities –
-                                # set `units: "1"` for such quantities.
-    
+        long_name:
+          Temperature of the ambient black body measured at apex, top, and bottom
+          (in overall summary file)
+        units: degree Celsius
+      dims: [time]
+      input:
+        name: ABBapexTemp
+      type: float
+    ABBtopTemp:
+      attrs:
+        long_name:
+          Temperature of the ambient black body measured at apex, top, and bottom
+          (in overall summary file)
+        units: degree Celsius
+      dims: [time]
+      input:
+        name: ABBtopTemp
+      type: float
+    ABBbottomTemp:
+      attrs:
+        long_name:
+          Temperature of the ambient black body measured at apex, top, and bottom
+          (in overall summary file)
+        units: degree Celsius
+      dims: [time]
+      input:
+        name: ABBbottomTemp
+      type: float
+    HBBapexTemp:
+      attrs:
+        long_name:
+          Temperature of the hot black body measured at apex, top, and bottom
+          (in overall summary file)
+        units: degrees Celsius
+      dims: [time]
+      input:
+        name: HBBapexTemp
+      type: float
+    HBBbottomTemp:
+      attrs:
+        long_name:
+          Temperature of the hot black body measured at apex, top, and bottom
+          (in overall summary file)
+        units: degrees Celsius
+      dims: [time]
+      input:
+        name: HBBbottomTemp
+      type: float
+    HBBtopTemp:
+      attrs:
+        long_name:
+          Temperature of the hot black body measured at apex, top, and bottom
+          (in overall summary file)
+        units: degrees Celsius
+      dims: [time]
+      input:
+        name: HBBtopTemp
+      type: float
+    LWresponsivity:
+      attrs:
+        long_name:
+          Average responsivity of the long-wave detector (in overall summary
+          file)
+        units: Unknown
+      dims: [time]
+      input:
+        name: LWresponsivity
+      type: float
+    SWresponsivity:
+      attrs:
+        long_name:
+          Average responsivity of the short-wave detector (in overall summary
+          file)
+        units: Unknown
+      dims: [time]
+      input:
+        name: SWresponsivity
+      type: float
+    # base_time:
+    #   attrs:
+    #     long_name: Days since 01 Jan 1970
+    #     units: Days
+    #   input:
+    #     name: base_time
+    #   type: float
+    detectorStirlingCoolerBlockTemp:
+      attrs:
+        long_name:
+          Temperature of the cooling block, related to cooling power  (in overall
+          summary file)
+        units: degrees Celsius
+      dims: [time]
+      input:
+        name: detectorStirlingCoolerBlockTemp
+      type: float
+    frontEndEnclosureTemp:
+      attrs:
+        long_name: Temperature of the front end of the enclosure (in overall summary file)
+        units: degrees Celsius
+      dims: [time]
+      input:
+        name: frontEndEnclosureTemp
+      type: float
+    hatchOpen:
+      attrs:
+        long_name: "Status of the hatch:
+
+          1=open
+
+          0=closed
+
+          -1=undetermined
+
+          (in overall summary file)"
+        units: Unitless
+      dims: [time]
+      input:
+        name: hatchOpen
+      type: float
+    interferometerHumidity:
+      attrs:
+        long_name: Relative humidity at the interferometer (in overall summary file)
+        units: "%"
+      dims: [time]
+      input:
+        name: interferometerHumidity
+      type: float
+    interferometerTemp:
+      attrs:
+        long_name: Temperature of the interferometer (in overall summary file)
+        units: degrees Celsius
+      dims: [time]
+      input:
+        name: interferometerTemp
+      type: float
+    mean_Tb_675_680:
+      attrs:
+        long_name:
+          Mean brightness temperature in the range of wavelengths indicated in
+          the header in cm-1 (in overall summary file)
+        units: K
+      dims: [time]
+      input:
+        name: mean_Tb_675_680
+      type: float
+    mean_Tb_985_990:
+      attrs:
+        long_name:
+          Mean brightness temperature in the range of wavelengths indicated in
+          the header in cm-1 (in overall summary file)
+        units: K
+      dims: [time]
+      input:
+        name: mean_Tb_985_990
+      type: float
+    mean_imaginary_rad_985_990:
+      attrs:
+        long_name:
+          Imaginary part of the radiance in the range of wavelengths indicated
+          in the header in cm-1 (in overall summary file)
+        units: mW/(m2 sr cm-1)
+      dims: [time]
+      input:
+        name: mean_imaginary_rad_985_990
+      type: float
+    mean_rad:
+      attrs:
+        long_name: Spectral radiance (in channel A, B files)
+        units: mW/(m2 sr cm-1)
+      dims: [time]
+      input:
+        name: mean_rad
+      type: float
+
     latitude:
       data: 71.323
       type: float
@@ -81,7 +235,7 @@ dataset_definition:
         comment: "Recorded longitude at the instrument location"
         units: "degree_E"
         valid_range: [-180.f, 180.f]
-    
+
     altitude:
       data: 4000.0
       type: float
@@ -90,10 +244,9 @@ dataset_definition:
         standard_name: "altitude"
         comment: "Recorded altitude at the instrument location"
         units: m
-    
+
 #-----------------------------------------------------------------
 quality_management:
-
   #---------------------------------------------------------------
   manage_missing_coordinates:
     checker:
@@ -129,9 +282,9 @@ quality_management:
       - DATA_VARS
     exclude: [latitude, longitude, altitude]
 
-  # TODO – Developer: Update this as needed.
-  manage_custom_qc:  # Rename this
-    checker:
-      classname: ingest.assist_nwtc.pipeline.qc.CustomQualityChecker
-    handlers:
-      - classname: ingest.assist_nwtc.pipeline.qc.CustomQualityHandler
+  # # TODO – Developer: Update this as needed.
+  # manage_custom_qc: # Rename this
+  #   checker:
+  #     classname: ingest.assist_nwtc.pipeline.qc.CustomQualityChecker
+  #   handlers:
+  #     - classname: ingest.assist_nwtc.pipeline.qc.CustomQualityHandler

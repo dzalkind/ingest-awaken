@@ -2,8 +2,6 @@
 
 Ingest for summary ASSIST data
 
-<!-- # TODO – Developer: Add more to the ingest description here -->
-
 Writen by [Daniel Zalkind](mailto:dzalkind@nrel.gov)
 
 ## Ingest Organization

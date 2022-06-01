@@ -133,7 +133,7 @@ class Pipeline(A2ePipeline):
         with plt.style.context(style_file):
 
             # Create an example plot with some noise added for fun
-            filename = DSUtil.get_plot_filename(dataset, "example_noise", "png")
+            filename = DSUtil.get_plot_filename(dataset, "summary", "png")
             with self.storage._tmp.get_temp_filepath(filename) as tmp_path:
 
                 D = pd.DataFrame()

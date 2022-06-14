@@ -207,7 +207,7 @@ class Pipeline(A2ePipeline):
                         i += 1
                         a.grid(b=True)
                     plt.xlabel("UTC time")
-                    plt.show()
+                    # plt.show()
 
                 # fig, ax = plt.subplots()
 

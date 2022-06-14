@@ -50,7 +50,7 @@ class LidarHaloXrpPipeline(A2ePipeline):
                 z_id = str(dataset.attrs["System ID"])
                 scan_type = ""
                 if "user" in raw_basename.lower():
-                    scan_type = "user"
+                    scan_type = raw_basename.split('_')[0].lower()
                 elif "stare" in raw_basename.lower():
                     scan_type = "stare"
                 elif "vad" in raw_basename.lower():
@@ -60,7 +60,8 @@ class LidarHaloXrpPipeline(A2ePipeline):
 
         qualifier = self.config.pipeline_definition.qualifier
 
-        if scan_type not in ["user", "stare", "vad", "wind_profile"]:
+        valid_types = ["user", "stare", "vad", "wind_profile"]
+        if not any(valid_type in scan_type for valid_type in valid_types):
             raise NameError(f"Scan type '{scan_type}' not supported.")
 
         new_qualifier = "_".join([qualifier, scan_type, z_id])

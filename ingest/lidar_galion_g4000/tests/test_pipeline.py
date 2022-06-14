@@ -22,4 +22,4 @@ def test_lidar_galion_g4000_pipeline():
         )
     )
 
-    assert output.equals(expected)
+    xr.testing.assert_allclose(output, expected)

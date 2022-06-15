@@ -36,7 +36,7 @@ class PipelineCache:
             ingest_module = importlib.import_module(ingest_module_classname)
             mappings: Dict["AnyStr@compile", IngestSpec] = ingest_module.mapping
             for regex, specification in mappings.items():
-                logger.info("Registering ingest '%s' with pattern: %s", specification.name, regex)
+                #logger.info("Registering ingest '%s' with pattern: %s", specification.name, regex)
                 self._register(regex, specification)
 
     def match_filepath(self, input_files: Union[List[S3Path], List[str]]) -> IngestSpec:
@@ -105,7 +105,7 @@ class PipelineCache:
             "AnyStr@compile": The (single) regex pattern that matches the filepath.
 
         ----------------------------------------------------------------------------"""
-        logger.info("Checking filepath '%s' for a match with patterns %s", filepath, self._cache.keys())
+        #logger.info("Checking filepath '%s' for a match with patterns %s", filepath, self._cache.keys())
         matches: List[str] = [
             regex for regex in self._cache.keys() if regex.match(filepath)
         ]
@@ -114,5 +114,5 @@ class PipelineCache:
                  f"Unexpected number of matches for file '{filepath}':"
                  f" matches={matches}, (len={len(matches)}), expected 1."
             )
-        logger.info("Matched filepath '%s' with pattern %s", filepath, matches[0])
+        #logger.info("Matched filepath '%s' with pattern %s", filepath, matches[0])
         return matches[0]

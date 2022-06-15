@@ -6,6 +6,8 @@ from tsdat.io import S3Path
 from typing import List, Union
 from .cache import PipelineCache
 from .logger import logger
+import glob
+import os
 
 
 class PipelineDispatcher:
@@ -31,7 +33,7 @@ class PipelineDispatcher:
         if not isinstance(input_files, List):
             input_files = [input_files]
 
-        status = True
+        status = 1#1=sucess,0=failure,-1=existing
 
         # TODO: Catch possible exceptions:
         # AssertionError – no regex match, or too many matches`
@@ -42,12 +44,24 @@ class PipelineDispatcher:
         try:
             specification = self._cache.match_filepath(input_files)
             pipeline = specification.instantiate()
-            if "plot" in specification.name:
-                pipeline.run_plots(input_files)
-            else:
-                pipeline.run(input_files)
+
+            if len(input_files)==1:#check if the file list has a unique element
+                existing=' '.join(glob.glob(pipeline.storage.parameters['root_dir']+'/*/*/*'+os.path.splitext(input_files[0])[1]))
+
+                #print(os.path.basename(input_files[0]))
+                #print(existing)
+                if os.path.basename(input_files[0]) in existing:#check if file exists in .00 data
+                    status=-1
+                
+
+            if status==1:
+                if "plot" in specification.name:
+                    pipeline.run_plots(input_files)
+                else:
+                    pipeline.run(input_files)
+                    
         except BaseException:
             logger.exception("Pipeline failed on input files: %s", input_files)
-            status = False
+            status = 0
 
         return status

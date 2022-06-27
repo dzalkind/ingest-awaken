@@ -11,7 +11,7 @@ storage:
   file_handlers:
     input:
       my_custom_format: # Solely used as a label. See the 'csv' input
-        file_pattern: .*short\.nwtc\.assist\.z02\.\d{2}\.\d{8}\.\d{6}\.assistsummary\.cdf
+        file_pattern: .*assistsummary.*.cdf
         classname: ingest.assist_nwtc.pipeline.filehandler.CustomFileHandler
 
     # The output section should not be modified unless there is a strong need. Please

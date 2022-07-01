@@ -6,51 +6,6 @@ from typing import Union, List, Dict
 
 
 class A2ePipeline(IngestPipeline):
-    def run(self, filepath: Union[str, List[str]]) -> xr.Dataset:
-        """----------------------------------------------------------------------------
-        Runs the pipeline from start to finish.
-
-        Args:
-            filepath (Union[str, List[str]]): The path or list of paths to the file(s)
-            to run the pipeline on.
-
-        Returns:
-            xr.Dataset: The processed xarray dataset. Note that this is the internal
-            representation of the dataset. The final dataset will have already been
-            written to disk.
-
-        ----------------------------------------------------------------------------"""
-        # If the file is a zip/tar, then we need to extract the individual files
-        with self.storage.tmp.extract_files(filepath) as file_paths:
-
-            # Open each raw file into a Dataset, standardize the raw file names and store.
-            raw_dataset_mapping: Dict[
-                str, xr.Dataset
-            ] = self.read_and_persist_raw_files(file_paths)
-
-            # Customize the raw data before it is used as input for standardization
-            raw_dataset_mapping: Dict[
-                str, xr.Dataset
-            ] = self.hook_customize_raw_datasets(raw_dataset_mapping)
-
-            # Standardize the dataset and apply corrections / customizations
-            dataset = self.standardize_dataset(raw_dataset_mapping)
-            dataset = self.hook_customize_dataset(dataset, raw_dataset_mapping)
-
-            # Apply quality control / quality assurance to the dataset.
-            # previous_dataset = self.get_previous_dataset(dataset)
-            previous_dataset = None
-            dataset = QualityManagement.run(dataset, self.config, previous_dataset)
-
-            # Apply any final touches to the dataset and persist the dataset
-            dataset = self.hook_finalize_dataset(dataset)
-            dataset = self.store_and_reopen_dataset(dataset)
-
-            # Hook to generate custom plots
-            self.hook_generate_and_persist_plots(dataset)
-
-        return dataset
-
     def run_plots(self, files: Union[List[S3Path], List[str]]):
         """----------------------------------------------------------------------------
         Runs the `IngestPipeline.hook_generate_and_persist_plots()` function on the
@@ -66,3 +21,8 @@ class A2ePipeline(IngestPipeline):
             with self.storage.tmp.fetch(_file) as tmp_file:
                 ds = FileHandler.read(tmp_file)
                 self.hook_generate_and_persist_plots(ds)
+
+    # Prevent tsdat from attempting to access previously stored data since it probably
+    # already got moved.
+    def get_previous_dataset(self, dataset: xr.Dataset) -> xr.Dataset:
+        return None

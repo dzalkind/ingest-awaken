@@ -8,4 +8,4 @@ if __name__ == "__main__":
         expand("config/pipeline_config_nwtc.yml", __file__),
         expand("config/storage_config.yml", __file__),
     )
-    pipeline.run(expand("/srv/data/sletizia/ingest-awaken/ingest/assist_nwtc/tests/data/assistsummary.20220612.000043.cdf", __file__))
+    pipeline.run(expand("tests/data/input/short.nwtc.assist.z02.00.20220512.000124.assistsummary.cdf", __file__))

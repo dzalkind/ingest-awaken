@@ -5,7 +5,7 @@ storage:
   classname: ${STORAGE_CLASSNAME}
   parameters:
     retain_input_files: ${RETAIN_INPUT_FILES}
-    root_dir: ${ROOT_DIR}
+    root_dir: /srv/data/nfs/assist/Assist-11/processed
     bucket_name: ${STORAGE_BUCKET}
 
   file_handlers:

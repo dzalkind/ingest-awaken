@@ -103,7 +103,7 @@ class Pipeline(A2ePipeline):
                 ax[0].legend(ncol=2)
                 # ax.set_ylabel("Example (m)")
                 ax[-1].set_xlabel("Time (UTC)")
-                [format_time_xticks(a) for a in ax]
+                # [format_time_xticks(a) for a in ax]
 
                 fig.savefig(tmp_path)
                 self.storage.save(tmp_path)

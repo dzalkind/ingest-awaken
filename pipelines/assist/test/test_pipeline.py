@@ -8,7 +8,7 @@ def test_assist_pipeline():
     config = PipelineConfig.from_yaml(config_path)
     pipeline = config.instantiate_pipeline()
 
-    test_file = "pipelines/assist/test/data/input/short.nwtc.assist.z02.00.20220512.000124.assistsummary.cdf"
+    test_file = "pipelines/assist/test/data/input/nwtc.assist.z02.00.20220512.000124.assistsummary.cdf"
     expected_file = (
         "pipelines/assist/test/data/expected/nwtc.assist_z02.a1.20220512.000130.nc"
     )

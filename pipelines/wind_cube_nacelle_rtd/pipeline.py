@@ -42,13 +42,15 @@ class WindCubeNacelleRTD(IngestPipeline):
             # ax[0].set_xlabel("Time (UTC)")
 
             dataset["tilt"].plot(
-                ax=ax[0], x="time",
+                ax=ax[0],
+                x="time",
             )
             ax[0].set_ylabel("Tilt (deg)")
             ax[0].set_xlabel("Time (UTC)")
 
             dataset["roll"].plot(
-                ax=ax[1], x="time",
+                ax=ax[1],
+                x="time",
             )
             ax[1].set_ylabel("Roll (deg)")
             ax[1].set_xlabel("Time (UTC)")
@@ -66,21 +68,25 @@ class WindCubeNacelleRTD(IngestPipeline):
             fig, ax = plt.subplots(3, 1)
 
             dataset["radial_wind_speed"].plot(
-                ax=ax[0], x="time",
+                ax=ax[0],
+                x="time",
             )
-            ax[0].set_ylabel("RWS (m/s)")
+            ax[0].set_ylabel("Distance (m)")
             ax[0].set_xlabel("Time (UTC)")
 
             dataset["radial_dispersion"].plot(
-                ax=ax[1], x="time",
+                ax=ax[1],
+                x="time",
             )
-            ax[1].set_ylabel("DRWS (m/s)")
+            ax[1].set_ylabel("Distance (m)")
             ax[1].set_xlabel("Time (UTC)")
 
             dataset["CNR"].plot(
-                ax=ax[2], x="time",
+                ax=ax[2],
+                x="time",
+                vmax=0,
             )
-            ax[2].set_ylabel("CNR (dB)")
+            ax[2].set_ylabel("Distance (m)")
             ax[2].set_xlabel("Time (UTC)")
 
             fig.suptitle(f"Scan pattern at {location} on {date}")

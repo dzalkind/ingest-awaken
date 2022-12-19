@@ -58,10 +58,10 @@ class Assist(IngestPipeline):
             "HBB (top)": "hbb_top_temperature",
             "Front End": "front_end_temperature",
             "Interferometer": "interferometer_temperature",
-            "Cooling block thermistor": "cooler_block_temperature",
+            "Cooling Temp": "cooler_block_temperature",
             "LW Responsivity": "lw_responsivity",
-            "Imaginary radiance": "mean_imaginary_rad_985_990",
-            "Interferometer humidity [%]": "interferometer_humidity",
+            "IM Radiance": "mean_imaginary_rad_985_990",
+            "Humidity [%]": "interferometer_humidity",
             "Hatch status": "hatch_status",
         }
 
@@ -76,10 +76,10 @@ class Assist(IngestPipeline):
             "HBB (top)": 0,
             "Front End": 0,
             "Interferometer": 0,
-            "Cooling block thermistor": 0,
+            "Cooling Temp": 0,
             "LW Responsivity": 0,
-            "Imaginary radiance": 0,
-            "Interferometer humidity [%]": 0,
+            "IM Radiance": 0,
+            "Humidity [%]": 0,
             "Hatch status": 0,
         }
 
@@ -91,7 +91,7 @@ class Assist(IngestPipeline):
                 "ABB (apex)",
                 "Front End",
                 "Interferometer",
-                "Cooling block thermistor",
+                "Cooling Temp",
             ],
             [
                 "ABB (apex)",
@@ -102,8 +102,8 @@ class Assist(IngestPipeline):
                 "HBB (bottom)",
             ],
             ["LW Responsivity"],
-            ["Imaginary radiance"],
-            ["Interferometer humidity [%]"],
+            ["IM Radiance"],
+            ["Humidity [%]"],
         ]
 
         colors = [
@@ -114,7 +114,7 @@ class Assist(IngestPipeline):
             [1, 0, 1, 1],
             [0, 1, 1, 1],
         ]
-        ylim = [[-150, 50], [0, 70], [1.5 * 10 ** 5, 2 * 10 ** 5], [-1, 1], [0, 15]]
+        ylim = [[-150, 50], [0, 70], [1.5 * 10**5, 2 * 10**5], [-1, 1], [0, 15]]
         yscale = ["linear", "linear", "linear", "linear", "linear"]
 
         N_days = 2
@@ -209,5 +209,5 @@ class Assist(IngestPipeline):
                 plt.xlabel("UTC time")
 
             plot_file = get_filename(dataset, title="summary", extension="png")
-            fig.savefig(tmp_dir / plot_file)
+            fig.savefig(tmp_dir / plot_file, bbox_inches="tight")
             plt.close(fig)

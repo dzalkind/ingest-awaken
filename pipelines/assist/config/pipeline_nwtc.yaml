@@ -1,7 +1,7 @@
 classname: pipelines.assist.pipeline.Assist
 
 triggers:
-  - .*nwtc.assist.z02.*\assistsummary.cdf
+  - .*assist.z02.*\.cdf
 
 retriever:
   path: pipelines/assist/config/retriever.yaml

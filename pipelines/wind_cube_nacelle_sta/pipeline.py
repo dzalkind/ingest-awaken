@@ -65,6 +65,7 @@ class WindCubeNacelleSTA(IngestPipeline):
             dataset["CNR1"].mean(dim="distance").plot(ax=ax[2], x="time", label="CNR1")
             dataset["CNR2"].mean(dim="distance").plot(ax=ax[2], x="time", label="CNR2")
             dataset["CNR3"].mean(dim="distance").plot(ax=ax[2], x="time", label="CNR3")
+            ax[2].set_ylim((None, 0))
             ax[2].set_ylabel("CNR (dB)")
             ax[2].set_xlabel("Time (UTC)")
             ax[2].legend()

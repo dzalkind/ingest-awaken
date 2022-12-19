@@ -1,6 +1,7 @@
 classname: pipelines.met_campbell.pipeline.MET
 
 triggers:
+  - .*sg\.met\.z01.*\.txt
   - .*sg.met_z01.*\.txt
 
 retriever:

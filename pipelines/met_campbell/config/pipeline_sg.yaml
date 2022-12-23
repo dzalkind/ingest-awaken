@@ -13,8 +13,8 @@ dataset:
     /attrs/location_id: sg_
     /attrs/location_meaning: "Site G"
     /attrs/dataset_name: met_z01
-    /data_vars/longitude/data: -97.407972
-    /data_vars/latitude/data: 36.436861
+    /data_vars/longitude/data: -97.408036
+    /data_vars/latitude/data: 36.399539
 
 quality:
   path: shared/quality.yaml

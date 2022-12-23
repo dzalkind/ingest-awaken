@@ -13,8 +13,8 @@ dataset:
     /attrs/location_id: sc1_
     /attrs/location_meaning: "Site C1a"
     /attrs/dataset_name: met_z01
-    /data_vars/longitude/data: -97.509961
-    /data_vars/latitude/data: 36.361636
+    /data_vars/longitude/data: -97.510022
+    /data_vars/latitude/data: 36.361602
 
 quality:
   path: shared/quality.yaml

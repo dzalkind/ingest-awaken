@@ -1,8 +1,8 @@
 classname: pipelines.met_campbell.pipeline.MET
 
 triggers:
-  - .*sb\.met\.z01.*\.txt
-  - .*sb.met_z01.*\.txt
+  - .*sc1\.met\.z01.*\.txt
+  - .*sc1.met_z01.*\.txt
 
 retriever:
   path: pipelines/met_campbell/config/retriever.yaml
@@ -10,11 +10,11 @@ retriever:
 dataset:
   path: pipelines/met_campbell/config/dataset.yaml
   overrides:
-    /attrs/location_id: sb
-    /attrs/location_meaning: "Site B"
+    /attrs/location_id: sc1_
+    /attrs/location_meaning: "Site C1a"
     /attrs/dataset_name: met_z01
-    /data_vars/longitude/data: -97.558672
-    /data_vars/latitude/data: 36.231778
+    /data_vars/longitude/data: -97.509961
+    /data_vars/latitude/data: 36.361636
 
 quality:
   path: shared/quality.yaml

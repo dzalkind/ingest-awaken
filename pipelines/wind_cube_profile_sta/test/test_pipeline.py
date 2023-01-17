@@ -4,7 +4,7 @@ from tsdat import PipelineConfig, assert_close
 
 
 def test_wind_cube_profile_sta_pipeline():
-    config_path = Path("pipelines/wind_cube_profile_sta/config/pipeline_nwtc.yaml")
+    config_path = Path("pipelines/wind_cube_profile_sta/config/pipeline_sb.yaml")
     config = PipelineConfig.from_yaml(config_path)
     pipeline = config.instantiate_pipeline()
 

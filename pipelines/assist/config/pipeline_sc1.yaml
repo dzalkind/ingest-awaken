@@ -9,7 +9,7 @@ retriever:
 dataset:
   path: pipelines/assist/config/dataset.yaml
   overrides:
-    /attrs/location_id: sc1_
+    /attrs/location_id: sc1
     /attrs/location_meaning: "Site C1a"
     /data_vars/longitude/data: -97.510022
     /data_vars/latitude/data: 36.361602

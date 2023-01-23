@@ -1,7 +1,7 @@
 classname: pipelines.wind_cube_profile_sta.pipeline.WindCubeProfile
 
 triggers:
-  - .*\.sta.7z
+  # - .*\.sta.7z  # Remove or make more specific to local file pattern
   - .*sb.lidar.z01.*\.sta.7z
 
 retriever:
